@@ -76,14 +76,14 @@ module.exports = {
         type: 'asset/resource',  
         generator: {
           // 出力先ディレクトリとファイル名の指定
-          filename: 'src/main/resources/webapp/images/[name][ext]'
+          filename: 'images/[name][ext]'
         }
       },
       {
         test: /\.woff2$/,
         type: 'asset/resource',
         generator: {
-          filename: 'src/main/resources/webapp/fonts/[name][ext]'
+          filename: 'fonts/[name][ext]'
         }
       },
     ],
@@ -116,6 +116,7 @@ module.exports = {
     open: true
   },
 
+  // 画像フォルダへのエイリアスを指定
   resolve: {
     alias: {
       '@images': path.resolve(__dirname, 'src/main/resources/webapp/images'),
