@@ -1,0 +1,9 @@
+$p_color: green;
+$p_bg_color: yellow;
+ 
+body {
+  color: $p_color;
+  background-color: $p_bg_color;
+  appearance: none;
+  border: 1px solid black;
+}
