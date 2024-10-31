@@ -70,6 +70,22 @@ module.exports = {
           },
         ],
       },
+      {
+        test: /\.svg$/,
+        // ファイルとして扱う
+        type: 'asset/resource',  
+        generator: {
+          // 出力先ディレクトリとファイル名の指定
+          filename: 'src/main/resources/webapp/images/[name][ext]'
+        }
+      },
+      {
+        test: /\.woff2$/,
+        type: 'asset/resource',
+        generator: {
+          filename: 'src/main/resources/webapp/fonts/[name][ext]'
+        }
+      },
     ],
   },
 
@@ -98,6 +114,13 @@ module.exports = {
   devServer: {
     static: "src/main/resources/webapp",
     open: true
+  },
+
+  resolve: {
+    alias: {
+      '@images': path.resolve(__dirname, 'src/main/resources/webapp/images'),
+      '@fonts': path.resolve(__dirname, 'src/main/resources/webapp/fonts')
+    }
   }
 
 };
