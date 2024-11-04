@@ -1,0 +1,146 @@
+@charset "UTF-8";
+@use "sass:map";
+@use "sass:meta";
+
+$breakpoints: (
+  'sp': 'screen and (max-width: 767px)',
+  'tablet': 'screen and (min-width: 768px)',
+  'pc': 'screen and (min-width: 1024px)',
+) !default;
+
+@mixin mq($breakpoint: tablet) {
+  @media #{map.get($breakpoints, $breakpoint)} {
+    @content;
+  }
+}
+
+@mixin hover {
+  @media (hover: none) {
+    -webkit-tap-highlight-color: transparent;
+    transition: none;
+    &:active {
+      @content;
+    }
+  }
+  @media (hover: hover) {
+    backface-visibility: hidden;
+    &:hover {
+      @content;
+    }
+  }
+}
+
+@mixin hover-active($hover-styles, $active-styles) {
+  @media (hover: none) {
+    -webkit-tap-highlight-color: transparent;
+    transition: none;
+    &:active {
+      @each $property, $value in $active-styles {
+        #{$property}: $value;
+      }
+    }
+  }
+  @media (hover: hover) {
+    backface-visibility: hidden;
+    &:hover {
+      @each $property, $value in $hover-styles {
+        #{$property}: $value;
+      }
+    }
+    &:active {
+      @each $property, $value in $active-styles {
+        #{$property}: $value;
+      }
+    }
+  }
+}
+
+@mixin hover-active-before($hover-styles, $active-styles) {
+  @media (hover: none) {
+    -webkit-tap-highlight-color: transparent;
+    transition: none;
+    &:active {
+      @each $selector, $properties in $active-styles {
+        #{$selector} {
+          @each $property, $value in $properties {
+            #{$property}: $value;
+          }
+        }
+      }
+    }
+  }
+  @media (hover: hover) {
+    backface-visibility: hidden;
+    &:hover {
+      @each $selector, $properties in $hover-styles {
+        #{$selector} {
+          @each $property, $value in $properties {
+            #{$property}: $value;
+          }
+        }
+      }
+    }
+    &:active {
+      @each $selector, $properties in $active-styles {
+        #{$selector} {
+          @each $property, $value in $properties {
+            #{$property}: $value;
+          }
+        }
+      }
+    }
+  }
+}
+
+@mixin hover-active-watch($hover-styles, $active-styles) {
+  @media (hover: none) {
+    -webkit-tap-highlight-color: transparent;
+    transition: none;
+    &:active {
+      @include apply-styles($active-styles);
+    }
+  }
+  @media (hover: hover) {
+    backface-visibility: hidden;
+    &:hover {
+      @include apply-styles($hover-styles);
+    }
+    &:active {
+      @include apply-styles($active-styles);
+    }
+  }
+}
+
+@mixin apply-styles($styles) {
+  @each $property, $value in $styles {
+    @if meta.type-of($value) == map {
+      #{$property} {
+        @include apply-styles($value);
+      }
+    } @else {
+      #{$property}: $value;
+    }
+  }
+}
+
+@mixin hover-active-none {
+  @media (hover: none) {
+    -webkit-tap-highlight-color: transparent;
+    transition: none;
+  }
+  @media (hover: hover) {
+    backface-visibility: hidden;
+    &:hover {
+      @content;
+    }
+  }
+}
+
+
+@mixin header-bg {
+  background: #FFFFFF;
+  border-bottom: 1px solid #DCDCDC;
+}
+
+
+

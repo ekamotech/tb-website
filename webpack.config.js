@@ -2,6 +2,7 @@ const path = require('path');
 const fs = require('fs');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const RemoveEmptyScriptsPlugin = require('webpack-remove-empty-scripts');
+const entryPoints = require('./entry.config.js');
 
 // [定数] webpack の出力オプションを指定します
 // 'production' か 'development' を指定
@@ -10,36 +11,20 @@ const MODE = "production";
 // ソースマップの利用有無(productionのときはソースマップを利用しない)
 const enabledSourceMap = MODE === "development";
 
-// エントリーポイントを動的に取得
-function getEntryPoints(directory, ext) {
-  const dirPath = path.resolve(__dirname, directory);
-  const files = fs.readdirSync(dirPath).filter(file => file.endsWith(`.${ext}`));
-  const entryPoints = {};
-  files.forEach(file => {
-    const name = file.replace(`.${ext}`, '');
-    entryPoints[name] = path.resolve(dirPath, file);
-  });
-  console.log(`Entry points for ${ext}:`, entryPoints);
-  return entryPoints;
-}
-
-// JSとSCSSのエントリーポイントをマージ
-const entryPoints = {
-  ...getEntryPoints('src/main/resources/js', 'js'),
-  ...getEntryPoints('src/main/resources/scss', 'scss')
-};
-
-console.log('Final entry points:', entryPoints);
-
 module.exports = {
   entry: entryPoints,
 
   // ファイルの出力設定
   output: {
-    filename: (chunkData) => {
-      // JSとSCSSで異なるディレクトリに出力
-      return chunkData.chunk.name.endsWith('.scss') ? 'css/[name].css' : 'js/[name].js';
+    filename: (pathData) => {
+      const name = pathData.chunk.name;
+      if (name.endsWith('.scss')) {
+        return `css/${name.replace(/\.scss$/, '.css')}`;
+      } else {
+        return `js/${name}.js`;
+      }
     },
+
     path: path.resolve(__dirname, 'src/main/resources/webapp')
   },
 
@@ -92,11 +77,12 @@ module.exports = {
   plugins: [
     // 不要なJSファイルを削除する
     new RemoveEmptyScriptsPlugin(),
-    // CSSファイルを外だしにする
     new MiniCssExtractPlugin({
-      // ファイル名を設定
-      filename: 'css/[name].css'
-    }),
+      filename: (pathData) => {
+        const name = pathData.chunk.name;
+        return `css/${name}.css`;
+      }
+    })
 
   ],
   // ソースマップの生成
@@ -113,7 +99,8 @@ module.exports = {
   // 実行時にブラウザが自動的に localhost を開く
   devServer: {
     static: "src/main/resources/webapp",
-    open: true
+    open: true,
+    hot: true,
   },
 
   // 画像フォルダへのエイリアスを指定

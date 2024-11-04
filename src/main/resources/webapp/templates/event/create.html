@@ -1,0 +1,100 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="stylesheet" href="/css/module.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ja.js"></script>
+
+<title>タイトル</title>
+</head>
+<body>
+<div class="l-wrapper-contents">
+<div class="l-contents">
+<main class="l-main">
+  <div class="p-login-box">
+    <h1 class="c-hdg1">イベント作成</h1>
+    <div class="c-form">
+      <div class="c-form-item">
+        <div class="c-form-label-box">
+          <label for="event-name" class="c-form-label">イベント名</label>
+        </div>
+        <div class="c-form-input-wrap" data-resize-wrap>
+          <div class="c-form-input-box" data-resize-box>
+            <input id="event-name" maxlength="100" type="text" class="c-form-input" placeholder="" data-resize="true" value="">
+          </div>
+        </div>
+      </div>
+
+      <div class="c-form-item">
+        <div class="c-form-label-box">
+          <label for="event-description" class="c-form-label">紹介文</label>
+        </div>
+        <div class="c-form-textarea-wrap" data-resize-wrap>
+          <div class="c-form-textarea-box" data-resize-box>
+            <textarea id="event-description" maxlength="200" class="c-form-textarea" rows="2" placeholder="" data-resize="true" oninput=""></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="c-form-item">
+        <div class="c-form-label-box">
+          <label for="event-date" class="c-form-label">開催日時</label>
+        </div>
+        <div class="c-form-input-wrap" data-resize-wrap>
+          <div class="c-form-input-box" data-resize-box>
+            <input id="js-datepicker" type="text" name="datepicker" class="c-form-input" data-resize="true">
+          </div>
+        </div>
+      </div>
+
+      <div class="c-form-item">
+        <div class="c-form-label-box">
+          <label for="event-location" class="c-form-label">開催場所</label>
+        </div>
+        <div class="c-form-input-wrap" data-resize-wrap>
+          <div class="c-form-input-box" data-resize-box>
+            <input id="event-location" maxlength="100" type="text" class="c-form-input" placeholder="" data-resize="true" value="">
+          </div>
+        </div>
+      </div>
+
+      <div class="c-form-item">
+        <div class="c-form-label-box">
+          <label for="event-location" class="c-form-label">開催場所</label>
+        </div>
+        <div class="c-form-input-wrap" data-resize-wrap>
+          <div class="c-form-input-box" data-resize-box>
+            <input id="event-location" maxlength="100" type="text" class="c-form-input" placeholder="" data-resize="true" value="">
+          </div>
+        </div>
+      </div>
+
+      <div class="c-form-item">
+        <div class="c-form-label-box">
+          <label for="event-location" class="c-form-label">カバー画像</label>
+        </div>
+        <input type="file" name="thumbnail" accept="image/jpeg, image/png" class="c-form-file">
+      </div>
+
+    </div>
+    <button type="submit" class="c-btn-submit">作成する</button>
+  
+  </div>
+</main>
+</div>
+</div>
+<script>
+  flatpickr('#js-datepicker', {
+    locale     : 'ja',
+    dateFormat: 'Y-m-d H:i',
+    defaultDate: new Date(),
+    enableTime: true,
+    minDate: 'today'
+  });
+</script>
+  
+</body>
+</html>

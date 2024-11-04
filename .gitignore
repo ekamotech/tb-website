@@ -138,3 +138,6 @@ buildNumber.properties
 
 # node_modules
 node_modules/
+
+# Ignore all CSS files
+*.css

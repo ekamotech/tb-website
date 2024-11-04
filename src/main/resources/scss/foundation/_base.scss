@@ -1,0 +1,70 @@
+@charset "UTF-8";
+
+:root{
+  --color-text: #363636;
+  // 新デザイン
+  --neutral-gray-50: #F6F6F6;
+  --neutral-gray-100: #E9E9E9;
+  --neutral-gray-300: #C6C6C6;
+  --neutral-gray-400: #ACACAC;
+  --neutral-gray-600: #767676;
+  --neutral-gray-800: #363636;
+  --neutral-gray-500: #969696;
+  --gutter: 16px;
+  --scrollbar-width: calc(100vw - 100%);
+}
+
+html,
+body {
+  height: 100%;
+  font: 13px/1.5 "Helvetica Neue",Hiragino Sans,Hiragino Kaku Gothic ProN,Meiryo,sans-serif !important;
+  font-synthesis-weight: none;
+  letter-spacing: normal;
+}
+body{
+  background-color: #fff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  word-wrap: break-word;
+}
+button, html input[type=button], input[type=reset], input[type=submit] {
+  -webkit-appearance: button;
+  border: 0;
+  padding: 0;
+  background-color: transparent;
+  color: var(--color-text);
+  cursor: pointer;
+}
+button, input, select, textarea, p, a{
+  letter-spacing: normal;
+}
+:disabled,
+.disabled{
+  cursor: default;
+}
+b, body, canvas, caption, dd, div, dl, dt, fieldset, footer, form, h1, h2, h3, h4, h5, h6, header, hgroup, html, i, iframe, img, label, legend, li, menu, nav, object, ol, p, section, span, summary, table, tbody, td, tfoot, th, thead, time, tr, ul {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  list-style: none;
+}
+a{
+  color: var(--color-text);
+  text-decoration: none;
+}
+iframe{
+  display: block;
+}
+*,
+*::before,
+*::after{
+  box-sizing: border-box;
+}
+img{
+  max-width: 100%;
+  vertical-align: middle;
+}
+
+
+
+

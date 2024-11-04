@@ -1,0 +1,36 @@
+@charset "UTF-8";
+@use "sass:math";
+@use "../foundation/mixin" as *;
+
+/*===============================
+	調整クラス
+================================*/
+
+.c-visible-sp{
+  display: inherit;
+}
+.c-visible-pc{
+  display: none;
+}
+@include mq(pc) {
+  .c-visible-sp{
+    display: none;
+  }
+  .c-visible-pc{
+    display: inherit;
+  }
+}
+@for $i from 0 through 25 {
+  .u-mt-#{$i * 4}{
+    margin-top: 4px * $i !important;
+  }
+}
+@for $i from 0 through 25 {
+  .u-mb-#{$i * 4}{
+    margin-bottom: 4px * $i !important;
+  }
+}
+
+
+
+

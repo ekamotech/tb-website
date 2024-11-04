@@ -1,0 +1,118 @@
+@charset "UTF-8";
+@use "sass:math";
+@use "../foundation/mixin" as *;
+
+.p-group-detail-container {
+  margin: 0 auto;
+}
+.p-group-detail-profile {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: auto;
+  grid-template-rows: minmax(104px, 1fr) auto;
+  background-color: #fff;
+  overflow: hidden;
+  position: relative;
+  z-index: 0;
+  &::before {
+    content: "";
+    display: block;
+    grid-column: 1;
+    grid-row: 1;
+    width: 100%;
+    height: 100%;
+    min-height: 105px;
+    background-color: #e3f1e0;
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-size: cover;
+    position: relative;
+    z-index: -1;
+  }
+  .p-group-detail-profile-inner {
+    grid-column: 1;
+    grid-row: 2;
+    padding: 0 var(--gutter) 24px;
+    position: relative;
+  }
+  .p-group-detail-profile-image {
+    display: block;
+    width: 80px;
+    height: 80px;
+    margin: -36px 0 8px;
+    position: relative;
+  }
+  .p-group-detail-profile-thumb {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: 50% 0;
+  }
+  .p-group-detail-profile-text {
+    margin: 0 0 16px;
+    position: relative;
+  }
+  .p-group-detail-profile-name {
+    margin: 0 0 8px;
+    display: block;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+  .p-group-detail-profile-follower {
+    margin: 0 0 8px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.2;
+    color: var(--color-text);
+  }
+  .p-group-detail-profile-organizer {
+    margin: 0 0 8px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.2;
+    color: var(--color-text);
+  }
+  .p-group-detail-profile-desc {
+    margin: 0 0 16px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.7;
+  }
+  .p-group-detail-profile-btn {
+    display: block;
+  }
+
+  @include mq(pc) {
+    &::before {
+      min-height: 200px;
+    }
+    .p-group-detail-profile-inner {
+      width: calc(100% - var(--gutter)* 2);
+      max-width: 1024px;
+      padding: 0 0 24px;
+      margin: 0 auto;
+    }
+    .p-group-detail-profile-image {
+      width: 120px;
+      height: 120px;
+      margin: -64px 0 16px;
+    }
+    .p-group-detail-profile-thumb {
+      border: 4px solid #fff;
+    }
+    .p-group-detail-profile-name {
+      font-size: 28px;
+    }
+    .p-group-detail-profile-btn {
+      position: absolute;
+      top: 0;
+      right: 16px;
+      margin: 76px 0 0;
+    }
+  }
+
+}
