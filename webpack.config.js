@@ -56,9 +56,9 @@ module.exports = {
         ],
       },
       {
-        test: /\.svg$/,
+        test: /\.(png|jpg|gif|svg)$/,
         // ファイルとして扱う
-        type: 'asset/resource',  
+        type: 'asset/resource',
         generator: {
           // 出力先ディレクトリとファイル名の指定
           filename: 'images/[name][ext]'
