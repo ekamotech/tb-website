@@ -59,6 +59,26 @@
       }
     }
   }
+  .l-header-menu-calendar {
+    &::before {
+      mask-image: url(~@images/shared/icon-calendar.png);
+    }
+  }
+  .l-header-menu-favorite {
+    &::before {
+      mask-image: url(~@images/shared/icon-heart.png);
+    }
+  }
+  .l-header-menu-user {
+    &::before {
+      mask-image: url(~@images/shared/icon-user.svg);
+    }
+  }
+  .l-header-menu-logout {
+    &::before {
+      mask-image: url(~@images/shared/icon-logout.png);
+    }
+  }
   .l-header-menu-new {
     &::before {
       mask-image: url(~@images/shared/icon-register.png);
