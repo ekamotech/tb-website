@@ -283,6 +283,7 @@
 ================================*/
 
 .p-new-box {
+  width: calc(100% - var(--gutter)* 2);
   max-width: 420px;
   margin: 64px auto 0;
 }
