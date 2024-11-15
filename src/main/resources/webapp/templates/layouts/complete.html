@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+<head>
+<title>つながルーム</title>
+</head>
+<body>
+<div class="p-new-box" layout:fragment="contents">
+  <form method="get" th:action="@{/events}">
+    <button type="submit" class="c-btn-submit">ログインする</button>
+  </form>
+</div>
+</body>
+</html>

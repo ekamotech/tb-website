@@ -178,7 +178,9 @@
     }
   }
 }
-
+.c-form-error {
+  color: var(--color-error);
+}
 .c-btn-submit {
   display: block;
   width: 100%;
@@ -237,6 +239,28 @@
   }
   @include mq(pc) {
     font-size: 16px;
+  }
+}
+.c-alert {
+  width: 100%;
+  padding: 16px;
+  margin-bottom: 16px;
+  border: 1px solid #9ec5fe;
+  border-radius: 8px;
+  background-color: #cfe2ff;
+  font-size: 16px;
+  color: #052c65;
+  position: fixed;
+  z-index: 100;
+  &.alert-danger {
+    border: 1px solid #f1aeb5;
+    background-color: #f8d7da;
+    color: #58151c;
+  }
+  &.alert-info {
+    border: 1px solid #9eeaf9;
+    background-color: #cff4fc;
+    color: #055160;
   }
 }
 

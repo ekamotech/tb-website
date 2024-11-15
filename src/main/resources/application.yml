@@ -1,0 +1,12 @@
+spring:
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+
+  thymeleaf:
+    prefix: classpath:/webapp/templates/
+
+  web:
+    resources:
+      static-locations: classpath:/webapp/

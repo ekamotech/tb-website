@@ -4,23 +4,27 @@
 
 <header class="l-header" layout:fragment="header">
   <div class="l-header-inner">
-    <a href="/" class="l-header-logo">
+    <a th:href="@{/events}" class="l-header-logo">
       つながルーム
     </a>
     <nav class="l-header-nav">
-      <a href="/calendars" class="l-header-menu-calendar">カレンダー</a>
-      <a href="/favorites" class="l-header-menu-favorite">お気に入り</a>
-      <a href="/user" class="l-header-menu-user">マイページ</a>
-      <a href="/logout" class="l-header-menu-logout">ログアウト</a>
-      <a href="/users/new" class="l-header-menu-new">新規登録</a>
-      <a href="/login" class="l-header-menu-login">ログイン</a>
+      <th:block sec:authorize="isAuthenticated()">
+        <a th:href="@{/calendars}" class="l-header-menu-calendar">カレンダー</a>
+        <a th:href="@{/favorites}" class="l-header-menu-favorite">お気に入り</a>
+        <a th:href="@{/user}" class="l-header-menu-user">マイページ</a>
+        <a th:href="@{/logout}" class="l-header-menu-logout convert" data-method="post" th:data-_csrf="${_csrf.token}">ログアウト</a>
+      </th:block>
+      <th:block sec:authorize="!isAuthenticated()">
+        <a th:href="@{/users/new}" class="l-header-menu-new">新規登録</a>
+        <a th:href="@{/login}" class="l-header-menu-login">ログイン</a>
+      </th:block>
     </nav>
   </div>
 </header>
 
 <div id="messages" layout:fragment="messages" th:if="!${#lists.isEmpty(#fields.detailedErrors())}">
   <ul>
-    <li th:each="error : ${#fields.detailedErrors()}" class="error-message" th:text="${error.message}" />
+    <li th:each="error : ${#fields.detailedErrors()}" class="c-form-error" th:text="${error.message}" />
   </ul>
 </div>
 

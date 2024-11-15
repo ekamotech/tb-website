@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+<head>
+<title>つながルーム</title>
+</head>
+<body>
+<div class="p-login-box" layout:fragment="contents">
+
+  <h1 class="c-hdg1">ログイン</h1>
+  <form method="post" th:action="@{/login}">
+    <div class="c-form">
+      <div class="c-form-item">
+        <div class="c-form-label-box">
+          <label for="session_email" class="c-form-label">メールアドレス</label>
+        </div>
+        <div class="c-form-input-wrap">
+          <div class="c-form-input-box">
+            <input id="session_email" type="text" name="username" class="c-form-input">
+          </div>
+        </div>
+      </div>
+      <div class="c-form-item">
+        <div class="c-form-label-box">
+          <label for="session_password" class="c-form-label">パスワード</label>
+        </div>
+        <div class="c-form-input-wrap">
+          <div class="c-form-input-box">
+            <input id="session_password" type="password" name="password" class="c-form-input">
+          </div>
+        </div>
+      </div>
+    </div>
+    <button type="submit" class="c-btn-submit">ログイン</button>
+  </form>
+
+</div>
+</body>
+</html>
