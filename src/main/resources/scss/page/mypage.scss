@@ -47,10 +47,13 @@
 }
 
 .p-mypage-group {
-  border-top: 1px solid var(--neutral-gray-100);
-  border-bottom: 1px solid var(--neutral-gray-100);
-  background-color: #fff;
-  position: relative;
+
+  .p-mypage-group-item {
+    border-top: 1px solid var(--neutral-gray-100);
+    border-bottom: 1px solid var(--neutral-gray-100);
+    background-color: #fff;
+    position: relative;
+  }
 
   .p-mypage-group-head {
     display: grid;
@@ -91,12 +94,12 @@
   }
 
   @include mq(pc) {
-    width: 100%;
-    max-width: 720px;
-    margin: 0 auto 40px;
-    border: 1px solid var(--neutral-gray-100);
-    &::before {
-      min-height: 200px;
+
+    .p-mypage-group-item {
+      width: 100%;
+      max-width: 720px;
+      margin: 0 auto 40px;
+      border: 1px solid var(--neutral-gray-100);
     }
 
     .p-mypage-group-head {

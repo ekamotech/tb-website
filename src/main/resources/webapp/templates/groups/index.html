@@ -16,12 +16,34 @@
     
     <!-- <p>User ID: ${userId}</p>
     <p>Username: ${username}</p> -->
-    <p th:text="'User ID: ' + ${userId}"></p>
+    <!-- <p th:text="'User ID: ' + ${userId}"></p>
     <p th:text="'Username: ' + ${username}"></p>
-    <p th:text="'Name: ' + ${name}"></p>
+    <p th:text="'Name: ' + ${name}"></p> -->
+    
+    
   </div>
 
   <div class="p-mypage-main">
+    
+    <div class="p-mypage-group">
+      <div class="p-mypage-group-item" th:each="group : ${list}">
+        <div class="p-mypage-group-head">
+          <div class="p-mypage-group-image">
+            <img src="/images/shared/img-defalt-user.png" th:src="@{/images/shared/img-defalt-user.png}" class="p-mypage-group-thumb" alt="">
+          </div>
+          <div class="p-mypage-group-name" th:text="${group.name}"></div>
+          <a href="" class="p-mypage-event-btn c-btn-submit u-mb-0">イベントを作成</a>
+        </div>
+      </div>
+
+      
+      
+    </div>
+    
+    
+    
+
+    
     <div class="p-mypage-group">
       <div class="p-mypage-group-head">
         <div class="p-mypage-group-image">
@@ -30,7 +52,7 @@
         <div class="p-mypage-group-name">日本インドダンス協会</div>
         <a href="" class="p-mypage-event-btn c-btn-submit u-mb-0">イベントを作成</a>
       </div>
-
+      
       <div class="p-mypage-group-event">
         <div class="p-mypage-event">
           <div class="p-mypage-event-item">
@@ -42,6 +64,7 @@
               <div class="p-mypage-event-update u-mb-0">更新</div>
             </a>
           </div>
+          
           <div class="p-mypage-event-item">
             <a href="" class="p-mypage-event-link">
               <div class="p-mypage-event-image">
