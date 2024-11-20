@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import jakarta.transaction.Transactional;
 
@@ -45,12 +46,16 @@ public class GroupsController {
     @GetMapping("/groups")
     public String index(Principal principal, Model model) throws IOException {
         Authentication authentication = (Authentication) principal;
-        UserInf user = (UserInf) authentication.getPrincipal();
-        
-        List<Group> groups = groupRepository.findByCreatedByOrderByUpdatedAtDesc(user.getUserId());
+        UserInf userInf = (UserInf) authentication.getPrincipal();
+
+        List<GroupMember> groupMember = groupMemberRepository.findByUserIdAndAuthority(userInf.getUserId(), GroupMember.Authority.ROLE_ADMIN);
+        List<Group> groups = groupMember.stream()
+                                         .map(GroupMember::getGroup)
+                                         .collect(Collectors.toList());
+
         List<GroupForm> list = new ArrayList<>();
         for (Group entity : groups) {
-            GroupForm form = getGroup(user, entity);
+            GroupForm form = getGroup(userInf, entity);
             list.add(form);
         }
         model.addAttribute("list", list);
