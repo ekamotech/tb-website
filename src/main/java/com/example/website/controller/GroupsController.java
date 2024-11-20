@@ -20,10 +20,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.website.entity.Group;
+import com.example.website.entity.GroupMember;
+import com.example.website.entity.User;
 import com.example.website.entity.UserInf;
 import com.example.website.form.GroupForm;
 import com.example.website.form.UserForm;
+import com.example.website.repository.GroupMemberRepository;
 import com.example.website.repository.GroupRepository;
+import com.example.website.repository.UserRepository;
 
 @Controller
 public class GroupsController {
@@ -31,14 +35,19 @@ public class GroupsController {
     @Autowired
     private ModelMapper modelMapper;
     @Autowired
-    private GroupRepository repository;
+    private GroupRepository groupRepository;
+    @Autowired
+    private GroupMemberRepository groupMemberRepository;
+    @Autowired
+    private UserRepository userRepository;
+
     
     @GetMapping("/groups")
     public String index(Principal principal, Model model) throws IOException {
         Authentication authentication = (Authentication) principal;
         UserInf user = (UserInf) authentication.getPrincipal();
         
-        List<Group> groups = repository.findByCreatedByOrderByUpdatedAtDesc(user.getUserId());
+        List<Group> groups = groupRepository.findByCreatedByOrderByUpdatedAtDesc(user.getUserId());
         List<GroupForm> list = new ArrayList<>();
         for (Group entity : groups) {
             GroupForm form = getGroup(user, entity);
@@ -90,12 +99,23 @@ public class GroupsController {
         
         Group entity = new Group();
         Authentication authentication = (Authentication) principal;
-        UserInf user = (UserInf) authentication.getPrincipal();
+        UserInf userInf = (UserInf) authentication.getPrincipal();
         
         entity.setName(form.getName());
         entity.setDescription(form.getDescription());
-        entity.setCreatedBy(user.getUserId());
-        repository.saveAndFlush(entity);
+        entity.setCreatedBy(userInf.getUserId());
+        groupRepository.saveAndFlush(entity);
+
+        // UserInf から User オブジェクトを取得
+        User user = userRepository.findById(userInf.getUserId()).orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        GroupMember groupMember = new GroupMember();
+        groupMember.setGroupId(entity.getId());
+        groupMember.setUserId(user.getUserId());
+        groupMember.setAuthority(GroupMember.Authority.ROLE_ADMIN);
+        groupMember.setGroup(entity);
+        groupMember.setUser(user);
+        groupMemberRepository.saveAndFlush(groupMember);
         
         redirAttrs.addFlashAttribute("hasMessage", true);
         redirAttrs.addFlashAttribute("class", "alert-info");
