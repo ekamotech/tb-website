@@ -32,7 +32,8 @@
             <img src="/images/shared/img-defalt-user.png" th:src="@{/images/shared/img-defalt-user.png}" class="p-mypage-group-thumb" alt="">
           </div>
           <div class="p-mypage-group-name" th:text="${group.name}"></div>
-          <a href="" class="p-mypage-event-btn c-btn-submit u-mb-0">イベントを作成</a>
+          <a class="p-mypage-event-btn c-btn-submit u-mb-0">イベントを作成</a>
+          <a th:href="@{/groups/{id}/edit(id=${group.id})}" class="p-mypage-event-btn c-btn-submit u-mb-0">グループを更新</a>
         </div>
       </div>
 

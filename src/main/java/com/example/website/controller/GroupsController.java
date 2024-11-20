@@ -13,15 +13,20 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.website.entity.Group;
 import com.example.website.form.GroupForm;
+import com.example.website.repository.GroupRepository;
 import com.example.website.service.GroupService;
 
 @Controller
 public class GroupsController {
     
+    @Autowired
+    private GroupRepository groupRepository;
     @Autowired
     private GroupService groupService;
 
@@ -67,6 +72,37 @@ public class GroupsController {
         return "redirect:/groups";
         
     }
+    
+    @GetMapping("/groups/{id}/edit")
+    public String editGroup(@PathVariable Long id, Model model) throws IOException {
+        Group entity = groupRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Group not found"));
+        GroupForm form = groupService.getGroup(null, entity);
+        model.addAttribute("form", form);
+        return "groups/edit";
+    }
+    
+    @PostMapping("/groups/update")
+    public String update(Principal principal, @Validated @ModelAttribute("form") GroupForm form, BindingResult result,
+            Model model, RedirectAttributes redirAttrs)
+            throws IOException {
+        
+        if (result.hasErrors()) {
+            model.addAttribute("hasMessage", true);
+            model.addAttribute("class", "alert-danger");
+            model.addAttribute("message", "グループ更新に失敗しました。");
+            return "groups/edit";
+        }
+        
+        groupService.updateGroup(principal, form);
+        
+        redirAttrs.addFlashAttribute("hasMessage", true);
+        redirAttrs.addFlashAttribute("class", "alert-info");
+        redirAttrs.addFlashAttribute("message", "グループ更新に成功しました。");
+
+        return "redirect:/groups";
+        
+    }
+    
     
 
 }

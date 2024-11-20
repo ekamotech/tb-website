@@ -86,5 +86,13 @@ public class GroupService {
         groupMember.setUser(user);
         groupMemberRepository.saveAndFlush(groupMember);
     }
+    
+    @Transactional
+    public void updateGroup(Principal principal, GroupForm form) throws IOException {
+        Group entity = groupRepository.findById(form.getId()).orElseThrow(() -> new IllegalArgumentException("Group not found"));
+        entity.setName(form.getName());
+        entity.setDescription(form.getDescription());
+        groupRepository.saveAndFlush(entity);
+    }
 
 }
