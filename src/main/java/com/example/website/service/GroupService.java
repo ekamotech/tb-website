@@ -38,8 +38,11 @@ public class GroupService {
     public List<GroupForm> getGroupsForAdmin(Principal principal) throws IOException {
         Authentication authentication = (Authentication) principal;
         UserInf userInf = (UserInf) authentication.getPrincipal();
+        
+        // UserInf から User オブジェクトを取得
+        User user = userRepository.findById(userInf.getUserId()).orElseThrow(() -> new IllegalArgumentException("User not found"));
 
-        List<GroupMember> groupMembers = groupMemberRepository.findByUserIdAndAuthority(userInf.getUserId(), GroupMember.Authority.ROLE_ADMIN);
+        List<GroupMember> groupMembers = groupMemberRepository.findByUserAndAuthority(user, GroupMember.Authority.ROLE_ADMIN);
         List<Group> groups = groupMembers.stream()
                                          .map(GroupMember::getGroup)
                                          .collect(Collectors.toList());
@@ -54,12 +57,12 @@ public class GroupService {
     
     public GroupForm getGroup(UserInf user, Group entity) throws IOException {
         modelMapper.getConfiguration().setAmbiguityIgnored(true);
-        modelMapper.typeMap(Group.class, GroupForm.class).addMappings(mapper -> mapper.skip(GroupForm::setUser));
+        modelMapper.typeMap(Group.class, GroupForm.class).addMappings(mapper -> mapper.skip(GroupForm::setCreatedBy));
 
         GroupForm form = modelMapper.map(entity, GroupForm.class);
 
-        UserForm userForm = modelMapper.map(entity.getUser(), UserForm.class);
-        form.setUser(userForm);
+        UserForm userForm = modelMapper.map(entity.getCreatedBy(), UserForm.class);
+        form.setCreatedBy(userForm);
 
         return form;
     }
@@ -69,21 +72,19 @@ public class GroupService {
         Group entity = new Group();
         Authentication authentication = (Authentication) principal;
         UserInf userInf = (UserInf) authentication.getPrincipal();
-
-        entity.setName(form.getName());
-        entity.setDescription(form.getDescription());
-        entity.setCreatedBy(userInf.getUserId());
-        groupRepository.saveAndFlush(entity);
-
+        
         // UserInf から User オブジェクトを取得
         User user = userRepository.findById(userInf.getUserId()).orElseThrow(() -> new IllegalArgumentException("User not found"));
 
+        entity.setName(form.getName());
+        entity.setDescription(form.getDescription());
+        entity.setCreatedBy(user);
+        groupRepository.saveAndFlush(entity);
+
         GroupMember groupMember = new GroupMember();
-        groupMember.setGroupId(entity.getId());
-        groupMember.setUserId(user.getUserId());
-        groupMember.setAuthority(GroupMember.Authority.ROLE_ADMIN);
         groupMember.setGroup(entity);
         groupMember.setUser(user);
+        groupMember.setAuthority(GroupMember.Authority.ROLE_ADMIN);
         groupMemberRepository.saveAndFlush(groupMember);
     }
     

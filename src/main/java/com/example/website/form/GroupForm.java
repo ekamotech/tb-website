@@ -18,8 +18,6 @@ public class GroupForm {
     @Size(max = 1000)
     private String description;
     
-    private Long createdBy;
-    
-    private UserForm user;
+    private UserForm createdBy;
     
 }
