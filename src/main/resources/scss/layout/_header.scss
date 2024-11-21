@@ -59,6 +59,11 @@
       }
     }
   }
+  .l-header-menu-group {
+    &::before {
+      mask-image: url(~@images/shared/icon-group.svg);
+    }
+  }
   .l-header-menu-calendar {
     &::before {
       mask-image: url(~@images/shared/icon-calendar.png);
