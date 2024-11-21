@@ -73,6 +73,14 @@ public class GroupsController {
         
     }
     
+    @GetMapping("/groups/{id}")
+    public String detail(@PathVariable Long id, Model model) throws IOException {
+        Group entity = groupRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Group not found"));
+        GroupForm form = groupService.getGroup(null, entity);
+        model.addAttribute("form", form);
+        return "groups/detail";
+    }
+    
     @GetMapping("/groups/{id}/edit")
     public String editGroup(@PathVariable Long id, Model model) throws IOException {
         Group entity = groupRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Group not found"));
