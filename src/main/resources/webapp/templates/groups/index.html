@@ -36,15 +36,22 @@
           <a th:href="@{/groups/{id}(id=${group.id})}" class="p-mypage-event-btn c-btn-submit u-mb-0">グループ詳細</a>
           <a th:href="@{/groups/{id}/edit(id=${group.id})}" class="p-mypage-event-btn c-btn-submit u-mb-0">グループを更新</a>
         </div>
+        
+        <div class="p-mypage-group-event">
+          <div class="p-mypage-event">
+            <div class="p-mypage-event-item" th:each="event : ${group.events}">
+              <a th:href="@{/events/{id}(id=${event.id})}" class="p-mypage-event-link">
+                <div class="p-mypage-event-image">
+                  <img src="/images/img-event2.jpg" th:src="@{/images/img-event2.jpg}" class="p-mypage-event-thumb" alt="">
+                </div>
+                <div class="p-mypage-event-name" th:text="${event.title}"></div>
+                <div class="p-mypage-event-update u-mb-0">更新</div>
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
-
-      
-      
     </div>
-    
-    
-    
-
     
     <div class="p-mypage-group">
       <div class="p-mypage-group-head">

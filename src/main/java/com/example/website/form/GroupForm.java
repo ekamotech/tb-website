@@ -1,5 +1,7 @@
 package com.example.website.form;
 
+import java.util.List;
+
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
@@ -19,5 +21,7 @@ public class GroupForm {
     private String description;
     
     private UserForm createdBy;
+    
+    private List<EventForm> events;
     
 }

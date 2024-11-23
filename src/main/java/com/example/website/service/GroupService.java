@@ -13,10 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import com.example.website.entity.Event;
 import com.example.website.entity.Group;
 import com.example.website.entity.GroupMember;
 import com.example.website.entity.User;
 import com.example.website.entity.UserInf;
+import com.example.website.form.EventForm;
 import com.example.website.form.GroupForm;
 import com.example.website.form.UserForm;
 import com.example.website.repository.GroupMemberRepository;
@@ -58,12 +60,20 @@ public class GroupService {
     public GroupForm getGroup(UserInf user, Group entity) throws IOException {
         modelMapper.getConfiguration().setAmbiguityIgnored(true);
         modelMapper.typeMap(Group.class, GroupForm.class).addMappings(mapper -> mapper.skip(GroupForm::setCreatedBy));
+        modelMapper.typeMap(Group.class, GroupForm.class).addMappings(mapper -> mapper.skip(GroupForm::setEvents));
 
         GroupForm form = modelMapper.map(entity, GroupForm.class);
 
         UserForm userForm = modelMapper.map(entity.getCreatedBy(), UserForm.class);
         form.setCreatedBy(userForm);
-
+        
+        List<EventForm> events = new ArrayList<EventForm>();
+        for (Event eventEntity : entity.getEvents()) {
+            EventForm event = modelMapper.map(eventEntity, EventForm.class);
+            events.add(event);
+        }
+        form.setEvents(events);
+        
         return form;
     }
     
