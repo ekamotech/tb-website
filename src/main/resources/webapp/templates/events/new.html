@@ -8,7 +8,7 @@
 
   <h1 class="c-hdg1">イベント作成</h1>
   
-  <form method="post" th:action="@{/groups/{groupId}/events/new(groupId=${groupId})}" th:object="${form}">
+  <form method="post" th:action="@{/groups/{groupId}/events(groupId=${groupId})}" th:object="${form}">
     <div layout:replace="~{layouts/common::messages}"></div>
     <div class="c-form">
       <div class="c-form-item">

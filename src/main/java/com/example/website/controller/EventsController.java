@@ -3,6 +3,8 @@ package com.example.website.controller;
 import java.io.IOException;
 import java.security.Principal;
 
+import jakarta.transaction.Transactional;
+
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -44,8 +46,9 @@ public class EventsController {
         
     }
     
-    @PostMapping("/groups/{groupId}/events/new")
-    public String createEvent(@AuthenticationPrincipal UserInf userInf, @PathVariable Long groupId, @Validated @ModelAttribute EventForm form, BindingResult result,
+    @PostMapping("/groups/{groupId}/events")
+    @Transactional
+    public String createEvent(@AuthenticationPrincipal UserInf userInf, @PathVariable Long groupId, @Validated @ModelAttribute("form") EventForm form, BindingResult result,
             Model model, RedirectAttributes redirAttrs)
             throws IOException {
         
