@@ -46,6 +46,9 @@ public class EventService {
         event.setGroup(group);
         event.setTitle(form.getTitle());
         event.setDescription(form.getDescription());
+        event.setDate(form.getDate());
+        event.setStartTime(form.getStartTime());
+        event.setEndTime(form.getEndTime());
         eventRepository.saveAndFlush(event);
         
     }

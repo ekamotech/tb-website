@@ -1,6 +1,8 @@
 package com.example.website.entity;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -42,6 +44,16 @@ public class Event extends AbstractEntity implements Serializable {
     
     @Column(nullable = false, length = 1000)
     private String description;
+    
+    @Column(name = "date", nullable = false)
+    private LocalDate date;
+    
+    @Column(name = "start_time", nullable = false)
+    private LocalTime startTime;
+    
+    @Column(name = "end_time", nullable = false)
+    private LocalTime endTime;
+
     
 //    @Column(name = "start_date", nullable = false)
 //    private LocalDateTime startDate;

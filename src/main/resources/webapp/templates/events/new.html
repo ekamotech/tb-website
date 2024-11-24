@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
 <head>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <title>つながルーム</title>
 </head>
 <body>
@@ -33,10 +34,67 @@
         </div>
         <p th:if="${#fields.hasErrors('description')}" class="c-form-error" th:errors="*{description}"></p>
       </div>
+      <div class="c-form-item">
+        <div class="c-form-label-box">
+          <label for="event-date" class="c-form-label">開催日</label>
+        </div>
+        <div class="c-form-input-wrap">
+          <div class="c-form-input-box">
+            <input id="event-date" type="text" class="c-form-input" th:field="*{date}" />
+          </div>
+        </div>
+        <p th:if="${#fields.hasErrors('date')}" class="c-form-error" th:errors="*{date}"></p>
+      </div>
+      <div class="c-form-item">
+        <div class="c-form-label-box">
+          <label for="start-time" class="c-form-label">開始時間</label>
+        </div>
+        <div class="c-form-input-wrap">
+          <div class="c-form-input-box">
+            <input id="start-time" type="time" class="c-form-input" th:field="*{startTime}" />
+          </div>
+        </div>
+        <p th:if="${#fields.hasErrors('startTime')}" class="c-form-error" th:errors="*{startTime}"></p>
+      </div>
+      <div class="c-form-item">
+        <div class="c-form-label-box">
+          <label for="end-time" class="c-form-label">終了時間</label>
+        </div>
+        <div class="c-form-input-wrap">
+          <div class="c-form-input-box">
+            <input id="end-time" type="time" class="c-form-input" th:field="*{endTime}" />
+          </div>
+        </div>
+        <p th:if="${#fields.hasErrors('endTime')}" class="c-form-error" th:errors="*{endTime}"></p>
+      </div>
+
     </div>
     <button type="submit" class="c-btn-submit">作成する</button>
   </form>
 
+</div>
+<div layout:fragment="scripts">
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ja.js"></script>
+  <script>
+      flatpickr('#event-date', {
+          locale: 'ja',
+          dateFormat: 'Y-m-d',
+          minDate: 'today',
+          maxDate: new Date().fp_incr(30),
+      });
+    
+      const setting = {
+          locale: "ja",
+          enableTime: true,
+          noCalendar: true,
+          dateFormat: "H:i",
+          time_24hr: true
+      };
+    
+      flatpickr("#start-time", setting);
+      flatpickr("#end-time", setting);
+  </script>
 </div>
 </body>
 </html>
