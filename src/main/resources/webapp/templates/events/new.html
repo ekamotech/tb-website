@@ -80,9 +80,18 @@
       flatpickr('#event-date', {
           locale: 'ja',
           dateFormat: 'Y-m-d',
-          minDate: 'today',
+          minDate: tomorrow(),
           maxDate: new Date().fp_incr(30),
       });
+      
+      function tomorrow() {
+          var currentDate = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
+          var year = currentDate.getFullYear();
+          var month = String(currentDate.getMonth() + 1).padStart(2, '0');
+          var day = String(currentDate.getDate()).padStart(2, '0');
+
+          return year + "-" + month + "-" + day;
+      }
     
       const setting = {
           locale: "ja",
