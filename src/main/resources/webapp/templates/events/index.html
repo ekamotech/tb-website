@@ -17,7 +17,22 @@
   
   <section class="p-sec-event">
     <h2 class="c-hdg2">ピックアップイベント</h2>
-
+    
+    <div class="c-event">
+      <div class="c-event-item" th:each="event : ${list}">
+        <a href="" class="c-event-link">
+          <div class="c-event-image">
+            <img src="/images/img-event1.jpg" th:src="@{/images/img-event1.jpg}" class="c-event-thumb" alt="">
+          </div>
+          <div class="c-event-text">
+            <p class="c-event-title" th:text="${event.title}"></p>
+            <p class="c-event-date" th:text="${event.date}"></p>
+            <p class="c-event-group" th:text="${event.group.name}"></p>
+          </div>
+        </a>
+      </div>
+    </div>
+    
     <div class="c-event">
       <div class="c-event-item">
         <a href="" class="c-event-link">
@@ -32,44 +47,10 @@
         </a>
       </div>
 
-      <div class="c-event-item">
-        <a href="" class="c-event-link">
-          <div class="c-event-image">
-            <img src="/images/img-event1.jpg" class="c-event-thumb" alt="">
-          </div>
-          <div class="c-event-text">
-            <p class="c-event-title">スペインフェアでスペイン満喫</p>
-            <p class="c-event-date">2024年11月08日</p>
-            <p class="c-event-group">原宿でコーヒーを楽しむ会</p>
-          </div>
-        </a>
-      </div>
 
-      <div class="c-event-item">
-        <a href="" class="c-event-link">
-          <div class="c-event-image">
-            <img src="/images/img-event1.jpg" class="c-event-thumb" alt="">
-          </div>
-          <div class="c-event-text">
-            <p class="c-event-title">スペインフェアでスペイン満喫</p>
-            <p class="c-event-date">2024年11月08日</p>
-            <p class="c-event-group">原宿でコーヒーを楽しむ会</p>
-          </div>
-        </a>
-      </div>
 
-      <div class="c-event-item">
-        <a href="" class="c-event-link">
-          <div class="c-event-image">
-            <img src="/images/img-event1.jpg" class="c-event-thumb" alt="">
-          </div>
-          <div class="c-event-text">
-            <p class="c-event-title">スペインフェアでスペイン満喫</p>
-            <p class="c-event-date">2024年11月08日</p>
-            <p class="c-event-group">原宿でコーヒーを楽しむ会</p>
-          </div>
-        </a>
-      </div>
+
+
     </div>
   </section>
 

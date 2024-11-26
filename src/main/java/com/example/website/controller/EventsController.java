@@ -2,6 +2,7 @@ package com.example.website.controller;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.util.List;
 
 import jakarta.transaction.Transactional;
 
@@ -31,6 +32,9 @@ public class EventsController {
     
     @GetMapping("/events")
     public String index(Principal principal, Model model) throws IOException {
+        
+        List<EventForm> list = eventService.index(principal);
+        model.addAttribute("list", list);
         
         return "events/index";
     }

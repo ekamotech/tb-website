@@ -47,8 +47,8 @@ public class EventForm {
     private LocalTime endTime;
 
     
-//    private UserForm user;
-//    
-//    private GroupForm group;
+    private UserForm user;
+    
+    private GroupForm group;
 
 }
