@@ -20,7 +20,7 @@
     
     <div class="c-event">
       <div class="c-event-item" th:each="event : ${list}">
-        <a href="" class="c-event-link">
+        <a th:href="@{/events/{id}(id=${event.id})}" class="c-event-link">
           <div class="c-event-image">
             <img src="/images/img-event1.jpg" th:src="@{/images/img-event1.jpg}" class="c-event-thumb" alt="">
           </div>

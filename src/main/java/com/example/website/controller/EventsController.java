@@ -17,16 +17,20 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.website.entity.Event;
 import com.example.website.entity.UserInf;
 import com.example.website.form.EventForm;
+import com.example.website.repository.EventRepository;
 import com.example.website.service.EventService;
 
 @Controller
 public class EventsController {
     
+    private final EventRepository eventRepository;
     private final EventService eventService;
     
-    public EventsController(EventService eventService) {
+    public EventsController(EventRepository eventRepository, EventService eventService) {
+        this.eventRepository = eventRepository;
         this.eventService = eventService;
     }
     
@@ -73,8 +77,13 @@ public class EventsController {
         
     }
     
-    
-    
-    
+    @GetMapping("/events/{id}")
+    public String detail(@PathVariable Long id, Model model) throws IOException {
+        Event entity = eventRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Event not found"));
+        EventForm event = eventService.getEvent(null, entity);
+        model.addAttribute("event", event);
+        return "events/detail";
+    }
+
 
 }
