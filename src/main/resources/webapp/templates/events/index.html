@@ -22,7 +22,8 @@
       <div class="c-event-item" th:each="event : ${list}">
         <a th:href="@{/events/{id}(id=${event.id})}" class="c-event-link">
           <div class="c-event-image">
-            <img src="/images/img-event1.jpg" th:src="@{/images/img-event1.jpg}" class="c-event-thumb" alt="">
+            <img src="" th:if="${@environment.getProperty('image.local')}" th:src="${event.imageData}" class="c-event-thumb" />
+            <img src="" th:unless="${@environment.getProperty('image.local')}" th:src="${event.path}" class="c-event-thumb" />
           </div>
           <div class="c-event-text">
             <p class="c-event-title" th:text="${event.title}"></p>

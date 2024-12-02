@@ -9,7 +9,7 @@
 
   <h1 class="c-hdg1">イベント作成</h1>
   
-  <form method="post" th:action="@{/groups/{groupId}/events(groupId=${groupId})}" th:object="${form}">
+  <form method="post" th:action="@{/groups/{groupId}/events(groupId=${groupId})}" th:object="${form}" enctype="multipart/form-data">
     <div layout:replace="~{layouts/common::messages}"></div>
     <div class="c-form">
       <div class="c-form-item">
@@ -66,6 +66,13 @@
           </div>
         </div>
         <p th:if="${#fields.hasErrors('endTime')}" class="c-form-error" th:errors="*{endTime}"></p>
+      </div>
+      <div class="c-form-item">
+        <div class="c-form-label-box">
+          <label for="image" class="c-form-label">画像</label>
+        </div>
+        <input id="image" type="file" class="c-form-file" th:field="*{image}" />
+        <p th:if="${#fields.hasErrors('image')}" class="c-form-error" th:errors="*{image}"></p>
       </div>
 
     </div>

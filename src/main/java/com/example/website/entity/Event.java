@@ -54,13 +54,10 @@ public class Event extends AbstractEntity implements Serializable {
     @Column(name = "end_time", nullable = false)
     private LocalTime endTime;
 
-    
-//    @Column(name = "start_date", nullable = false)
-//    private LocalDateTime startDate;
-//    
-//    @Column(name = "end_date", nullable = false)
-//    private LocalDateTime endDate;
-//    
+    @Column(nullable = false)
+    private String path;
+
+
 //    @Column(nullable = false, length = 100)
 //    private String location;
 //    
@@ -69,9 +66,7 @@ public class Event extends AbstractEntity implements Serializable {
 //
 //    @Column(nullable = false, precision = 9, scale = 6)
 //    private BigDecimal longitude;
-//    
-//    @Column(nullable = false)
-//    private String path;
+
     
     
 

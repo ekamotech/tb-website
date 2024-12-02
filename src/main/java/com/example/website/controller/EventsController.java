@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.website.entity.Event;
@@ -57,7 +59,7 @@ public class EventsController {
     @PostMapping("/groups/{groupId}/events")
     @Transactional
     public String createEvent(@AuthenticationPrincipal UserInf userInf, @PathVariable Long groupId, @Validated @ModelAttribute("form") EventForm form, BindingResult result,
-            Model model, RedirectAttributes redirAttrs)
+            Model model, @RequestParam MultipartFile image, RedirectAttributes redirAttrs)
             throws IOException {
         
         if (result.hasErrors()) {
@@ -67,7 +69,7 @@ public class EventsController {
             return "events/new";
         }
         
-        eventService.createEvent(userInf.getUserId(), groupId, form);
+        eventService.createEvent(userInf.getUserId(), groupId, form, image);
         
         redirAttrs.addFlashAttribute("hasMessage", true);
         redirAttrs.addFlashAttribute("class", "alert-info");

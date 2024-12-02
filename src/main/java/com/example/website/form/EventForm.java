@@ -9,7 +9,10 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.example.website.validation.constraints.ImageByte;
+import com.example.website.validation.constraints.ImageNotEmpty;
 import com.example.website.validation.constraints.ValidTimeRange;
 
 import lombok.Data;
@@ -45,8 +48,15 @@ public class EventForm {
     @NotNull(message = "終了時間を指定してください")
     @DateTimeFormat(pattern = "HH:mm")
     private LocalTime endTime;
-
     
+    @ImageNotEmpty
+    @ImageByte(max = 2000000)
+    private MultipartFile image;
+
+    private String imageData;
+
+    private String path;
+
     private UserForm user;
     
     private GroupForm group;

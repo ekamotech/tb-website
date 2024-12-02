@@ -18,3 +18,5 @@ spring:
       static-locations: classpath:/webapp/
 
 debug: true
+image:
+  local: true

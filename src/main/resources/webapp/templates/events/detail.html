@@ -9,7 +9,8 @@
   
   <div class="p-event-head">
     <div class="p-event-visual">
-      <img src="/images/img-event2.jpg" th:src="@{/images/img-event2.jpg}" class="p-event-thumb" alt="">
+      <img src="" th:if="${@environment.getProperty('image.local')}" th:src="${event.imageData}" class="p-event-thumb" />
+      <img src="" th:unless="${@environment.getProperty('image.local')}" th:src="${event.path}" class="p-event-thumb" />
     </div>
     <div class="p-event-summary">
       <div class="p-event-text">

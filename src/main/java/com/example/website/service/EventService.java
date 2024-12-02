@@ -1,16 +1,27 @@
 package com.example.website.service;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 
+import org.apache.commons.io.FilenameUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Base64Utils;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.website.entity.Event;
 import com.example.website.entity.Group;
@@ -28,6 +39,8 @@ public class EventService {
     
     @Autowired
     private ModelMapper modelMapper;
+    @Autowired
+    private HttpServletRequest request;
     
     private final UserRepository userRepository;
     private final GroupRepository groupRepository;
@@ -38,6 +51,9 @@ public class EventService {
         this.groupRepository = groupRepository;
         this.eventRepository = eventRepository;
     }
+    
+    @Value("${image.local:false}")
+    private String imageLocal;
     
     public List<EventForm> index(Principal principal) throws IOException {
         Authentication authentication = (Authentication) principal;
@@ -52,12 +68,34 @@ public class EventService {
         return list;
     }
     
-    public EventForm getEvent(UserInf user, Event entity) throws IOException {
+    public EventForm getEvent(UserInf user, Event entity) throws FileNotFoundException, IOException {
         modelMapper.getConfiguration().setAmbiguityIgnored(true);
         modelMapper.typeMap(Event.class, EventForm.class).addMappings(mapper -> mapper.skip(EventForm::setUser));
         modelMapper.typeMap(Event.class, EventForm.class).addMappings(mapper -> mapper.skip(EventForm::setGroup));
         
         EventForm form = modelMapper.map(entity, EventForm.class);
+        
+        boolean isImageLocal = false;
+        if (imageLocal != null) {
+            isImageLocal = new Boolean(imageLocal);
+        }
+        if (isImageLocal) {
+            try (InputStream is = new FileInputStream(new File(entity.getPath()));
+                    ByteArrayOutputStream os = new ByteArrayOutputStream()) {
+                byte[] indata = new byte[10240 * 16];
+                int size;
+                while ((size = is.read(indata, 0, indata.length)) > 0) {
+                    os.write(indata, 0, size);
+                }
+                StringBuilder data = new StringBuilder();
+                data.append("data:");
+                data.append(getMimeType(entity.getPath()));
+                data.append(";base64,");
+
+                data.append(new String(Base64Utils.encode(os.toByteArray()), "ASCII"));
+                form.setImageData(data.toString());
+            }
+        }
         
         UserForm userForm = modelMapper.map(entity.getUser(), UserForm.class);
         form.setUser(userForm);
@@ -66,6 +104,24 @@ public class EventService {
         form.setGroup(groupForm);
         
         return form;
+    }
+    
+    private String getMimeType(String path) {
+        String extension = FilenameUtils.getExtension(path);
+        String mimeType = "image/";
+        switch (extension) {
+        case "jpg":
+        case "jpeg":
+            mimeType += "jpeg";
+            break;
+        case "png":
+            mimeType += "png";
+            break;
+        case "gif":
+            mimeType += "gif";
+            break;
+        }
+        return mimeType;
     }
     
     public EventForm createEventForm(Long userId, Long groupId) {
@@ -78,7 +134,7 @@ public class EventService {
     }
     
     @Transactional
-    public void createEvent(Long userId, Long groupId, EventForm form) throws IOException {
+    public void createEvent(Long userId, Long groupId, EventForm form, MultipartFile image) throws IOException {
         User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
         Group group = groupRepository.findById(groupId).orElseThrow(() -> new IllegalArgumentException("指定されたグループは見つかりませんでした"));
         
@@ -90,7 +146,47 @@ public class EventService {
         event.setDate(form.getDate());
         event.setStartTime(form.getStartTime());
         event.setEndTime(form.getEndTime());
+        
+        boolean isImageLocal = false;
+        if (imageLocal != null) {
+            isImageLocal = new Boolean(imageLocal);
+        }
+        
+        File destFile = null;
+        if (isImageLocal) {
+            destFile = saveImageLocal(image, event);
+            event.setPath(destFile.getAbsolutePath());
+        } else {
+            event.setPath("");
+        }
+
         eventRepository.saveAndFlush(event);
         
     }
+    
+    private File saveImageLocal(MultipartFile image, Event event) throws IOException {
+        File uploadDir = new File("/uploads");
+        uploadDir.mkdir();
+        
+        String uploadsDir = "/uploads/";
+        String realPathToUploads = request.getServletContext().getRealPath(uploadsDir);
+        if (!new File(realPathToUploads).exists()) {
+            new File(realPathToUploads).mkdir();
+        }
+        
+        String originalFilename = image.getOriginalFilename();
+        String extension = "";
+        if (originalFilename != null && originalFilename.contains(".")) {
+            extension = originalFilename.substring(originalFilename.lastIndexOf("."));
+        }
+        
+        String uniqueFileName = UUID.randomUUID().toString() + extension;
+        
+        File destFile = new File(realPathToUploads, uniqueFileName);
+        image.transferTo(destFile);
+
+        return destFile;
+    }
+    
+    
 }
