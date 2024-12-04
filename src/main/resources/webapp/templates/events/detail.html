@@ -3,6 +3,13 @@
 <head>
 <link rel="stylesheet" href="/css/page/event-detail.css" th:href="@{/css/page/event-detail.css}">
 <title>つながルーム</title>
+<script defer th:src="|https://maps.googleapis.com/maps/api/js?key=${@environment.getProperty('googlemap.client.key')}&callback=initMap|"></script>
+<style>
+  .map {
+    width: 100%;
+    height: 400px;
+  }
+</style>
 </head>
 <body>
 <div class="p-event-container" layout:fragment="contents">
@@ -37,16 +44,18 @@
         </p>
       </div>
       <div class="p-event-info-item">
-        <p class="p-event-info-label">場所</p>
-        <p class="p-event-info-text">東京都渋谷区神南1-2-3</p>
+        <p class="p-event-info-label">開催場所</p>
+        <p class="p-event-info-text" th:text="${event.address}"></p>
       </div>
     </div>
 
     <div class="p-event-contents">
       <p class="p-event-desc" th:text="${event.description}"></p>
-    
-      <div class="p-event-map">
-        <img src="/images/img-map1.png" th:src="@{/images/img-map1.png}" class="p-event-comment-map-image" alt="">
+      <div th:if="${event.latitude != null and event.longitude != null}">
+        <div class="p-event-map">
+          <!-- <img src="/images/img-map1.png" th:src="@{/images/img-map1.png}" class="p-event-comment-map-image" alt=""> -->
+          <div class="map" th:id="|map${event.id}|"></div>
+        </div>
       </div>
 
       <div class="p-event-comment">
@@ -68,7 +77,25 @@
       </div>
     </div>
   </div>
-
+</div>
+<div layout:fragment="scripts">
+  <script th:inline="javascript">
+  function initMap() {
+      /*[# th:if="${event.latitude != null and event.longitude != null}"]*/
+        let map;
+        const latlng = { lat: [[${event.latitude}]], lng: [[${event.longitude}]] };
+        map = new google.maps.Map(document.getElementById("map[[${event.id}]]"), {
+            center: latlng,
+            zoom: 15,
+        });
+        
+        new google.maps.Marker({
+            position: latlng,
+            map: map,
+        });
+      /*[/]*/
+  }
+  </script>
 </div>
 </body>
 </html>
