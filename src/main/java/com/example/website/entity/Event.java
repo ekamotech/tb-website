@@ -57,17 +57,13 @@ public class Event extends AbstractEntity implements Serializable {
     @Column(nullable = false)
     private String path;
 
-
-//    @Column(nullable = false, length = 100)
-//    private String location;
-//    
-//    @Column(nullable = false, precision = 9, scale = 6)
-//    private BigDecimal latitude;
-//
-//    @Column(nullable = false, precision = 9, scale = 6)
-//    private BigDecimal longitude;
-
+    @Column(nullable = false, length = 100)
+    private String address;
     
-    
+    @Column
+    private Double latitude;
+
+    @Column
+    private Double longitude;
 
 }

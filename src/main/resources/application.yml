@@ -16,3 +16,6 @@ spring:
       max-request-size: 20MB
 image:
   local: true
+googlemap:
+  client:
+    key: ${googlemap.client.key}

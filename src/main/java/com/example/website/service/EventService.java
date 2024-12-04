@@ -159,6 +159,10 @@ public class EventService {
         } else {
             event.setPath("");
         }
+        
+        event.setAddress(form.getAddress());
+        event.setLatitude(form.getLatitude());
+        event.setLongitude(form.getLongitude());
 
         eventRepository.saveAndFlush(event);
         

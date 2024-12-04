@@ -3,6 +3,13 @@
 <head>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <title>つながルーム</title>
+<script defer th:src="|https://maps.googleapis.com/maps/api/js?key=${@environment.getProperty('googlemap.client.key')}&callback=initialize|"></script>
+<style>
+  #map_canvas {
+    width: 100%;
+    height: 400px;
+  }
+</style>
 </head>
 <body>
 <div class="p-login-box" layout:fragment="contents">
@@ -74,7 +81,19 @@
         <input id="image" type="file" class="c-form-file" th:field="*{image}" />
         <p th:if="${#fields.hasErrors('image')}" class="c-form-error" th:errors="*{image}"></p>
       </div>
+      
+      <div class="c-form-item">
+        <div class="c-form-label-box">
+          <label for="address" class="c-form-label">開催場所の住所</label>
+        </div>
+        <input id="address" type="text" class="c-form-input" th:field="*{address}" />
+        <p th:if="${#fields.hasErrors('address')}" class="c-form-error" th:errors="*{address}"></p>
+      </div>
+      
+      <div id="map_canvas"></div>
 
+      <input type="hidden" id="latitude" th:field="*{latitude}" />
+      <input type="hidden" id="longitude" th:field="*{longitude}" />
     </div>
     <button type="submit" class="c-btn-submit">作成する</button>
   </form>
@@ -110,6 +129,52 @@
     
       flatpickr("#start-time", setting);
       flatpickr("#end-time", setting);
+      
+  </script>
+  <script>
+    let geocoder;
+    let map;
+
+    function initialize() {
+      geocoder = new google.maps.Geocoder();
+      const initialLatlng = { lat: 35.6895, lng: 139.6917 }; // 初期位置: 東京
+      map = new google.maps.Map(document.getElementById("map_canvas"), {
+        zoom: 15,
+        center: initialLatlng,
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+      });
+    }
+
+    function codeAddress() {
+      const address = document.getElementById("address").value;
+      if (geocoder && address) {
+        geocoder.geocode({ address, region: "jp" }, (results, status) => {
+          if (status === google.maps.GeocoderStatus.OK) {
+            const location = results[0].geometry.location;
+            const latitude = location.lat();
+            const longitude = location.lng();
+            map.setCenter(location);
+
+            new google.maps.Marker({
+              position: location,
+              map: map,
+            });
+            
+            document.getElementById("latitude").value = latitude;
+            document.getElementById("longitude").value = longitude;
+          } else {
+            alert("住所から緯度・経度を取得できませんでした。原因: " + status);
+          }
+        });
+      } else {
+        alert("住所を入力してください。");
+      }
+    }
+    
+    document.addEventListener("DOMContentLoaded", function () {
+      const addressField = document.getElementById("address");
+      addressField.addEventListener("blur", codeAddress);
+    });
   </script>
 </div>
 </body>

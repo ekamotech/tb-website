@@ -56,6 +56,14 @@ public class EventForm {
     private String imageData;
 
     private String path;
+    
+    @NotEmpty
+    @Size(max = 100)
+    private String address;
+    
+    private Double latitude;
+    
+    private Double longitude;
 
     private UserForm user;
     
