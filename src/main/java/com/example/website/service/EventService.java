@@ -24,10 +24,12 @@ import org.springframework.util.Base64Utils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.website.entity.Event;
+import com.example.website.entity.Favorite;
 import com.example.website.entity.Group;
 import com.example.website.entity.User;
 import com.example.website.entity.UserInf;
 import com.example.website.form.EventForm;
+import com.example.website.form.FavoriteForm;
 import com.example.website.form.GroupForm;
 import com.example.website.form.UserForm;
 import com.example.website.repository.EventRepository;
@@ -73,6 +75,9 @@ public class EventService {
         modelMapper.typeMap(Event.class, EventForm.class).addMappings(mapper -> mapper.skip(EventForm::setUser));
         modelMapper.typeMap(Event.class, EventForm.class).addMappings(mapper -> mapper.skip(EventForm::setGroup));
         
+        modelMapper.typeMap(Event.class, EventForm.class).addMappings(mapper -> mapper.skip(EventForm::setFavorites));
+        modelMapper.typeMap(Favorite.class, FavoriteForm.class).addMappings(mapper -> mapper.skip(FavoriteForm::setEvent));
+        
         EventForm form = modelMapper.map(entity, EventForm.class);
         
         boolean isImageLocal = false;
@@ -102,6 +107,16 @@ public class EventService {
         
         GroupForm groupForm = modelMapper.map(entity.getGroup(), GroupForm.class);
         form.setGroup(groupForm);
+        
+        List<FavoriteForm> favorites = new ArrayList<FavoriteForm>();
+        for (Favorite favoriteEntity : entity.getFavorites()) {
+            FavoriteForm favorite = modelMapper.map(favoriteEntity, FavoriteForm.class);
+            favorites.add(favorite);
+            if (user.getUserId().equals(favoriteEntity.getUser().getUserId())) {
+                form.setFavorite(favorite);
+            }
+        }
+        form.setFavorites(favorites);
         
         return form;
     }

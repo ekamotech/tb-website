@@ -2,6 +2,7 @@ package com.example.website.form;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotEmpty;
@@ -68,5 +69,9 @@ public class EventForm {
     private UserForm user;
     
     private GroupForm group;
+    
+    private List<FavoriteForm> favorites;
+    
+    private FavoriteForm favorite;
 
 }
