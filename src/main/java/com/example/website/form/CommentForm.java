@@ -17,5 +17,7 @@ public class CommentForm {
     @NotEmpty
     @Size(max = 1000)
     private String description;
+    
+    private UserForm user;
 
 }
