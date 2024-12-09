@@ -59,6 +59,11 @@ public class EventService {
     @Value("${image.local:false}")
     private String imageLocal;
     
+    public Event findById(Long id) {
+        Event event = eventRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Event not found"));
+        return event;
+    }
+    
     public List<EventForm> index(Principal principal) throws IOException {
         Authentication authentication = (Authentication) principal;
         UserInf userInf = (UserInf) authentication.getPrincipal();

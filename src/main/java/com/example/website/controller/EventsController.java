@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 
-import jakarta.transaction.Transactional;
-
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,17 +20,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.website.entity.Event;
 import com.example.website.entity.UserInf;
 import com.example.website.form.EventForm;
-import com.example.website.repository.EventRepository;
 import com.example.website.service.EventService;
 
 @Controller
 public class EventsController {
     
-    private final EventRepository eventRepository;
     private final EventService eventService;
     
-    public EventsController(EventRepository eventRepository, EventService eventService) {
-        this.eventRepository = eventRepository;
+    public EventsController(EventService eventService) {
         this.eventService = eventService;
     }
     
@@ -57,7 +52,6 @@ public class EventsController {
     }
     
     @PostMapping("/groups/{groupId}/events")
-    @Transactional
     public String createEvent(@AuthenticationPrincipal UserInf userInf, @PathVariable Long groupId, @Validated @ModelAttribute("form") EventForm form, BindingResult result,
             Model model, @RequestParam MultipartFile image, RedirectAttributes redirAttrs)
             throws IOException {
@@ -81,7 +75,7 @@ public class EventsController {
     
     @GetMapping("/events/{id}")
     public String detail(@PathVariable Long id, Model model) throws IOException {
-        Event entity = eventRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Event not found"));
+        Event entity = eventService.findById(id);
         EventForm event = eventService.getEvent(null, entity);
         model.addAttribute("event", event);
         return "events/detail";
