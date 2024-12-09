@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+<head>
+<title>つながルーム</title>
+</head>
+<body>
+<div class="p-event-box" layout:fragment="contents">
+
+  <h1 class="c-hdg1">コメント作成</h1>
+  
+  <form method="post" th:action="@{/events/__${form.eventId}__/comment}" th:object="${form}">
+    <div layout:replace="~{layouts/common::messages}"></div>
+    <div class="c-form">
+      <div class="c-form-item">
+        <div class="c-form-label-box">
+          <label for="comment-description" class="c-form-label">コメント</label>
+        </div>
+        <div class="c-form-textarea-wrap">
+          <div class="c-form-textarea-box">
+            <textarea id="comment-description" class="c-form-textarea" th:field="*{description}" th:errorclass="error-field"></textarea>
+          </div>
+        </div>
+        <p th:if="${#fields.hasErrors('description')}" class="c-form-error" th:errors="*{description}"></p>
+      </div>
+    </div>
+    <button type="submit" class="c-btn-submit">作成する</button>
+  </form>
+
+</div>
+</body>
+</html>

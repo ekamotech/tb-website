@@ -72,7 +72,7 @@
           </li>
         </ul>
         <div class="p-event-comment-post">
-          <a href="" class="c-btn-submit p-event-submit u-mb-0">コメントを投稿</a>
+          <a href="/events/1/comments/new" th:href="@{'/events/{id}/comments/new'(id=${event.id})}" class="c-btn-submit p-event-submit u-mb-0" th:data-_csrf="${_csrf.token}">コメントを投稿</a>
         </div>
       </div>
     </div>
