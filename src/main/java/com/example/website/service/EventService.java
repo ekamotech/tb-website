@@ -23,11 +23,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Base64Utils;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.website.entity.Comment;
 import com.example.website.entity.Event;
 import com.example.website.entity.Favorite;
 import com.example.website.entity.Group;
 import com.example.website.entity.User;
 import com.example.website.entity.UserInf;
+import com.example.website.form.CommentForm;
 import com.example.website.form.EventForm;
 import com.example.website.form.FavoriteForm;
 import com.example.website.form.GroupForm;
@@ -78,6 +80,8 @@ public class EventService {
         modelMapper.typeMap(Event.class, EventForm.class).addMappings(mapper -> mapper.skip(EventForm::setFavorites));
         modelMapper.typeMap(Favorite.class, FavoriteForm.class).addMappings(mapper -> mapper.skip(FavoriteForm::setEvent));
         
+        modelMapper.typeMap(Event.class, EventForm.class).addMappings(mapper -> mapper.skip(EventForm::setComments));
+        
         EventForm form = modelMapper.map(entity, EventForm.class);
         
         boolean isImageLocal = false;
@@ -117,6 +121,13 @@ public class EventService {
             }
         }
         form.setFavorites(favorites);
+        
+        List<CommentForm> comments = new ArrayList<CommentForm>();
+        for (Comment commentEntity : entity.getComments()) {
+            CommentForm comment = modelMapper.map(commentEntity, CommentForm.class);
+            comments.add(comment);
+        }
+        form.setComments(comments);
         
         return form;
     }

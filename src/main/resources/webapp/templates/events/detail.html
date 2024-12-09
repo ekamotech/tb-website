@@ -61,16 +61,17 @@
       <div class="p-event-comment">
         <h2 class="p-event-comment-hdg2 c-hdg2">コメント</h2>
         <ul class="p-event-comment-list">
-          <li class="p-event-comment-item">
+          <li class="p-event-comment-item" th:each="comment : ${event.comments}">
             <div class="p-event-comment-head">
               <div class="p-event-comment-usericon">
                 <img src="/images/shared/img-defalt-user.png" th:src="@{/images/shared/img-defalt-user.png}" class="p-event-comment-image" alt="">
               </div>
-              <p class="p-event-comment-name">コメント主</p>
+              <p class="p-event-comment-name" th:text="${comment.user.name}"></p>
             </div>
-            <p class="p-event-comment-content">コメントコメントコメントコメントコメントコメントコメントコメントコメントコメントコメントコメント</p>
+            <p class="p-event-comment-content" th:text="${comment.description}"></p>
           </li>
         </ul>
+        
         <div class="p-event-comment-post">
           <a href="/events/1/comments/new" th:href="@{'/events/{id}/comments/new'(id=${event.id})}" class="c-btn-submit p-event-submit u-mb-0" th:data-_csrf="${_csrf.token}">コメントを投稿</a>
         </div>
