@@ -25,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.website.entity.Comment;
 import com.example.website.entity.Event;
+import com.example.website.entity.EventAttendee;
 import com.example.website.entity.Favorite;
 import com.example.website.entity.Group;
 import com.example.website.entity.User;
@@ -34,6 +35,7 @@ import com.example.website.form.EventForm;
 import com.example.website.form.FavoriteForm;
 import com.example.website.form.GroupForm;
 import com.example.website.form.UserForm;
+import com.example.website.repository.EventAttendeeRepository;
 import com.example.website.repository.EventRepository;
 import com.example.website.repository.GroupRepository;
 import com.example.website.repository.UserRepository;
@@ -49,11 +51,13 @@ public class EventService {
     private final UserRepository userRepository;
     private final GroupRepository groupRepository;
     private final EventRepository eventRepository;
+    private final EventAttendeeRepository eventAttendeeRepository;
 
-    public EventService(UserRepository userRepository, GroupRepository groupRepository, EventRepository eventRepository) {
+    public EventService(UserRepository userRepository, GroupRepository groupRepository, EventRepository eventRepository, EventAttendeeRepository eventAttendeeRepository) {
         this.userRepository = userRepository;
         this.groupRepository = groupRepository;
         this.eventRepository = eventRepository;
+        this.eventAttendeeRepository = eventAttendeeRepository;
     }
     
     @Value("${image.local:false}")
@@ -196,6 +200,12 @@ public class EventService {
         event.setLongitude(form.getLongitude());
 
         eventRepository.saveAndFlush(event);
+        
+        EventAttendee eventAttendee = new EventAttendee();
+        eventAttendee.setEvent(event);
+        eventAttendee.setUser(user);
+        eventAttendee.setParticipationStatus(EventAttendee.ParticipationStatus.PARTICIPATING);
+        eventAttendeeRepository.saveAndFlush(eventAttendee);
         
     }
     

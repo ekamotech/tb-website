@@ -12,6 +12,7 @@ import jakarta.validation.constraints.Size;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.website.entity.EventAttendee;
 import com.example.website.validation.constraints.ImageByte;
 import com.example.website.validation.constraints.ImageNotEmpty;
 import com.example.website.validation.constraints.ValidTimeRange;
@@ -75,5 +76,7 @@ public class EventForm {
     private FavoriteForm favorite;
     
     private List<CommentForm> comments;
+    
+    private List<EventAttendee> eventAttendees;
 
 }
