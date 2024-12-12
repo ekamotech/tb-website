@@ -20,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.website.entity.Event;
 import com.example.website.entity.UserInf;
 import com.example.website.form.EventForm;
+import com.example.website.service.EventAttendeeService;
 import com.example.website.service.EventService;
 import com.example.website.service.GroupMemberService;
 
@@ -28,10 +29,12 @@ public class EventsController {
     
     private final EventService eventService;
     private final GroupMemberService groupMemberService;
+    private final EventAttendeeService eventAttendeeService;
     
-    public EventsController(EventService eventService, GroupMemberService groupMemberService) {
+    public EventsController(EventService eventService, GroupMemberService groupMemberService, EventAttendeeService eventAttendeeService) {
         this.eventService = eventService;
         this.groupMemberService = groupMemberService;
+        this.eventAttendeeService = eventAttendeeService;
     }
     
     @GetMapping("/events")
@@ -84,9 +87,13 @@ public class EventsController {
         
         // イベントグループの管理者かを判定
         boolean isAdmin = groupMemberService.isUserGroupAdmin(userInf.getUserId(), entity.getGroup().getId());
+        
+        // イベントに参加済みかを判定
+        boolean isParticipating = eventAttendeeService.isUserParticipating(userInf.getUserId(), entity.getId());
 
         model.addAttribute("event", event);
         model.addAttribute("isAdmin", isAdmin);
+        model.addAttribute("isParticipating", isParticipating);
         
         return "events/detail";
     }

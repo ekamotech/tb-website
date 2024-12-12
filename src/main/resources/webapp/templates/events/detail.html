@@ -83,8 +83,16 @@
       <p>グループ管理者の場合はイベントに参加済みです</p>
     </div>
     <div th:if="${!isAdmin}">
-      <p>グループ管理者以外の場合は参加するボタンを表示します</p>
-      <button type="button" class="c-btn-submit p-event-submit u-mb-0">参加する</button>
+      <p>グループ管理者以外の場合はイベントに参加するボタンを表示します</p>
+      <p>イベントに参加してなかったら、参加するボタンを表示する</p>
+      
+      <div th:if="${isParticipating}">
+        <p>このイベントに参加済みです。</p>
+      </div>
+      <div th:if="${!isParticipating}">
+        <p>このイベントにまだ参加していません。</p>
+        <button type="button" class="c-btn-submit p-event-submit u-mb-0">参加する</button>
+      </div>
     </div>
   </div>
 </div>
