@@ -78,6 +78,15 @@
       </div>
     </div>
   </div>
+  <div class="p-event-entry">
+    <div th:if="${isAdmin}">
+      <p>グループ管理者の場合はイベントに参加済みです</p>
+    </div>
+    <div th:if="${!isAdmin}">
+      <p>グループ管理者以外の場合は参加するボタンを表示します</p>
+      <button type="button" class="c-btn-submit p-event-submit u-mb-0">参加する</button>
+    </div>
+  </div>
 </div>
 <div layout:fragment="scripts">
   <script th:inline="javascript">

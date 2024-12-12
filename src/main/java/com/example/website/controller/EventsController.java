@@ -21,14 +21,17 @@ import com.example.website.entity.Event;
 import com.example.website.entity.UserInf;
 import com.example.website.form.EventForm;
 import com.example.website.service.EventService;
+import com.example.website.service.GroupMemberService;
 
 @Controller
 public class EventsController {
     
     private final EventService eventService;
+    private final GroupMemberService groupMemberService;
     
-    public EventsController(EventService eventService) {
+    public EventsController(EventService eventService, GroupMemberService groupMemberService) {
         this.eventService = eventService;
+        this.groupMemberService = groupMemberService;
     }
     
     @GetMapping("/events")
@@ -74,10 +77,17 @@ public class EventsController {
     }
     
     @GetMapping("/events/{id}")
-    public String detail(@PathVariable Long id, Model model) throws IOException {
+    public String detail(@AuthenticationPrincipal UserInf userInf, @PathVariable Long id, Model model) throws IOException {
+        
         Event entity = eventService.findById(id);
         EventForm event = eventService.getEvent(null, entity);
+        
+        // イベントグループの管理者かを判定
+        boolean isAdmin = groupMemberService.isUserGroupAdmin(userInf.getUserId(), entity.getGroup().getId());
+
         model.addAttribute("event", event);
+        model.addAttribute("isAdmin", isAdmin);
+        
         return "events/detail";
     }
 
