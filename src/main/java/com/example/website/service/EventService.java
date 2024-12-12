@@ -52,12 +52,14 @@ public class EventService {
     private final GroupRepository groupRepository;
     private final EventRepository eventRepository;
     private final EventAttendeeRepository eventAttendeeRepository;
+    private final EventAttendeeService eventAttendeeService;
 
-    public EventService(UserRepository userRepository, GroupRepository groupRepository, EventRepository eventRepository, EventAttendeeRepository eventAttendeeRepository) {
+    public EventService(UserRepository userRepository, GroupRepository groupRepository, EventRepository eventRepository, EventAttendeeRepository eventAttendeeRepository, EventAttendeeService eventAttendeeService) {
         this.userRepository = userRepository;
         this.groupRepository = groupRepository;
         this.eventRepository = eventRepository;
         this.eventAttendeeRepository = eventAttendeeRepository;
+        this.eventAttendeeService = eventAttendeeService;
     }
     
     @Value("${image.local:false}")
@@ -231,6 +233,15 @@ public class EventService {
         image.transferTo(destFile);
 
         return destFile;
+    }
+    
+    @Transactional
+    public void joinEvent(Long userId, Long eventId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("ユーザーが見つかりません"));
+        Event event = eventRepository.findById(eventId).orElseThrow(() -> new IllegalArgumentException("イベントが見つかりません"));
+
+        // 参加登録を委譲
+        eventAttendeeService.saveAttendee(user, event);
     }
     
     

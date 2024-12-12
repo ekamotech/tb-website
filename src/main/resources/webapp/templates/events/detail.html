@@ -91,7 +91,7 @@
       </div>
       <div th:if="${!isParticipating}">
         <p>このイベントにまだ参加していません。</p>
-        <button type="button" class="c-btn-submit p-event-submit u-mb-0">参加する</button>
+        <button type="button" class="c-btn-submit p-event-submit u-mb-0 convert" data-method="post" href="/events/1/join" th:href="@{'/events/{eventId}/join'(eventId=${event.id})}" th:data-_csrf="${_csrf.token}">参加する</button>
       </div>
     </div>
   </div>

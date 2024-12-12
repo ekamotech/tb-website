@@ -1,5 +1,7 @@
 package com.example.website.service;
 
+import jakarta.transaction.Transactional;
+
 import org.springframework.stereotype.Service;
 
 import com.example.website.entity.Event;
@@ -30,4 +32,22 @@ public class EventAttendeeService {
         
         return eventAttendeeRepository.existsByEventAndUserAndParticipationStatus(event, user, status);
     }
+    
+    @Transactional
+    public void saveAttendee(User user, Event event) {
+        // 重複チェック
+        boolean isAlreadyJoined = eventAttendeeRepository.existsByEventAndUserAndParticipationStatus(event, user, EventAttendee.ParticipationStatus.PARTICIPATING);
+        if (isAlreadyJoined) {
+            throw new IllegalArgumentException("すでに参加済みです");
+        }
+
+        // 参加登録
+        EventAttendee eventAttendee = new EventAttendee();
+        eventAttendee.setUser(user);
+        eventAttendee.setEvent(event);
+        eventAttendee.setParticipationStatus(EventAttendee.ParticipationStatus.PARTICIPATING);
+        eventAttendeeRepository.save(eventAttendee);
+    }
+    
+    
 }

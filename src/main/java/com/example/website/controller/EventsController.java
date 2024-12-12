@@ -97,6 +97,21 @@ public class EventsController {
         
         return "events/detail";
     }
+    
+    @PostMapping("/events/{eventId}/join")
+    public String joinEvent(@AuthenticationPrincipal UserInf userInf, @PathVariable Long eventId, RedirectAttributes redirAttrs) {
+        try {
+            eventService.joinEvent(userInf.getUserId(), eventId);
+            redirAttrs.addFlashAttribute("hasMessage", true);
+            redirAttrs.addFlashAttribute("class", "alert-info");
+            redirAttrs.addFlashAttribute("message", "イベントに参加しました！");
+        } catch (IllegalArgumentException e) {
+            redirAttrs.addAttribute("hasMessage", true);
+            redirAttrs.addAttribute("class", "alert-danger");
+            redirAttrs.addAttribute("message", "イベント参加に失敗しました。");
+        }
+        return "redirect:/events/" + eventId;
+    }
 
 
 }
