@@ -1,5 +1,8 @@
 package com.example.website.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import jakarta.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
@@ -49,5 +52,17 @@ public class EventAttendeeService {
         eventAttendeeRepository.save(eventAttendee);
     }
     
-    
+    public List<User> getAttendeesByEvent(Event event) {
+        List<EventAttendee> attendees = eventAttendeeRepository.findByEventAndParticipationStatus(
+            event,
+            EventAttendee.ParticipationStatus.PARTICIPATING
+        );
+
+        List<User> users = attendees.stream()
+                        .map(EventAttendee::getUser)
+                        .collect(Collectors.toList());
+        
+        return users;
+    }
+
 }

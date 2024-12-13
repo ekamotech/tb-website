@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.website.entity.Event;
+import com.example.website.entity.User;
 import com.example.website.entity.UserInf;
 import com.example.website.form.EventForm;
 import com.example.website.service.EventAttendeeService;
@@ -90,10 +91,14 @@ public class EventsController {
         
         // イベントに参加済みかを判定
         boolean isParticipating = eventAttendeeService.isUserParticipating(userInf.getUserId(), entity.getId());
+        
+        // イベントの参加者を取得
+        List<User> attendees = eventAttendeeService.getAttendeesByEvent(entity);
 
         model.addAttribute("event", event);
         model.addAttribute("isAdmin", isAdmin);
         model.addAttribute("isParticipating", isParticipating);
+        model.addAttribute("attendees", attendees);
         
         return "events/detail";
     }

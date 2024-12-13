@@ -71,10 +71,23 @@
             <p class="p-event-comment-content" th:text="${comment.description}"></p>
           </li>
         </ul>
-        
         <div class="p-event-comment-post">
           <a href="/events/1/comments/new" th:href="@{'/events/{id}/comments/new'(id=${event.id})}" class="c-btn-submit p-event-submit u-mb-0" th:data-_csrf="${_csrf.token}">コメントを投稿</a>
         </div>
+      </div>
+      
+      <div class="p-event-attendee">
+        <h2 class="p-event-attendee-hdg2 c-hdg2">参加者</h2>
+        <ul class="p-event-attendee-list">
+          <li class="p-event-attendee-item" th:each="attendee : ${attendees}">
+            <div class="p-event-attendee-head">
+              <div class="p-event-attendee-usericon">
+                <img src="/images/shared/img-defalt-user.png" th:src="@{/images/shared/img-defalt-user.png}" class="p-event-attendee-image" alt="">
+              </div>
+              <p class="p-event-attendee-name" th:text="${attendee.name}"></p>
+            </div>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
