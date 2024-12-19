@@ -22,6 +22,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Base64Utils;
 import org.springframework.web.multipart.MultipartFile;
+import org.thymeleaf.context.Context;
 
 import com.example.website.entity.Comment;
 import com.example.website.entity.Event;
@@ -53,13 +54,15 @@ public class EventService {
     private final EventRepository eventRepository;
     private final EventAttendeeRepository eventAttendeeRepository;
     private final EventAttendeeService eventAttendeeService;
+    private final SendMailService sendMailService;
 
-    public EventService(UserRepository userRepository, GroupRepository groupRepository, EventRepository eventRepository, EventAttendeeRepository eventAttendeeRepository, EventAttendeeService eventAttendeeService) {
+    public EventService(UserRepository userRepository, GroupRepository groupRepository, EventRepository eventRepository, EventAttendeeRepository eventAttendeeRepository, EventAttendeeService eventAttendeeService, SendMailService sendMailService) {
         this.userRepository = userRepository;
         this.groupRepository = groupRepository;
         this.eventRepository = eventRepository;
         this.eventAttendeeRepository = eventAttendeeRepository;
         this.eventAttendeeService = eventAttendeeService;
+        this.sendMailService = sendMailService;
     }
     
     @Value("${image.local:false}")
@@ -242,6 +245,14 @@ public class EventService {
 
         // 参加登録を委譲
         eventAttendeeService.saveAttendee(user, event);
+        
+        // 参加登録メールを送信
+        Context context = new Context();
+        context.setVariable("title", "イベントに参加登録しました！");
+        context.setVariable("name", user.getName());
+        context.setVariable("event", event.getTitle());
+        sendMailService.sendMail(context, user.getUsername(), "email");
+
     }
     
     
