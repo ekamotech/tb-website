@@ -3,6 +3,7 @@
 @use "../foundation/mixin" as *;
 
 .p-group-detail-container {
+  width: 100%;
   margin: 0 auto;
 }
 .p-group-detail-profile {
@@ -22,7 +23,7 @@
     width: 100%;
     height: 100%;
     min-height: 105px;
-    background-color: #e3f1e0;
+    background-color: #f4f4f4;
     background-repeat: no-repeat;
     background-position: center top;
     background-size: cover;
@@ -58,9 +59,10 @@
   .p-group-detail-profile-name {
     margin: 0 0 8px;
     display: block;
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 600;
     line-height: 1.5;
+    color: var(--color-text);
   }
   .p-group-detail-profile-follower {
     margin: 0 0 8px;
@@ -71,19 +73,21 @@
   }
   .p-group-detail-profile-organizer {
     margin: 0 0 8px;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 400;
     line-height: 1.2;
     color: var(--color-text);
   }
   .p-group-detail-profile-desc {
     margin: 0 0 16px;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 400;
     line-height: 1.7;
+    color: var(--color-text);
   }
   .p-group-detail-profile-btn {
     display: block;
+    width: 100%;
   }
 
   @include mq(pc) {
@@ -99,19 +103,27 @@
     .p-group-detail-profile-image {
       width: 120px;
       height: 120px;
-      margin: -64px 0 16px;
+      margin: -60px 0 16px;
     }
     .p-group-detail-profile-thumb {
       border: 4px solid #fff;
     }
     .p-group-detail-profile-name {
-      font-size: 28px;
+      margin: 0 0 16px;
+      font-size: 22px;
+    }
+    .p-group-detail-profile-organizer {
+      font-size: 16px;
+    }
+    .p-group-detail-profile-desc {
+      font-size: 16px;
     }
     .p-group-detail-profile-btn {
+      width: fit-content;
       position: absolute;
       top: 0;
       right: 16px;
-      margin: 76px 0 0;
+      margin: 32px 0 0;
     }
   }
 

@@ -9,6 +9,22 @@
 </head>
 <body>
 <div class="l-wrapper-contents">
+<header class="l-header">
+  <div class="l-header-inner">
+    <a href="/" class="l-header-logo">
+      <img src="/images/shared/logo.svg" class="l-header-image" alt="つながるーム">
+    </a>
+    <nav class="l-header-nav">
+      <a href="/groups" class="l-header-menu-group">グループ</a>
+      <a href="/calendars" class="l-header-menu-calendar">カレンダー</a>
+      <a href="/favorites" class="l-header-menu-favorite">お気に入り</a>
+      <a href="/logout" class="l-header-menu-logout">ログアウト</a>
+      <a href="/users/new" class="l-header-menu-new">新規登録</a>
+      <a href="/login" class="l-header-menu-login">ログイン</a>
+    </nav>
+  </div>
+</header>
+
 <div class="l-contents">
 <main class="l-main">
   <div class="p-event-container">
@@ -25,6 +41,7 @@
 
         <div class="p-event-action">
           <button type="button" class="p-btn-favorite">お気に入り</button>
+          <button type="button" class="p-btn-favorite on">お気に入り済み</button>
           <button type="button" class="p-btn-share">Xでシェア</button>
         </div>
       </div>
@@ -33,16 +50,30 @@
     <div class="p-event-main">
       <div class="p-event-info">
         <div class="p-event-info-item">
-          <p class="p-event-info-label">日時</p>
+          <h2 class="p-event-detail-hdg2 c-hdg2">日時</h2>
           <p class="p-event-info-text">2024年11月08日 19:00〜21:00</p>
         </div>
         <div class="p-event-info-item">
-          <p class="p-event-info-label">場所</p>
+          <h2 class="p-event-detail-hdg2 c-hdg2">場所</h2>
           <p class="p-event-info-text">東京都渋谷区神南1-2-3</p>
+        </div>
+        <div class="p-event-info-item">
+          <h2 class="p-event-detail-hdg2 c-hdg2">参加者</h2>
+          <ul class="p-event-attendee-list">
+            <li class="p-event-attendee-item">
+              <div class="p-event-attendee-head">
+                <div class="p-event-attendee-usericon">
+                  <img src="/images/shared/img-defalt-user.png" class="p-event-attendee-image" alt="">
+                </div>
+                <p class="p-event-attendee-name">ユーザー</p>
+              </div>
+            </li>
+          </ul>
         </div>
       </div>
 
       <div class="p-event-contents">
+        <h2 class="p-event-detail-hdg2 c-hdg2">イベント詳細</h2>
         <p class="p-event-desc">イベント詳細イベント詳細イベント詳細イベント詳細イベント詳細イベント詳細イベント詳細イベント詳細イベント詳細イベント詳細イベント詳細イベント詳細</p>
       
         <div class="p-event-map">
@@ -50,7 +81,10 @@
         </div>
 
         <div class="p-event-comment">
-          <h2 class="p-event-comment-hdg2 c-hdg2">コメント</h2>
+          <h2 class="p-event-detail-hdg2 c-hdg2">コメント</h2>
+          <div class="p-event-comment-post">
+            <a href="" class="c-btn-submit p-event-submit u-mb-0">コメントを投稿</a>
+          </div>
           <ul class="p-event-comment-list">
             <li class="p-event-comment-item">
               <div class="p-event-comment-head">
@@ -62,9 +96,7 @@
               <p class="p-event-comment-content">コメントコメントコメントコメントコメントコメントコメントコメントコメントコメントコメントコメント</p>
             </li>
           </ul>
-          <div class="p-event-comment-post">
-            <a href="" class="c-btn-submit p-event-submit u-mb-0">コメントを投稿</a>
-          </div>
+
         </div>
       
       </div>

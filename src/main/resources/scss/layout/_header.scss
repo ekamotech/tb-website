@@ -21,11 +21,8 @@
     margin: 0 auto;
   }
   .l-header-logo {
+    width: 194px;
     margin-right: auto;
-    font-size: 30px;
-    font-family: "Kiwi Maru", serif;
-    font-weight: 500;
-    font-style: normal;
   }
   .l-header-nav {
     display: flex;
@@ -42,8 +39,8 @@
     &::before {
       content: '';
       display: block;
-      width: 40px;
-      height: 40px;
+      width: 30px;
+      height: 30px;
       background-color: var(--color-text);
       mask-size: contain;
       mask-position: center center;
@@ -61,6 +58,8 @@
   }
   .l-header-menu-group {
     &::before {
+      width: 40px;
+      height: 40px;
       mask-image: url(~@images/shared/icon-group.svg);
     }
   }
@@ -71,27 +70,26 @@
   }
   .l-header-menu-favorite {
     &::before {
-      mask-image: url(~@images/shared/icon-heart.png);
-    }
-  }
-  .l-header-menu-user {
-    &::before {
-      mask-image: url(~@images/shared/icon-user.svg);
+      mask-image: url(~@images/shared/icon-favorites.svg);
     }
   }
   .l-header-menu-logout {
     &::before {
-      mask-image: url(~@images/shared/icon-logout.png);
+      width: 40px;
+      height: 40px;
+      mask-image: url(~@images/shared/icon-logout.svg);
     }
   }
   .l-header-menu-new {
     &::before {
-      mask-image: url(~@images/shared/icon-register.png);
+      mask-image: url(~@images/shared/icon-user.svg);
     }
   }
   .l-header-menu-login {
     &::before {
-      mask-image: url(~@images/shared/icon-login.png);
+      width: 40px;
+      height: 40px;
+      mask-image: url(~@images/shared/icon-login.svg);
     }
   }
 }

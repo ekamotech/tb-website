@@ -3,46 +3,30 @@
 @use "../foundation/mixin" as *;
 
 .p-mypage-container {
-  padding: 16px 0 200px;
-  margin: 0 auto;
-
-  @include mq(pc) {
-    display: grid;
-    grid-template-columns: 224px 720px;
-    justify-content: center;
-    gap: 48px;
-    padding: 56px 0 200px;
-  }
+  width: 100%;
+  padding: 0 0 200px;
+  margin: 64px auto 0;
 }
 
-.p-mypage-hdg2-box {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 16px;
-  align-items: center;
+.p-mypage-btn-box{
   width: calc(100% - var(--gutter)* 2);
   max-width: 720px;
-  margin: 0 auto 32px;
+  padding: 16px;
+  margin: 0 auto 24px;
+  background: #f6f6f6;
 
-  .p-mypage-hdg2 {
-    width: 100%;
-    margin: 0;
+  .p-mypage-text {
+    margin: 0 auto 16px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--color-text);
+    text-align: center;
   }
-
   .p-mypage-group-btn {
-    padding: 12px 16px;
-  }
-
-  @include mq(pc) {
-    display: block;
     width: 100%;
-
-    .p-mypage-hdg2 {
-      margin: 0 0 24px;
-    }
-    .p-mypage-group-btn {
-      font-size: 14px;
-    }
+  }
+  @include mq(pc) {
+    margin: 0 auto 36px;
   }
 }
 
@@ -58,12 +42,20 @@
   .p-mypage-group-head {
     display: grid;
     grid-auto-flow: column;
-    grid-auto-columns: auto minmax(0, 1fr) auto;
+    grid-auto-columns: minmax(0, 1fr) auto;
     place-content: center start;
     align-items: center;
     gap: 0 8px;
     padding: 16px var(--gutter) 24px;
     position: relative;
+  }
+
+  .p-mypage-group-link {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: auto minmax(0, 1fr);
+    align-items: center;
+    gap: 12px;
   }
 
   .p-mypage-group-image {
@@ -90,6 +82,7 @@
   }
 
   .p-mypage-event-btn {
+    width: 100%;
     padding: 12px 16px;
   }
 
@@ -119,6 +112,10 @@
 
 }
 .p-mypage-event-item {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr) auto;
+  align-items: center;
   background-color: #fff;
   position: relative;
 
@@ -139,7 +136,7 @@
   .p-mypage-event-link {
     display: grid;
     grid-auto-flow: column;
-    grid-auto-columns: auto minmax(0, 1fr) auto;
+    grid-auto-columns: auto minmax(0, 1fr);
     align-items: center;
     gap: 12px;
     padding: 16px;
@@ -170,15 +167,16 @@
 
   .p-mypage-event-update {
     display: block;
+    padding: 12px 16px;
+    margin-right: 16px;
+    border-radius: 8px;
+    background-color: #fff;
+    border: 1px solid var(--neutral-gray-100);
     color: var(--color-text);
     font-size: 14px;
     font-weight: 600;
     line-height: 1;
     text-align: center;
-    padding: 12px 16px;
-    border-radius: 8px;
-    background-color: #fff;
-    border: 1px solid var(--neutral-gray-100);
   }
 
   @include mq(pc) {
@@ -205,6 +203,9 @@
 
     .p-mypage-event-name {
       font-size: 16px;
+    }
+    .p-mypage-event-update {
+      margin-right: 24px;
     }
   }
 }
