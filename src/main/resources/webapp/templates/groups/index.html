@@ -8,19 +8,11 @@
 
 <div class="p-mypage-container" layout:fragment="contents">
   
-  <div class="p-mypage-hdg2-box">
-    <h1 class="c-hdg1">マイページ</h1>
-    <h2 class="p-mypage-hdg2 c-hdg2">グループ</h2>
+  <h1 class="p-mypage-hdg1 c-hdg1">マイグループ</h1>
+  
+  <div class="p-mypage-btn-box">
+    <p class="p-mypage-text">イベントグループを作成してイベントを開催しよう！</p>
     <a class="p-mypage-group-btn c-btn-submit u-mb-0" th:href="@{/groups/new}">グループを作成</a>
-    
-    
-    <!-- <p>User ID: ${userId}</p>
-    <p>Username: ${username}</p> -->
-    <!-- <p th:text="'User ID: ' + ${userId}"></p>
-    <p th:text="'Username: ' + ${username}"></p>
-    <p th:text="'Name: ' + ${name}"></p> -->
-    
-    
   </div>
 
   <div class="p-mypage-main">
@@ -28,13 +20,14 @@
     <div class="p-mypage-group">
       <div class="p-mypage-group-item" th:each="group : ${list}">
         <div class="p-mypage-group-head">
-          <div class="p-mypage-group-image">
-            <img src="/images/shared/img-defalt-user.png" th:src="@{/images/shared/img-defalt-user.png}" class="p-mypage-group-thumb" alt="">
-          </div>
-          <div class="p-mypage-group-name" th:text="${group.name}"></div>
+          <a th:href="@{/groups/{id}(id=${group.id})}" class="p-mypage-group-link">
+            <div class="p-mypage-group-image">
+              <img src="/images/shared/img-defalt-user.png" th:src="@{/images/shared/img-defalt-user.png}" class="p-mypage-group-thumb" alt="">
+            </div>
+            <div class="p-mypage-group-name" th:text="${group.name}"></div>
+          </a>
           <a th:href="@{/groups/{id}/events/new(id=${group.id})}" class="p-mypage-event-btn c-btn-submit u-mb-0">イベントを作成</a>
-          <a th:href="@{/groups/{id}(id=${group.id})}" class="p-mypage-event-btn c-btn-submit u-mb-0">グループ詳細</a>
-          <a th:href="@{/groups/{id}/edit(id=${group.id})}" class="p-mypage-event-btn c-btn-submit u-mb-0">グループを更新</a>
+          <!-- <a th:href="@{/groups/{id}/edit(id=${group.id})}" class="p-mypage-event-btn c-btn-submit u-mb-0">グループを更新</a> -->
         </div>
         
         <div class="p-mypage-group-event">
@@ -45,47 +38,14 @@
                   <img src="/images/img-event2.jpg" th:src="@{/images/img-event2.jpg}" class="p-mypage-event-thumb" alt="">
                 </div>
                 <div class="p-mypage-event-name" th:text="${event.title}"></div>
-                <div class="p-mypage-event-update u-mb-0">更新</div>
               </a>
+              <div class="p-mypage-event-update u-mb-0">更新</div>
             </div>
           </div>
         </div>
       </div>
     </div>
     
-    <div class="p-mypage-group">
-      <div class="p-mypage-group-head">
-        <div class="p-mypage-group-image">
-          <img src="/images/shared/img-defalt-user.png" th:src="@{/images/shared/img-defalt-user.png}" class="p-mypage-group-thumb" alt="">
-        </div>
-        <div class="p-mypage-group-name">日本インドダンス協会</div>
-        <a href="" class="p-mypage-event-btn c-btn-submit u-mb-0">イベントを作成</a>
-      </div>
-      
-      <div class="p-mypage-group-event">
-        <div class="p-mypage-event">
-          <div class="p-mypage-event-item">
-            <a href="" class="p-mypage-event-link">
-              <div class="p-mypage-event-image">
-                <img src="/images/img-event2.jpg" th:src="@{/images/img-event2.jpg}" class="p-mypage-event-thumb" alt="">
-              </div>
-              <div class="p-mypage-event-name">インド気分に浸れる♪本格ボリウッドダンサー サニーシンのダンスショー</div>
-              <div class="p-mypage-event-update u-mb-0">更新</div>
-            </a>
-          </div>
-          
-          <div class="p-mypage-event-item">
-            <a href="" class="p-mypage-event-link">
-              <div class="p-mypage-event-image">
-                <img src="/images/img-event2.jpg" th:src="@{/images/img-event2.jpg}" class="p-mypage-event-thumb" alt="">
-              </div>
-              <div class="p-mypage-event-name">スペインフェアでスペイン満喫</div>
-              <div class="p-mypage-event-update u-mb-0">更新</div>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 
 </div>

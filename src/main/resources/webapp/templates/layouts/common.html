@@ -5,14 +5,13 @@
 <header class="l-header" layout:fragment="header">
   <div class="l-header-inner">
     <a th:href="@{/events}" class="l-header-logo">
-      つながルーム
+      <img src="/images/shared/logo.svg" th:src="@{/images/shared/logo.svg}" class="l-header-image" alt="つながるーム">
     </a>
     <nav class="l-header-nav">
       <th:block sec:authorize="isAuthenticated()">
         <a th:href="@{/groups}" class="l-header-menu-group">グループ</a>
         <a th:href="@{/calendars}" class="l-header-menu-calendar">カレンダー</a>
         <a th:href="@{/favorites}" class="l-header-menu-favorite">お気に入り</a>
-        <!-- <a th:href="@{/user}" class="l-header-menu-user">マイページ</a> -->
         <a th:href="@{/logout}" class="l-header-menu-logout convert" data-method="post" th:data-_csrf="${_csrf.token}">ログアウト</a>
       </th:block>
       <th:block sec:authorize="!isAuthenticated()">

@@ -27,6 +27,7 @@
 
       <div class="p-event-action">
         <button type="button" class="p-btn-favorite">お気に入り</button>
+        <button type="button" class="p-btn-favorite on">お気に入り済み</button>
         <button type="button" class="p-btn-share">Xでシェア</button>
       </div>
     </div>
@@ -35,49 +36,19 @@
   <div class="p-event-main">
     <div class="p-event-info">
       <div class="p-event-info-item">
-        <p class="p-event-info-label">日時</p>
+        <h2 class="p-event-detail-hdg2 c-hdg2">日時</h2>
         <!-- <p class="p-event-info-text">2024年11月08日 19:00〜21:00</p> -->
         <p class="p-event-info-text">
           <span th:text="${event.date}"></span>
-          <span th:text="${event.startTime}"></span>
-          <span th:text="${event.endTime}"></span>
+          <span th:text="${event.startTime}"></span>〜<span th:text="${event.endTime}"></span>
         </p>
       </div>
       <div class="p-event-info-item">
-        <p class="p-event-info-label">開催場所</p>
+        <h2 class="p-event-detail-hdg2 c-hdg2">場所</h2>
         <p class="p-event-info-text" th:text="${event.address}"></p>
       </div>
-    </div>
-
-    <div class="p-event-contents">
-      <p class="p-event-desc" th:text="${event.description}"></p>
-      <div th:if="${event.latitude != null and event.longitude != null}">
-        <div class="p-event-map">
-          <!-- <img src="/images/img-map1.png" th:src="@{/images/img-map1.png}" class="p-event-comment-map-image" alt=""> -->
-          <div class="map" th:id="|map${event.id}|"></div>
-        </div>
-      </div>
-
-      <div class="p-event-comment">
-        <h2 class="p-event-comment-hdg2 c-hdg2">コメント</h2>
-        <ul class="p-event-comment-list">
-          <li class="p-event-comment-item" th:each="comment : ${event.comments}">
-            <div class="p-event-comment-head">
-              <div class="p-event-comment-usericon">
-                <img src="/images/shared/img-defalt-user.png" th:src="@{/images/shared/img-defalt-user.png}" class="p-event-comment-image" alt="">
-              </div>
-              <p class="p-event-comment-name" th:text="${comment.user.name}"></p>
-            </div>
-            <p class="p-event-comment-content" th:text="${comment.description}"></p>
-          </li>
-        </ul>
-        <div class="p-event-comment-post">
-          <a href="/events/1/comments/new" th:href="@{'/events/{id}/comments/new'(id=${event.id})}" class="c-btn-submit p-event-submit u-mb-0" th:data-_csrf="${_csrf.token}">コメントを投稿</a>
-        </div>
-      </div>
-      
-      <div class="p-event-attendee">
-        <h2 class="p-event-attendee-hdg2 c-hdg2">参加者</h2>
+      <div class="p-event-info-item">
+        <h2 class="p-event-detail-hdg2 c-hdg2">参加者</h2>
         <ul class="p-event-attendee-list">
           <li class="p-event-attendee-item" th:each="attendee : ${attendees}">
             <div class="p-event-attendee-head">
@@ -90,20 +61,52 @@
         </ul>
       </div>
     </div>
+
+    <div class="p-event-contents">
+      <h2 class="p-event-detail-hdg2 c-hdg2">イベント詳細</h2>
+      <p class="p-event-desc" th:text="${event.description}"></p>
+      <div th:if="${event.latitude != null and event.longitude != null}">
+        <div class="p-event-map">
+          <div class="map" th:id="|map${event.id}|"></div>
+        </div>
+      </div>
+
+      <div class="p-event-comment">
+        <h2 class="p-event-detail-hdg2 c-hdg2">コメント</h2>
+        
+        <div class="p-event-comment-post">
+          <a href="/events/1/comments/new" th:href="@{'/events/{id}/comments/new'(id=${event.id})}" class="c-btn-submit p-event-submit u-mb-0" th:data-_csrf="${_csrf.token}">コメントを投稿</a>
+        </div>
+        
+        <ul class="p-event-comment-list">
+          <li class="p-event-comment-item" th:each="comment : ${event.comments}">
+            <div class="p-event-comment-head">
+              <div class="p-event-comment-usericon">
+                <img src="/images/shared/img-defalt-user.png" th:src="@{/images/shared/img-defalt-user.png}" class="p-event-comment-image" alt="">
+              </div>
+              <p class="p-event-comment-name" th:text="${comment.user.name}"></p>
+            </div>
+            <p class="p-event-comment-content" th:text="${comment.description}"></p>
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
   <div class="p-event-entry">
     <div th:if="${isAdmin}">
-      <p>グループ管理者の場合はイベントに参加済みです</p>
+      <!-- <p>グループ管理者の場合はイベントに参加済みです</p> -->
+      <button type="button" class="c-btn-submit p-event-submit u-mb-0" disabled>参加済み</button>
     </div>
     <div th:if="${!isAdmin}">
-      <p>グループ管理者以外の場合はイベントに参加するボタンを表示します</p>
-      <p>イベントに参加してなかったら、参加するボタンを表示する</p>
+      <!-- <p>グループ管理者以外の場合はイベントに参加するボタンを表示します</p> -->
+      <!-- <p>イベントに参加してなかったら、参加するボタンを表示する</p> -->
       
       <div th:if="${isParticipating}">
-        <p>このイベントに参加済みです。</p>
+        <!-- <p>このイベントに参加済みです。</p> -->
+        <button type="button" class="c-btn-submit p-event-submit u-mb-0" disabled>参加済み</button>
       </div>
       <div th:if="${!isParticipating}">
-        <p>このイベントにまだ参加していません。</p>
+        <!-- <p>このイベントにまだ参加していません。</p> -->
         <button type="button" class="c-btn-submit p-event-submit u-mb-0 convert" data-method="post" href="/events/1/join" th:href="@{'/events/{eventId}/join'(eventId=${event.id})}" th:data-_csrf="${_csrf.token}">参加する</button>
       </div>
     </div>
