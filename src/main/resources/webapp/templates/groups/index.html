@@ -35,7 +35,8 @@
             <div class="p-mypage-event-item" th:each="event : ${group.events}">
               <a th:href="@{/events/{id}(id=${event.id})}" class="p-mypage-event-link">
                 <div class="p-mypage-event-image">
-                  <img src="/images/img-event2.jpg" th:src="@{/images/img-event2.jpg}" class="p-mypage-event-thumb" alt="">
+                  <img src="" th:if="${@environment.getProperty('image.local')}" th:src="${event.imageData}" class="p-mypage-event-thumb" />
+                  <img src="" th:unless="${@environment.getProperty('image.local')}" th:src="${event.path}" class="p-mypage-event-thumb" />
                 </div>
                 <div class="p-mypage-event-name" th:text="${event.title}"></div>
               </a>

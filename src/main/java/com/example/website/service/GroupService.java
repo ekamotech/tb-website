@@ -36,6 +36,8 @@ public class GroupService {
     private GroupMemberRepository groupMemberRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private EventService eventService;
     
     public List<GroupForm> getGroupsForAdmin(Principal principal) throws IOException {
         Authentication authentication = (Authentication) principal;
@@ -69,7 +71,7 @@ public class GroupService {
         
         List<EventForm> events = new ArrayList<EventForm>();
         for (Event eventEntity : entity.getEvents()) {
-            EventForm event = modelMapper.map(eventEntity, EventForm.class);
+            EventForm event = eventService.getEvent(user, eventEntity);
             events.add(event);
         }
         form.setEvents(events);
