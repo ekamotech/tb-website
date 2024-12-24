@@ -21,6 +21,7 @@ import com.example.website.entity.UserInf;
 import com.example.website.form.EventForm;
 import com.example.website.form.GroupForm;
 import com.example.website.form.UserForm;
+import com.example.website.repository.EventRepository;
 import com.example.website.repository.GroupMemberRepository;
 import com.example.website.repository.GroupRepository;
 import com.example.website.repository.UserRepository;
@@ -37,6 +38,8 @@ public class GroupService {
     @Autowired
     private UserRepository userRepository;
     @Autowired
+    private EventRepository eventRepository;
+    @Autowired
     private EventService eventService;
     
     public List<GroupForm> getGroupsForAdmin(Principal principal) throws IOException {
@@ -46,7 +49,7 @@ public class GroupService {
         // UserInf から User オブジェクトを取得
         User user = userRepository.findById(userInf.getUserId()).orElseThrow(() -> new IllegalArgumentException("User not found"));
 
-        List<GroupMember> groupMembers = groupMemberRepository.findByUserAndAuthority(user, GroupMember.Authority.ROLE_ADMIN);
+        List<GroupMember> groupMembers = groupMemberRepository.findByUserAndAuthorityOrderByUpdatedAtDesc(user, GroupMember.Authority.ROLE_ADMIN);
         List<Group> groups = groupMembers.stream()
                                          .map(GroupMember::getGroup)
                                          .collect(Collectors.toList());
@@ -70,7 +73,11 @@ public class GroupService {
         form.setCreatedBy(userForm);
         
         List<EventForm> events = new ArrayList<EventForm>();
-        for (Event eventEntity : entity.getEvents()) {
+
+        // 更新日時が新しい順にイベントを取得
+        List<Event> eventEntities = eventRepository.findByGroupOrderByUpdatedAtDesc(entity);
+
+        for (Event eventEntity : eventEntities) {
             EventForm event = eventService.getEvent(user, eventEntity);
             events.add(event);
         }

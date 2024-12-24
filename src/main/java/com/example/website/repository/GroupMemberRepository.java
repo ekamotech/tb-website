@@ -13,7 +13,7 @@ import com.example.website.entity.User;
 
 public interface GroupMemberRepository extends JpaRepository<GroupMember, Long> {
     
-    List<GroupMember> findByUserAndAuthority(User user, Authority authority);
+    List<GroupMember> findByUserAndAuthorityOrderByUpdatedAtDesc(User user, Authority authority);
     
     // 指定されたユーザーが特定のグループの管理者であるかを判定
     @Query("SELECT COUNT(gm) > 0 " +
