@@ -85,7 +85,7 @@ public class EventsController {
     public String detail(@AuthenticationPrincipal UserInf userInf, @PathVariable Long id, Model model) throws IOException {
         
         Event entity = eventService.findById(id);
-        EventForm event = eventService.getEvent(null, entity);
+        EventForm event = eventService.getEvent(userInf, entity);
         
         // イベントグループの管理者かを判定
         boolean isAdmin = groupMemberService.isUserGroupAdmin(userInf.getUserId(), entity.getGroup().getId());
