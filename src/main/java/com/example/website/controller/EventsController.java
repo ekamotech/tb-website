@@ -21,6 +21,7 @@ import com.example.website.entity.Event;
 import com.example.website.entity.User;
 import com.example.website.entity.UserInf;
 import com.example.website.form.EventForm;
+import com.example.website.form.EventUpdateForm;
 import com.example.website.service.EventAttendeeService;
 import com.example.website.service.EventService;
 import com.example.website.service.GroupMemberService;
@@ -101,6 +102,34 @@ public class EventsController {
         model.addAttribute("attendees", attendees);
         
         return "events/detail";
+    }
+    
+    @GetMapping("/events/{eventId}/edit")
+    public String editEvent(@AuthenticationPrincipal UserInf userInf, @PathVariable Long eventId, Model model) throws IOException {
+        EventUpdateForm form = eventService.editEvent(userInf.getUserId(), eventId);
+        model.addAttribute("form", form);
+        return "events/edit";
+    }
+    
+    @PostMapping("/events/update")
+    public String updateEvent(@AuthenticationPrincipal UserInf userInf, @Validated @ModelAttribute("form") EventUpdateForm form, BindingResult result,
+            Model model, RedirectAttributes redirAttrs)
+            throws IOException {
+        
+        if (result.hasErrors()) {
+            model.addAttribute("hasMessage", true);
+            model.addAttribute("class", "alert-danger");
+            model.addAttribute("message", "イベント更新に失敗しました。");
+            return "events/edit";
+        }
+        
+        eventService.updateEvent(userInf.getUserId(), form);
+        
+        redirAttrs.addFlashAttribute("hasMessage", true);
+        redirAttrs.addFlashAttribute("class", "alert-info");
+        redirAttrs.addFlashAttribute("message", "イベント更新に成功しました。");
+        
+        return "redirect:/groups";
     }
     
     @PostMapping("/events/{eventId}/join")

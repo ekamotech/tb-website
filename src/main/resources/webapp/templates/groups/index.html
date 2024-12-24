@@ -39,7 +39,7 @@
                 </div>
                 <div class="p-mypage-event-name" th:text="${event.title}"></div>
               </a>
-              <div class="p-mypage-event-update u-mb-0">更新</div>
+              <a th:href="@{/events/{id}/edit(id=${event.id})}" class="p-mypage-event-update u-mb-0">更新</a>
             </div>
           </div>
         </div>

@@ -33,6 +33,7 @@ import com.example.website.entity.User;
 import com.example.website.entity.UserInf;
 import com.example.website.form.CommentForm;
 import com.example.website.form.EventForm;
+import com.example.website.form.EventUpdateForm;
 import com.example.website.form.FavoriteForm;
 import com.example.website.form.GroupForm;
 import com.example.website.form.UserForm;
@@ -51,14 +52,16 @@ public class EventService {
     
     private final UserRepository userRepository;
     private final GroupRepository groupRepository;
+    private final GroupMemberService groupMemberService;
     private final EventRepository eventRepository;
     private final EventAttendeeRepository eventAttendeeRepository;
     private final EventAttendeeService eventAttendeeService;
     private final SendMailService sendMailService;
 
-    public EventService(UserRepository userRepository, GroupRepository groupRepository, EventRepository eventRepository, EventAttendeeRepository eventAttendeeRepository, EventAttendeeService eventAttendeeService, SendMailService sendMailService) {
+    public EventService(UserRepository userRepository, GroupRepository groupRepository, GroupMemberService groupMemberService, EventRepository eventRepository, EventAttendeeRepository eventAttendeeRepository, EventAttendeeService eventAttendeeService, SendMailService sendMailService) {
         this.userRepository = userRepository;
         this.groupRepository = groupRepository;
+        this.groupMemberService = groupMemberService;
         this.eventRepository = eventRepository;
         this.eventAttendeeRepository = eventAttendeeRepository;
         this.eventAttendeeService = eventAttendeeService;
@@ -236,6 +239,31 @@ public class EventService {
         image.transferTo(destFile);
 
         return destFile;
+    }
+    
+    public EventUpdateForm editEvent(Long userId, Long eventId) throws IOException {
+        Event event = eventRepository.findById(eventId).orElseThrow(() -> new IllegalArgumentException("イベントが見つかりません"));
+        
+        // イベントグループの管理者かを判定
+        boolean isAdmin = groupMemberService.isUserGroupAdmin(userId, event.getGroup().getId());
+        
+        if (!isAdmin) {
+            throw new IllegalArgumentException("ユーザーはイベントの管理者ではありません");
+        } else {
+            EventUpdateForm form = new EventUpdateForm();
+            form.setId(event.getId());
+            form.setTitle(event.getTitle());
+            form.setDescription(event.getDescription());
+            return form;
+        }
+    }
+    
+    @Transactional
+    public void updateEvent(Long userId, EventUpdateForm form) throws IOException {
+        Event entity = eventRepository.findById(form.getId()).orElseThrow(() -> new IllegalArgumentException("イベントが見つかりません"));
+        entity.setTitle(form.getTitle());
+        entity.setDescription(form.getDescription());
+        eventRepository.saveAndFlush(entity);
     }
     
     @Transactional
