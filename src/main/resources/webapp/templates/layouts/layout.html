@@ -23,6 +23,13 @@
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="/js/method-convert.js" th:src="@{/js/method-convert.js}"></script>
+<script src="https://sdk.push7.jp/v2/p7sdk.js"></script>
+<script>
+    p7.init(/*[[${@environment.getProperty('push7.id')}]]*/, {
+        mode: "native",
+        subscribe: "auto"
+    });
+</script>
 <script>
     $(function(){
         convertMethod('.convert');

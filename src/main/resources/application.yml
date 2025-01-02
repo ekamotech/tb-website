@@ -43,3 +43,6 @@ image:
 googlemap:
   client:
     key: ${googlemap.client.key}
+
+push7:
+  id: ${push7.id}
