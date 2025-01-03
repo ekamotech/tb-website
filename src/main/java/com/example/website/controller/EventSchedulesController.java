@@ -1,7 +1,8 @@
 package com.example.website.controller;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,8 +39,9 @@ public class EventSchedulesController {
             for (Event entity : events) {
                 EventScheduleForm event = new EventScheduleForm();
                 event.setTitle(entity.getTitle());
-                String createdAt = new SimpleDateFormat("yyyy-MM-dd").format(entity.getCreatedAt());
-                event.setStart(createdAt);
+                LocalDate date = entity.getDate();
+                String formattedDate = date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                event.setStart(formattedDate);
                 event.setUrl("/events/" + entity.getId());
                 form.add(event);
             }
