@@ -7,6 +7,15 @@
   padding: 0 0 100px;
   margin: 0 auto;
   position: relative;
+}
+
+.p-event-bg {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
   z-index: 0;
   @include mq(pc) {
     &::before {
@@ -14,16 +23,15 @@
       display: block;
       width: 100%;
       height: 200px;
-      background-color: #f4f4f4;
+      background-color: #f4f7fe;
       background-repeat: no-repeat;
-      background-position: center top;
+      background-position: center center;
       background-size: cover;
       position: absolute;
       top: 0;
       left: 0;
       z-index: -1;
     }
-
   }
 }
 
@@ -57,6 +65,8 @@
     font-weight: 500;
     line-height: 1.5;
     color: var(--color-text);
+    font-feature-settings: "palt";
+    letter-spacing: .04em;
   }
   .p-event-group {
     margin: 0 0 8px;
@@ -83,10 +93,10 @@
     &::before {
       content: "";
       display: block;
-      width: 24px;
-      height: 24px;
+      width: 30px;
+      height: 30px;
       background-color: var(--neutral-gray-400);
-      mask-image: url(~@images/shared/icon-favorites.svg);
+      mask-image: url(~@images/shared/icon-favorite.svg);
       mask-size: contain;
       mask-position: center center;
       mask-repeat: no-repeat;
@@ -98,8 +108,8 @@
     }
     &.on {
       &::before {
-        background-color: #f91880;
-        mask-image: url(~@images/shared/icon-favorites-on.svg);
+        background-color: #ff5c67;
+        mask-image: url(~@images/shared/icon-favorite-on.svg);
       }
     }
   }
@@ -114,10 +124,10 @@
     &::before {
       content: "";
       display: block;
-      width: 24px;
-      height: 24px;
+      width: 30px;
+      height: 30px;
       background-color: var(--neutral-gray-400);
-      mask-image: url(~@images/shared/icon-print.svg);
+      mask-image: url(~@images/shared/icon-share.svg);
       mask-size: contain;
       mask-position: center center;
       mask-repeat: no-repeat;
@@ -134,13 +144,16 @@
     }
     .p-event-summary {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) 88px;
+      grid-template-columns: minmax(0, 1fr) auto;
       gap: 24px;
       align-items: start;
       margin: 0 auto 32px;
     }
     .p-event-title {
       font-size: 28px;
+    }
+    .p-event-group {
+      font-size: 16px;
     }
     .p-event-action {
       margin: 0;
@@ -229,7 +242,7 @@
   .p-event-attendee-name {
     font-size: 14px;
     font-weight: 400;
-    line-height: 1.5;
+    line-height: 1.3;
     color: var(--color-text);
     overflow: hidden;
     text-overflow: ellipsis;
@@ -263,10 +276,10 @@
   font-weight: 400;
   line-height: 1.7;
   color: var(--color-text);
+  white-space: pre-wrap;
   @include mq(pc) {
     width: 100%;
-    grid-column: 1;
-    grid-row: 1;
+    font-size: 16px;
   }
 }
 .p-event-map {
@@ -274,6 +287,8 @@
   max-width: 400px;
   margin: 0 auto 40px var(--gutter);
   @include mq(pc) {
+    width: 100%;
+    max-width: initial;
     margin: 0 0 40px;
   }
 
@@ -316,8 +331,8 @@
   }
   .p-event-comment-name {
     font-size: 14px;
-    font-weight: 500;
-    line-height: 1.5;
+    font-weight: 400;
+    line-height: 1.3;
     color: var(--color-text);
     overflow: hidden;
     text-overflow: ellipsis;

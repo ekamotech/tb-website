@@ -14,6 +14,7 @@
 <body>
 <div class="p-event-container" layout:fragment="contents">
   
+  <div class="p-event-bg"></div>
   <div class="p-event-head">
     <div class="p-event-visual">
       <img src="" th:if="${@environment.getProperty('image.local')}" th:src="${event.imageData}" class="p-event-thumb" />
@@ -41,10 +42,9 @@
     <div class="p-event-info">
       <div class="p-event-info-item">
         <h2 class="p-event-detail-hdg2 c-hdg2">日時</h2>
-        <!-- <p class="p-event-info-text">2024年11月08日 19:00〜21:00</p> -->
         <p class="p-event-info-text">
-          <span th:text="${event.date}"></span>
-          <span th:text="${event.startTime}"></span>〜<span th:text="${event.endTime}"></span>
+          <span th:text="${event.date}"></span><br>
+          <span th:text="${event.startTime}"></span>-<span th:text="${event.endTime}"></span>
         </p>
       </div>
       <div class="p-event-info-item">

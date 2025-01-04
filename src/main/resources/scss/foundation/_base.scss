@@ -26,6 +26,8 @@ body{
   background-color: #fff;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "palt";
+  letter-spacing: .04em;
   word-wrap: break-word;
 }
 button, html input[type=button], input[type=reset], input[type=submit] {

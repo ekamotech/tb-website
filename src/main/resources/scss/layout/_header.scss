@@ -58,25 +58,21 @@
   }
   .l-header-menu-group {
     &::before {
-      width: 40px;
-      height: 40px;
       mask-image: url(~@images/shared/icon-group.svg);
     }
   }
   .l-header-menu-calendar {
     &::before {
-      mask-image: url(~@images/shared/icon-calendar.png);
+      mask-image: url(~@images/shared/icon-calendar.svg);
     }
   }
   .l-header-menu-favorite {
     &::before {
-      mask-image: url(~@images/shared/icon-favorites.svg);
+      mask-image: url(~@images/shared/icon-favorite.svg);
     }
   }
   .l-header-menu-logout {
     &::before {
-      width: 40px;
-      height: 40px;
       mask-image: url(~@images/shared/icon-logout.svg);
     }
   }
@@ -87,8 +83,6 @@
   }
   .l-header-menu-login {
     &::before {
-      width: 40px;
-      height: 40px;
       mask-image: url(~@images/shared/icon-login.svg);
     }
   }
