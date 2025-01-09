@@ -8,11 +8,11 @@
 
 <div class="p-mypage-container" layout:fragment="contents">
   
-  <h1 class="p-mypage-hdg1 c-hdg1">マイグループ</h1>
+  <h1 class="p-mypage-hdg1 c-hdg1" th:text="#{groups.index.h1}">マイグループ</h1>
   
   <div class="p-mypage-btn-box">
-    <p class="p-mypage-text">イベントグループを作成してイベントを開催しよう！</p>
-    <a class="p-mypage-group-btn c-btn-submit u-mb-0" th:href="@{/groups/new}">グループを作成</a>
+    <p class="p-mypage-text" th:text="#{groups.index.lead}">イベントグループを作成してイベントを開催しよう！</p>
+    <a class="p-mypage-group-btn c-btn-submit u-mb-0" th:href="@{/groups/new}" th:text="#{groups.index.group.create}">グループを作成</a>
   </div>
 
   <div class="p-mypage-main">
@@ -26,7 +26,7 @@
             </div>
             <div class="p-mypage-group-name" th:text="${group.name}"></div>
           </a>
-          <a th:href="@{/groups/{id}/events/new(id=${group.id})}" class="p-mypage-event-btn c-btn-submit u-mb-0">イベントを作成</a>
+          <a th:href="@{/groups/{id}/events/new(id=${group.id})}" class="p-mypage-event-btn c-btn-submit u-mb-0" th:text="#{groups.index.event.create}">イベントを作成</a>
           <!-- <a th:href="@{/groups/{id}/edit(id=${group.id})}" class="p-mypage-event-btn c-btn-submit u-mb-0">グループを更新</a> -->
         </div>
         
@@ -40,7 +40,7 @@
                 </div>
                 <div class="p-mypage-event-name" th:text="${event.title}"></div>
               </a>
-              <a th:href="@{/events/{id}/edit(id=${event.id})}" class="p-mypage-event-update u-mb-0">更新</a>
+              <a th:href="@{/events/{id}/edit(id=${event.id})}" class="p-mypage-event-update u-mb-0" th:text="#{groups.index.event.update}">更新</a>
             </div>
           </div>
         </div>

@@ -26,6 +26,9 @@ spring:
   web:
     resources:
       static-locations: classpath:/webapp/
+      
+  messages:
+    encoding: UTF-8
 
 debug: true
 image:

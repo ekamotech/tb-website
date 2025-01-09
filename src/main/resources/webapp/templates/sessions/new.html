@@ -6,12 +6,12 @@
 <body>
 <div class="p-login-box" layout:fragment="contents">
 
-  <h1 class="c-hdg1">ログイン</h1>
+  <h1 class="c-hdg1" th:text="#{sessions.new.h1}">ログイン</h1>
   <form method="post" th:action="@{/login}">
     <div class="c-form p-login-form">
       <div class="c-form-item">
         <div class="c-form-label-box">
-          <label for="session_email" class="c-form-label">メールアドレス</label>
+          <label for="session_email" class="c-form-label" th:text="#{sessions.new.email}">メールアドレス</label>
         </div>
         <div class="c-form-input-wrap">
           <div class="c-form-input-box">
@@ -21,7 +21,7 @@
       </div>
       <div class="c-form-item">
         <div class="c-form-label-box">
-          <label for="session_password" class="c-form-label">パスワード</label>
+          <label for="session_password" class="c-form-label" th:text="#{sessions.new.password}">パスワード</label>
         </div>
         <div class="c-form-input-wrap">
           <div class="c-form-input-box">
@@ -30,7 +30,7 @@
         </div>
       </div>
     </div>
-    <button type="submit" class="c-btn-submit">ログイン</button>
+    <button type="submit" class="c-btn-submit" th:text="#{sessions.new.submit}">ログイン</button>
   </form>
 
 </div>

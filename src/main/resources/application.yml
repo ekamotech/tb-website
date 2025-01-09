@@ -37,6 +37,9 @@ spring:
           auth: true
           starttls:
             enable: true
+            
+  messages:
+    encoding: UTF-8
       
 image:
   local: true

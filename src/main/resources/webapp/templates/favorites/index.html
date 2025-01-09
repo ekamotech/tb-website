@@ -7,7 +7,7 @@
 <div class="p-event-box" layout:fragment="contents">
   
   <section class="p-sec-event">
-    <h2 class="c-hdg2">お気に入りイベント</h2>
+    <h2 class="c-hdg2" th:text="#{favorites.index.h1}">お気に入りイベント</h2>
     
     <div class="c-event">
       <div class="c-event-item" th:each="event : ${list}">
@@ -24,10 +24,10 @@
         </a>
         
         <div class="c-event-favorite">
-          <a th:if="${event.favorite != null}" rel="nofollow" class="c-event-btn-favorite on convert" data-method="delete" href="/favorite?event_id=1" th:href="@{'/favorite'}" th:data-event_id="${event.id}" th:data-_csrf="${_csrf.token}">
+          <a th:if="${event.favorite != null}" rel="nofollow" class="c-event-btn-favorite on convert" data-method="delete" href="/favorite?event_id=1" th:href="@{'/favorite'}" th:data-event_id="${event.id}" th:data-_csrf="${_csrf.token}" th:text="#{favorites.index.favorited}">
             お気に入り済み
           </a>
-          <a th:if="${event.favorite == null}" rel="nofollow" class="c-event-btn-favorite convert" data-method="post" href="/favorite?event_id=1" th:href="@{'/favorite'}" th:data-event_id="${event.id}" th:data-_csrf="${_csrf.token}">
+          <a th:if="${event.favorite == null}" rel="nofollow" class="c-event-btn-favorite convert" data-method="post" href="/favorite?event_id=1" th:href="@{'/favorite'}" th:data-event_id="${event.id}" th:data-_csrf="${_csrf.token}" th:text="#{favorites.index.favorite}">
             お気に入り
           </a>
           <span class="c-event-favorite-count" th:text="${#lists.size(event.favorites)}">0</span>

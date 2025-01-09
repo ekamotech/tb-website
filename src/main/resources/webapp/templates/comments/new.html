@@ -6,14 +6,14 @@
 <body>
 <div class="p-new-box" layout:fragment="contents">
 
-  <h1 class="c-hdg1">コメント作成</h1>
+  <h1 class="c-hdg1" th:text="#{comments.new.h1}">コメント作成</h1>
   
   <form method="post" th:action="@{/events/__${form.eventId}__/comment}" th:object="${form}">
     <div layout:replace="~{layouts/common::messages}"></div>
     <div class="c-form p-new-form">
       <div class="c-form-item">
         <div class="c-form-label-box">
-          <label for="comment-description" class="c-form-label">コメント</label>
+          <label for="comment-description" class="c-form-label" th:text="#{comments.new.description}">コメント</label>
         </div>
         <div class="c-form-textarea-wrap">
           <div class="c-form-textarea-box">
@@ -23,7 +23,7 @@
         <p th:if="${#fields.hasErrors('description')}" class="c-form-error" th:errors="*{description}"></p>
       </div>
     </div>
-    <button type="submit" class="c-btn-submit">作成する</button>
+    <button type="submit" class="c-btn-submit" th:text="#{comments.new.submit}">作成する</button>
   </form>
 
 </div>

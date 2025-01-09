@@ -6,7 +6,7 @@
 <body>
 <div class="p-login-box" layout:fragment="contents">
 
-  <h1 class="c-hdg1">グループ作成</h1>
+  <h1 class="c-hdg1" th:text="#{groups.new.h1}">グループ作成</h1>
   
   <form method="post" th:action="@{/group}" th:object="${form}">
     <div layout:replace="~{layouts/common::messages}"></div>
@@ -14,7 +14,7 @@
     <div class="c-form p-new-form">
       <div class="c-form-item">
         <div class="c-form-label-box">
-          <label for="group-name" class="c-form-label">グループ名</label>
+          <label for="group-name" class="c-form-label" th:text="#{groups.new.name}">グループ名</label>
         </div>
         <div class="c-form-input-wrap">
           <div class="c-form-input-box">
@@ -25,7 +25,7 @@
       </div>
       <div class="c-form-item">
         <div class="c-form-label-box">
-          <label for="group-description" class="c-form-label">グループの説明</label>
+          <label for="group-description" class="c-form-label" th:text="#{groups.new.description}">グループの説明</label>
         </div>
         <div class="c-form-textarea-wrap">
           <div class="c-form-textarea-box">
@@ -35,7 +35,7 @@
         <p th:if="${#fields.hasErrors('description')}" class="c-form-error" th:errors="*{description}"></p>
       </div>
     </div>
-    <button type="submit" class="c-btn-submit">作成する</button>
+    <button type="submit" class="c-btn-submit" th:text="#{groups.new.submit}">作成する</button>
   </form>
 
 </div>
