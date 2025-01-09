@@ -1,6 +1,9 @@
 package com.example.website.controller;
 
+import java.util.Locale;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +27,8 @@ public class UsersController {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private UserRepository repository;
+    @Autowired
+    private MessageSource messageSource;
     
     @GetMapping("/users/new")
     public String newUser(Model model) {
@@ -33,19 +38,19 @@ public class UsersController {
     
     @PostMapping("/user")
     public String create(@Validated @ModelAttribute("form") UserForm form, BindingResult result, Model model,
-            RedirectAttributes redirAttrs) {
+            RedirectAttributes redirAttrs, Locale locale) {
         String name = form.getName();
         String email = form.getEmail();
         String password = form.getPassword();
         
         if (repository.findByUsername(email) != null) {
-            FieldError fieldError = new FieldError(result.getObjectName(), "email", "その E メールはすでに使用されています。");
+            FieldError fieldError = new FieldError(result.getObjectName(), "email", messageSource.getMessage("users.create.error.duplicate", new String[] {}, "その E メールはすでに使用されています。", locale));
             result.addError(fieldError);
         }
         if (result.hasErrors()) {
             model.addAttribute("hasMessage", true);
             model.addAttribute("class", "alert-danger");
-            model.addAttribute("message", "ユーザー登録に失敗しました。");
+            model.addAttribute("message", messageSource.getMessage("users.flash.userRegistrationFailure", new String[] {}, "ユーザー登録に失敗しました。", locale));
             return "users/new";
         }
         
@@ -54,7 +59,7 @@ public class UsersController {
         
         model.addAttribute("hasMessage", true);
         model.addAttribute("class", "alert-info");
-        model.addAttribute("message", "ユーザー登録が完了しました。");
+        model.addAttribute("message", messageSource.getMessage("users.flash.userRegistrationComplete", new String[] {}, "ユーザー登録が完了しました。", locale));
         
         return "layouts/complete";
         

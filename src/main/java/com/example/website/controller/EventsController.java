@@ -3,7 +3,10 @@ package com.example.website.controller;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
+import java.util.Locale;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +31,9 @@ import com.example.website.service.GroupMemberService;
 
 @Controller
 public class EventsController {
+    
+    @Autowired
+    private MessageSource messageSource;
     
     private final EventService eventService;
     private final GroupMemberService groupMemberService;
@@ -61,13 +67,13 @@ public class EventsController {
     
     @PostMapping("/groups/{groupId}/events")
     public String createEvent(@AuthenticationPrincipal UserInf userInf, @PathVariable Long groupId, @Validated @ModelAttribute("form") EventForm form, BindingResult result,
-            Model model, @RequestParam MultipartFile image, RedirectAttributes redirAttrs)
+            Model model, @RequestParam MultipartFile image, RedirectAttributes redirAttrs, Locale locale)
             throws IOException {
         
         if (result.hasErrors()) {
             model.addAttribute("hasMessage", true);
             model.addAttribute("class", "alert-danger");
-            model.addAttribute("message", "イベント作成に失敗しました。");
+            model.addAttribute("message", messageSource.getMessage("events.flash.eventCreatingFailure", new String[] {}, "イベント作成に失敗しました。", locale));
             return "events/new";
         }
         
@@ -75,7 +81,7 @@ public class EventsController {
         
         redirAttrs.addFlashAttribute("hasMessage", true);
         redirAttrs.addFlashAttribute("class", "alert-info");
-        redirAttrs.addFlashAttribute("message", "イベント作成に成功しました。");
+        redirAttrs.addFlashAttribute("message", messageSource.getMessage("events.flash.eventCreatingComplete", new String[] {}, "イベント作成に成功しました。", locale));
         
         return "redirect:/groups";
         
@@ -113,13 +119,13 @@ public class EventsController {
     
     @PostMapping("/events/update")
     public String updateEvent(@AuthenticationPrincipal UserInf userInf, @Validated @ModelAttribute("form") EventUpdateForm form, BindingResult result,
-            Model model, RedirectAttributes redirAttrs)
+            Model model, RedirectAttributes redirAttrs, Locale locale)
             throws IOException {
         
         if (result.hasErrors()) {
             model.addAttribute("hasMessage", true);
             model.addAttribute("class", "alert-danger");
-            model.addAttribute("message", "イベント更新に失敗しました。");
+            model.addAttribute("message", messageSource.getMessage("events.flash.eventUpdateFailure", new String[] {}, "イベント更新に失敗しました。", locale));
             return "events/edit";
         }
         
@@ -127,22 +133,22 @@ public class EventsController {
         
         redirAttrs.addFlashAttribute("hasMessage", true);
         redirAttrs.addFlashAttribute("class", "alert-info");
-        redirAttrs.addFlashAttribute("message", "イベント更新に成功しました。");
+        redirAttrs.addFlashAttribute("message", messageSource.getMessage("events.flash.eventUpdateComplete", new String[] {}, "イベント更新に成功しました。", locale));
         
         return "redirect:/groups";
     }
     
     @PostMapping("/events/{eventId}/join")
-    public String joinEvent(@AuthenticationPrincipal UserInf userInf, @PathVariable Long eventId, RedirectAttributes redirAttrs) {
+    public String joinEvent(@AuthenticationPrincipal UserInf userInf, @PathVariable Long eventId, RedirectAttributes redirAttrs, Locale locale) {
         try {
             eventService.joinEvent(userInf.getUserId(), eventId);
             redirAttrs.addFlashAttribute("hasMessage", true);
             redirAttrs.addFlashAttribute("class", "alert-info");
-            redirAttrs.addFlashAttribute("message", "イベントに参加しました！");
+            redirAttrs.addFlashAttribute("message", messageSource.getMessage("events.flash.eventEntryComplete", new String[] {}, "イベント参加に成功しました。", locale));
         } catch (IllegalArgumentException e) {
             redirAttrs.addAttribute("hasMessage", true);
             redirAttrs.addAttribute("class", "alert-danger");
-            redirAttrs.addAttribute("message", "イベント参加に失敗しました。");
+            redirAttrs.addAttribute("message", messageSource.getMessage("events.flash.eventEntryFailure", new String[] {}, "イベント参加に失敗しました。", locale));
         }
         return "redirect:/events/" + eventId;
     }

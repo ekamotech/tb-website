@@ -3,10 +3,12 @@ package com.example.website.controller;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
+import java.util.Locale;
 
 import jakarta.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -29,7 +31,8 @@ public class GroupsController {
     private GroupRepository groupRepository;
     @Autowired
     private GroupService groupService;
-
+    @Autowired
+    private MessageSource messageSource;
     
     @GetMapping("/groups")
     public String index(Principal principal, Model model) throws IOException {
@@ -53,13 +56,13 @@ public class GroupsController {
     @PostMapping("/group")
     @Transactional
     public String create(Principal principal, @Validated @ModelAttribute("form") GroupForm form, BindingResult result,
-            Model model, RedirectAttributes redirAttrs)
+            Model model, RedirectAttributes redirAttrs, Locale locale)
             throws IOException {
         
         if (result.hasErrors()) {
             model.addAttribute("hasMessage", true);
             model.addAttribute("class", "alert-danger");
-            model.addAttribute("message", "グループ作成に失敗しました。");
+            model.addAttribute("message", messageSource.getMessage("groups.flash.groupCreatingFailure", new String[] {}, "グループ作成に失敗しました。", locale));
             return "groups/new";
         }
         
@@ -67,7 +70,7 @@ public class GroupsController {
         
         redirAttrs.addFlashAttribute("hasMessage", true);
         redirAttrs.addFlashAttribute("class", "alert-info");
-        redirAttrs.addFlashAttribute("message", "グループ作成に成功しました。");
+        redirAttrs.addFlashAttribute("message", messageSource.getMessage("groups.flash.groupCreatingComplete", new String[] {}, "グループ作成に成功しました。", locale));
         
         return "redirect:/groups";
         
@@ -91,13 +94,13 @@ public class GroupsController {
     
     @PostMapping("/groups/update")
     public String update(Principal principal, @Validated @ModelAttribute("form") GroupForm form, BindingResult result,
-            Model model, RedirectAttributes redirAttrs)
+            Model model, RedirectAttributes redirAttrs, Locale locale)
             throws IOException {
         
         if (result.hasErrors()) {
             model.addAttribute("hasMessage", true);
             model.addAttribute("class", "alert-danger");
-            model.addAttribute("message", "グループ更新に失敗しました。");
+            model.addAttribute("message", messageSource.getMessage("groups.flash.groupUpdateFailure", new String[] {}, "グループ更新に失敗しました。", locale));
             return "groups/edit";
         }
         
@@ -105,7 +108,7 @@ public class GroupsController {
         
         redirAttrs.addFlashAttribute("hasMessage", true);
         redirAttrs.addFlashAttribute("class", "alert-info");
-        redirAttrs.addFlashAttribute("message", "グループ更新に成功しました。");
+        redirAttrs.addFlashAttribute("message", messageSource.getMessage("groups.flash.groupUpdateComplete", new String[] {}, "グループ更新に成功しました。", locale));
 
         return "redirect:/groups";
         
