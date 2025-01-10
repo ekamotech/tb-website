@@ -28,7 +28,7 @@ spring:
       static-locations: classpath:/webapp/
       
   messages:
-    basename: messages,meta
+    basename: messages,meta,ValidationMessages
     encoding: UTF-8
 
 debug: true

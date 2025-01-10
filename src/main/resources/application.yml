@@ -39,7 +39,7 @@ spring:
             enable: true
             
   messages:
-    basename: messages,meta
+    basename: messages,meta,ValidationMessages
     encoding: UTF-8
       
 image:

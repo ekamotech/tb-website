@@ -38,16 +38,16 @@ public class EventForm {
     @Size(max = 1000)
     private String description;
     
-    @NotNull(message = "日付を指定してください")
+    @NotNull(message = "{com.example.website.form.EventForm.date.NotNull.message}")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @Future(message = "未来の日付を指定してください")
+    @Future(message = "{com.example.website.form.EventForm.date.Future.message}")
     private LocalDate date;
     
-    @NotNull(message = "開始時間を指定してください")
+    @NotNull(message = "{com.example.website.form.EventForm.startTime.NotNull.message}")
     @DateTimeFormat(pattern = "HH:mm")
     private LocalTime startTime;
     
-    @NotNull(message = "終了時間を指定してください")
+    @NotNull(message = "{com.example.website.form.EventForm.endTime.NotNull.message}")
     @DateTimeFormat(pattern = "HH:mm")
     private LocalTime endTime;
     
