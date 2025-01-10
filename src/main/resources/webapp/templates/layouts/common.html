@@ -5,7 +5,7 @@
 <header class="l-header" layout:fragment="header">
   <div class="l-header-inner">
     <a th:href="@{/events}" class="l-header-logo">
-      <img src="/images/shared/logo.svg" th:src="@{/images/shared/logo.svg}" class="l-header-image" alt="つながるーム">
+      <img src="/images/shared/logo.svg" th:src="@{/images/shared/logo.svg}" class="l-header-image" th:alt="#{site.name}" alt="つながるーム">
     </a>
     <nav class="l-header-nav">
       <th:block sec:authorize="isAuthenticated()">

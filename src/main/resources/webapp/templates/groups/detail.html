@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
 <head>
 <link rel="stylesheet" href="/css/page/group-detail.css" th:href="@{/css/page/group-detail.css}">
-<title>つながルーム</title>
+<title th:text="#{groups.detail.title}">つながるーム</title>
 </head>
 <body>
 <div class="p-group-detail-container" layout:fragment="contents">

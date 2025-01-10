@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
 <head>
 <link rel="stylesheet" href="/css/page/event-detail.css" th:href="@{/css/page/event-detail.css}">
-<title>つながルーム</title>
+<title th:text="#{events.detail.title}">つながるーム</title>
 <script defer th:src="|https://maps.googleapis.com/maps/api/js?key=${@environment.getProperty('googlemap.client.key')}&callback=initMap|"></script>
 <style>
   .map {

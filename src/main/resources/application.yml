@@ -39,6 +39,7 @@ spring:
             enable: true
             
   messages:
+    basename: messages,meta
     encoding: UTF-8
       
 image:
