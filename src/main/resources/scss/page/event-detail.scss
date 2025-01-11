@@ -56,13 +56,15 @@
   .p-event-summary {
     width: calc(100% - var(--gutter)* 2);
     max-width: 1024px;
-    margin: 0 auto;
+    padding: 0 0 16px;
+    margin: 0 auto 24px;
+    border-bottom: 1px solid #d1d1d1;
   }
   .p-event-title {
     margin: 0 0 8px;
     display: block;
     font-size: 20px;
-    font-weight: 500;
+    font-weight: 600;
     line-height: 1.5;
     color: var(--color-text);
     font-feature-settings: "palt";
@@ -70,7 +72,7 @@
   }
   .p-event-group {
     margin: 0 0 8px;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 400;
     line-height: 1.2;
     color: var(--color-text);
@@ -108,7 +110,7 @@
     }
     &.on {
       &::before {
-        background-color: #ff5c67;
+        background-color: #ff4060;
         mask-image: url(~@images/shared/icon-favorite-on.svg);
       }
     }
@@ -147,9 +149,10 @@
       grid-template-columns: minmax(0, 1fr) auto;
       gap: 24px;
       align-items: start;
-      margin: 0 auto 32px;
+      margin: 0 auto 40px;
     }
     .p-event-title {
+      margin: 0 0 16px;
       font-size: 28px;
     }
     .p-event-group {
@@ -172,7 +175,7 @@
 }
 .p-event-info {
   .p-event-info-item {
-    margin: 0 0 16px;
+    margin: 0 0 24px;
   }
   .p-event-info-label {
     margin: 0 0 8px;
@@ -259,7 +262,7 @@
 .p-event-detail-hdg2 {
   margin: 0 auto 8px;
   font-size: 18px;
-  font-weight: 500;
+  font-weight: 600;
   line-height: 1.2;
   color: var(--color-text);
   @include mq(pc) {

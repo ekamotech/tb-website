@@ -17,7 +17,7 @@
     align-items: center;
     width: calc(100% - var(--gutter)* 2);
     max-width: 1024px;
-    height: 50px;
+    height: 60px;
     margin: 0 auto;
   }
   .l-header-logo {
@@ -27,14 +27,17 @@
   .l-header-nav {
     display: flex;
     align-items: center;
+    gap: 24px;
   }
   [class^=l-header-menu] {
-    display: block;
+    display: grid;
+    place-items: center;
+    gap: 4px;
     width: 50px;
-    height: 50px;
-    text-indent: 100%;
-    white-space: nowrap;
-    overflow: hidden;
+    font-size: 10px;
+    line-height: 1;
+    color: var(--color-text);
+    text-align: center;
     position: relative;
     &::before {
       content: '';
@@ -45,10 +48,6 @@
       mask-size: contain;
       mask-position: center center;
       mask-repeat: no-repeat;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
     }
     &.on {
       &::before {
