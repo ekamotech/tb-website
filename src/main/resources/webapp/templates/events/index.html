@@ -27,7 +27,7 @@
           </div>
           <div class="c-event-text">
             <p class="c-event-title" th:text="${event.title}"></p>
-            <p class="c-event-date" th:text="${event.date}"></p>
+            <p class="c-event-date" th:text="${#temporals.format(event.date, 'yyyy年MM月dd日')}"></p>
             <p class="c-event-group" th:text="${event.group.name}"></p>
           </div>
         </a>

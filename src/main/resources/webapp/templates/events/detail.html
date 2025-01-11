@@ -42,7 +42,7 @@
       <div class="p-event-info-item">
         <h2 class="p-event-detail-hdg2 c-hdg2" th:text="#{events.detail.schedule}">日時</h2>
         <p class="p-event-info-text">
-          <span th:text="${event.date}"></span><br>
+          <span th:text="${#temporals.format(event.date, 'yyyy年MM月dd日')}"></span><br>
           <span th:text="${event.startTime}"></span>-<span th:text="${event.endTime}"></span>
         </p>
       </div>
