@@ -102,12 +102,16 @@
       </div>
 
     </div>
+
+    <div class="p-event-entry">
+      <button type="button" class="c-btn-submit p-event-submit u-mb-0">参加する</button>
+    </div>
   </div>
 
-  <div class="p-event-entry">
-    <button type="button" class="c-btn-submit p-event-submit u-mb-0">参加する</button>
-  </div>
+
+  <p id="pagetop" class="c-btn-pagetop"><a>ページトップに戻る</a></p>
 </main>
+
 </div>
 <footer class="l-footer">
   <nav class="l-footer-nav">
@@ -129,7 +133,29 @@
   <a href="/login" class="l-footer-bottom-menu-login">ログイン</a>
 </nav>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+  $(function(){
+      $('#pagetop').hide();
 
+      $(window).on('scroll', function(){
+          if ($(this).scrollTop() > 100) {
+              $('#pagetop').fadeIn();
+          }
+          else {
+              $('#pagetop').fadeOut();
+          }
+      });
+
+      $('#pagetop').on('click', function(e){
+          e.preventDefault();
+          $('html,body').animate({
+              scrollTop: 0
+          }, 300);
+          return false;
+      });
+  });
+</script>
 
   
 </body>
