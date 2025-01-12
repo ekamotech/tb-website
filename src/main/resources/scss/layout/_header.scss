@@ -17,17 +17,15 @@
     align-items: center;
     width: calc(100% - var(--gutter)* 2);
     max-width: 1024px;
-    height: 60px;
+    height: 40px;
     margin: 0 auto;
   }
   .l-header-logo {
-    width: 194px;
+    width: 120px;
     margin-right: auto;
   }
   .l-header-nav {
-    display: flex;
-    align-items: center;
-    gap: 24px;
+    display: none;
   }
   [class^=l-header-menu] {
     display: grid;
@@ -83,6 +81,20 @@
   .l-header-menu-login {
     &::before {
       mask-image: url(~@images/shared/icon-login.svg);
+    }
+  }
+
+  @include mq(pc) {
+    .l-header-logo {
+      width: 194px;
+    }
+    .l-header-inner {
+      height: 60px;
+    }
+    .l-header-nav {
+      display: flex;
+      align-items: center;
+      gap: 24px;
     }
   }
 }

@@ -267,7 +267,7 @@
   color: var(--color-text);
   @include mq(pc) {
     width: 100%;
-    margin: 0 auto 16px;
+    margin: 0 auto 24px;
     font-size: 22px;
   }
 }
@@ -359,10 +359,13 @@
   padding: 16px var(--gutter);
   background-color: #fff;
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.08);
-  position: fixed;
+  position: sticky;
   left: 0;
-  bottom: 0;
+  bottom: 54px;
   z-index: 100;
+  @include mq(pc) {
+    bottom: 0;
+  }
 }
 .p-event-submit {
   max-width: 320px;
