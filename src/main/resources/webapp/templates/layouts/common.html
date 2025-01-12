@@ -22,6 +22,35 @@
   </div>
 </header>
 
+<footer class="l-footer" layout:fragment="footer" th:unless="${isStartPage}">
+  <nav class="l-footer-nav">
+    <th:block sec:authorize="isAuthenticated()">
+      <a th:href="@{/groups}" class="l-footer-menu" th:text="#{layouts.common.group}">グループ</a>
+      <a th:href="@{/calendars}" class="l-footer-menu" th:text="#{layouts.common.calendar}">カレンダー</a>
+      <a th:href="@{/favorites}" class="l-footer-menu" th:text="#{layouts.common.favorite}">お気に入り</a>
+      <a th:href="@{/logout}" class="l-footer-menu convert" data-method="post" th:data-_csrf="${_csrf.token}" th:text="#{layouts.common.logout}">ログアウト</a>
+    </th:block>
+    <th:block sec:authorize="!isAuthenticated()">
+      <a th:href="@{/users/new}" class="l-footer-menu" th:text="#{layouts.common.signup}">新規登録</a>
+      <a th:href="@{/login}" class="l-footer-menu" th:text="#{layouts.common.login}">ログイン</a>
+    </th:block>
+  </nav>
+  <p class="l-footer-name"><small th:text="#{site.name}">つながるーム</small></p>
+</footer>
+
+<nav class="l-footer-bottom-nav" layout:fragment="navbar">
+  <th:block sec:authorize="isAuthenticated()">
+    <a th:href="@{/groups}" class="l-footer-bottom-menu-group" th:text="#{layouts.common.group}">グループ</a>
+    <a th:href="@{/calendars}" class="l-footer-bottom-menu-calendar" th:text="#{layouts.common.calendar}">カレンダー</a>
+    <a th:href="@{/favorites}" class="l-footer-bottom-menu-favorite" th:text="#{layouts.common.favorite}">お気に入り</a>
+    <a th:href="@{/logout}" class="l-footer-bottom-menu-logout convert" data-method="post" th:data-_csrf="${_csrf.token}" th:text="#{layouts.common.logout}">ログアウト</a>
+  </th:block>
+  <th:block sec:authorize="!isAuthenticated()">
+    <a th:href="@{/users/new}" class="l-footer-bottom-menu-new" th:text="#{layouts.common.signup}">新規登録</a>
+    <a th:href="@{/login}" class="l-footer-bottom-menu-login" th:text="#{layouts.common.login}">ログイン</a>
+  </th:block>
+</nav>
+
 <div id="messages" layout:fragment="messages" th:if="!${#lists.isEmpty(#fields.detailedErrors())}">
   <ul>
     <li th:each="error : ${#fields.detailedErrors()}" class="c-form-error" th:text="${error.message}" />
