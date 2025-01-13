@@ -28,6 +28,9 @@ module.exports = {
     path: path.resolve(__dirname, 'src/main/resources/webapp')
   },
 
+  // 相対パスの起点を指定
+  context: path.resolve(__dirname, 'src/main/resources/webapp/images'),
+
   module: {
     rules: [
       {
@@ -61,7 +64,7 @@ module.exports = {
         type: 'asset/resource',
         generator: {
           // 出力先ディレクトリとファイル名の指定
-          filename: 'images/[name][ext]'
+          filename: 'images/[path][name][ext]',
         }
       },
       {
