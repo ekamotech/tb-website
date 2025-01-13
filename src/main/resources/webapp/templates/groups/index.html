@@ -27,7 +27,6 @@
             <div class="p-mypage-group-name" th:text="${group.name}"></div>
           </a>
           <a th:href="@{/groups/{id}/events/new(id=${group.id})}" class="p-mypage-event-btn c-btn-submit u-mb-0" th:text="#{groups.index.event.create}">イベントを作成</a>
-          <!-- <a th:href="@{/groups/{id}/edit(id=${group.id})}" class="p-mypage-event-btn c-btn-submit u-mb-0">グループを更新</a> -->
         </div>
         
         <div class="p-mypage-group-event">

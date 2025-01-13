@@ -9,8 +9,9 @@
 
 .c-form {
   display: block;
-  width: 100%;
-  margin: 0 0 40px;
+  width: calc(100% - var(--gutter)* 2);
+  max-width: 420px;
+  margin: 0 auto 32px;
 }
 .c-form-item {
   &:not(:last-of-type) {

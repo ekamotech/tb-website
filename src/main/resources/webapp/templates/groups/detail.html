@@ -14,12 +14,11 @@
       </div>
       <div class="p-group-detail-profile-text">
         <h2 class="p-group-detail-profile-name" th:text="${form.name}"></h2>
-        <!-- <p class="p-group-detail-profile-organizer"></p> -->
       </div>
 
       <p class="p-group-detail-profile-desc" th:text="${form.description}"></p>
       
-      <!-- <a href="" class="p-group-detail-profile-btn c-btn-submit u-mb-0">グループを編集</a> -->
+      <a th:href="@{/groups/{id}/edit(id=${form.id})}" class="p-group-detail-profile-btn c-btn-submit u-mb-0" th:text="#{groups.detail.edit}">グループ編集</a>
     </div>
   </div>
 
