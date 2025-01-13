@@ -39,10 +39,6 @@ public class GroupsController {
 
         List<GroupForm> list = groupService.getGroupsForAdmin(principal);
         model.addAttribute("list", list);
-        
-//        model.addAttribute("userId", user.getUserId());
-//        model.addAttribute("username", user.getUsername());
-//        model.addAttribute("name", user.getName());
 
         return "groups/index";
     }
