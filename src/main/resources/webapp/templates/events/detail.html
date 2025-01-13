@@ -22,7 +22,7 @@
     <div class="p-event-summary">
       <div class="p-event-text">
         <h1 class="p-event-title" th:text="${event.title}"></h1>
-        <p class="p-event-group"><span th:text="#{events.detail.leader}">主催:</span> <span th:text="${event.group.name}"></span></p>
+        <p class="p-event-group"><span th:text="#{events.detail.leader}"></span>: <span th:text="${event.group.name}"></span></p>
       </div>
 
       <div class="p-event-action">
@@ -43,7 +43,7 @@
         <h2 class="p-event-detail-hdg2 c-hdg2" th:text="#{events.detail.schedule}">日時</h2>
         <p class="p-event-info-text">
           <span th:text="${#temporals.format(event.date, 'yyyy年MM月dd日')}"></span><br>
-          <span th:text="${event.startTime}"></span>-<span th:text="${event.endTime}"></span>
+          <span th:text="${event.startTime}"></span> - <span th:text="${event.endTime}"></span>
         </p>
       </div>
       <div class="p-event-info-item">
@@ -97,19 +97,17 @@
   </div>
   <div class="p-event-entry">
     <div th:if="${isAdmin}">
-      <!-- <p>グループ管理者の場合はイベントに参加済みです</p> -->
+      <!-- グループ管理者の場合はイベントに参加済み -->
       <button type="button" class="c-btn-submit p-event-submit u-mb-0" disabled th:text="#{events.detail.participating}">参加済み</button>
     </div>
+    <!-- グループ管理者以外の場合 -->
     <div th:if="${!isAdmin}">
-      <!-- <p>グループ管理者以外の場合はイベントに参加するボタンを表示します</p> -->
-      <!-- <p>イベントに参加してなかったら、参加するボタンを表示する</p> -->
-      
       <div th:if="${isParticipating}">
-        <!-- <p>このイベントに参加済みです。</p> -->
+        <!-- イベントに参加済みの場合は参加済みと表示 -->
         <button type="button" class="c-btn-submit p-event-submit u-mb-0" disabled th:text="#{events.detail.participating}">参加済み</button>
       </div>
       <div th:if="${!isParticipating}">
-        <!-- <p>このイベントにまだ参加していません。</p> -->
+        <!-- イベントに参加していない場合は参加するボタンを表示 -->
         <button type="button" class="c-btn-submit p-event-submit u-mb-0 convert" data-method="post" href="/events/1/join" th:href="@{'/events/{eventId}/join'(eventId=${event.id})}" th:data-_csrf="${_csrf.token}" th:text="#{events.detail.participate}">参加する</button>
       </div>
     </div>
