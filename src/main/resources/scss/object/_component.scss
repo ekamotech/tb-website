@@ -7,6 +7,10 @@
   フォーム
 ================================*/
 
+.c-form-container {
+  width: 100%;
+  margin: 64px auto 0;
+}
 .c-form {
   display: block;
   width: calc(100% - var(--gutter)* 2);
@@ -242,113 +246,6 @@
     font-size: 16px;
   }
 }
-.c-alert {
-  width: 100%;
-  padding: 16px;
-  margin-bottom: 16px;
-  border: 1px solid #9ec5fe;
-  border-radius: 8px;
-  background-color: #cfe2ff;
-  font-size: 16px;
-  color: #052c65;
-  position: fixed;
-  z-index: 100;
-  &.alert-danger {
-    border: 1px solid #f1aeb5;
-    background-color: #f8d7da;
-    color: #58151c;
-  }
-  &.alert-info {
-    border: 1px solid #9eeaf9;
-    background-color: #cff4fc;
-    color: #055160;
-  }
-}
-
-/*===============================
-	column layout
-================================*/
-
-.c-lyt-fluid{
-  display: grid;
-  grid-gap: 10px 10px;
-  grid-template-columns: repeat(10, minmax(0, 1fr));
-  margin: 10px 0;
-  > .col{
-    @for $i from 1 through 10 {
-      &.col#{$i}{
-        grid-column: auto / span $i;
-      }
-    }
-    @for $i from 1 through 10 {
-      &.sp\:col#{$i}{
-        grid-column: auto / span $i;
-      }
-    }
-    @include mq(tablet){
-      @for $i from 1 through 10 {
-        &.tb\:col#{$i}{
-          grid-column: auto / span $i;
-        }
-      }
-    }
-    @include mq(pc){
-      @for $i from 1 through 10 {
-        &.pc\:col#{$i}{
-          grid-column: auto / span $i;
-        }
-      }
-    }
-  }
-}
-
-
-/*===============================
-  other
-================================*/
-
-.p-new-box {
-  width: 100%;
-  margin: 64px auto 0;
-}
-
-.p-new-form {
-  width: calc(100% - var(--gutter)* 2);
-  max-width: 420px;
-  margin: 0 auto 32px;
-}
-
-.c-hdg1 {
-  width: calc(100% - var(--gutter)* 2);
-  margin: 0 auto 32px;
-  font-size: 24px;
-  font-weight: 700;
-  line-height: 1.3;
-  color: var(--color-text);
-  text-align: center;
-  font-feature-settings: "palt";
-  letter-spacing: .04em;
-  @include mq(pc) {
-    margin: 0 0 56px;
-    font-size: 36px;
-  }
-}
-
-.c-hdg2 {
-  width: calc(100% - var(--gutter)* 2);
-  max-width: 1024px;
-  margin: 0 auto 24px;
-  font-size: 24px;
-  font-weight: 600;
-  line-height: 1.2;
-  color: var(--color-text);
-  font-feature-settings: "palt";
-  letter-spacing: .04em;
-  @include mq(pc) {
-    margin: 0 auto 32px;
-    font-size: 28px;
-  }
-}
 
 .c-btn-google {
   display: block;
@@ -384,15 +281,81 @@
   }
 }
 
-.p-login-box {
+.c-alert {
   width: 100%;
-  margin: 64px auto 0;
+  padding: 16px;
+  margin-bottom: 16px;
+  border: 1px solid #9ec5fe;
+  border-radius: 8px;
+  background-color: #cfe2ff;
+  font-size: 16px;
+  color: #052c65;
+  position: fixed;
+  z-index: 100;
+  &.alert-danger {
+    border: 1px solid #f1aeb5;
+    background-color: #f8d7da;
+    color: #58151c;
+  }
+  &.alert-info {
+    border: 1px solid #9eeaf9;
+    background-color: #cff4fc;
+    color: #055160;
+  }
 }
-.p-login-form {
+
+.c-btn-login {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
   width: calc(100% - var(--gutter)* 2);
   max-width: 420px;
-  margin: 0 auto 32px;
+  margin: 0 auto;
+  @include mq(pc) {
+    gap: 24px;
+  }
 }
+
+/*===============================
+  見出し
+================================*/
+
+.c-hdg1 {
+  width: calc(100% - var(--gutter)* 2);
+  margin: 0 auto 32px;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--color-text);
+  text-align: center;
+  font-feature-settings: "palt";
+  letter-spacing: .04em;
+  @include mq(pc) {
+    margin: 0 0 56px;
+    font-size: 36px;
+  }
+}
+
+.c-hdg2 {
+  width: calc(100% - var(--gutter)* 2);
+  max-width: 1024px;
+  margin: 0 auto 24px;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--color-text);
+  font-feature-settings: "palt";
+  letter-spacing: .04em;
+  @include mq(pc) {
+    margin: 0 auto 32px;
+    font-size: 28px;
+  }
+}
+
+/*===============================
+  イベント
+================================*/
 
 .c-event {
   width: calc(100% - var(--gutter)* 2);
@@ -515,111 +478,8 @@
       font-size: 14px;
     }
   }
-
-
-
 }
 
-.p-start-box {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  position: relative;
-  z-index: 0;
-  &::before {
-    content: '';
-    display: block;
-    width: 100%;
-    height: 100%;
-    background-image: url(~@images/bg-top.jpg);
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: -1;
-  }
-}
-.p-start-hdg2 {
-  width: calc(100% - var(--gutter)* 2);
-  margin: 0 auto 32px;
-  font-size: 30px;
-  font-weight: 700;
-  line-height: 1.3;
-  color: #fff;
-  text-align: center;
-  word-break: keep-all;
-  overflow-wrap: anywhere;
-  font-feature-settings: "palt";
-  letter-spacing: .04em;
-  @include mq(pc) {
-    margin: 0 auto 40px;
-    font-size: 40px;
-  }
-}
-
-.p-event-box {
-  flex: 1;
-  width: 100%;
-  margin: 0 auto;
-
-}
-.p-sec-login {
-  padding: 64px 0;
-  position: relative;
-  z-index: 0;
-  &::before {
-    content: '';
-    display: block;
-    width: 100%;
-    height: 100%;
-    background-image: linear-gradient(to bottom, rgba(0,0,0,.4) 0%, rgba(0,0,0,.5) 100%), url(~@images/bg-event.jpg);
-    background-size: cover;
-    background-position: center center, center 60%;
-    background-repeat: no-repeat;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: -1;
-  }
-}
-.c-btn-login {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  width: calc(100% - var(--gutter)* 2);
-  max-width: 420px;
-  margin: 0 auto;
-  @include mq(pc) {
-    gap: 24px;
-  }
-}
-.p-sec-event {
-  padding: 32px 0;
-  background: #fff;
-  @include mq(pc) {
-    padding: 48px 0;
-  }
-}
-.p-event-hdg2 {
-  margin: 0 auto 32px;
-  font-size: 30px;
-  font-weight: 700;
-  line-height: 1.3;
-  color: #fff;
-  text-align: center;
-  word-break: keep-all;
-  overflow-wrap: anywhere;
-  font-feature-settings: "palt";
-  letter-spacing: .04em;
-  @include mq(pc) {
-    margin: 0 auto 40px;
-    font-size: 40px;
-  }
-}
 .c-btn-pagetop {
   display: none;
 

@@ -2,48 +2,48 @@
 @use "sass:math";
 @use "../foundation/mixin" as *;
 
-.p-mypage-container {
+.p-group-container {
   width: 100%;
   padding: 0 0 200px;
   margin: 64px auto 0;
 }
 
-.p-mypage-btn-box{
+.p-group-btn-box{
   width: calc(100% - var(--gutter)* 2);
   max-width: 720px;
   padding: 24px;
   margin: 0 auto 24px;
   background: #f6f6f6;
 
-  .p-mypage-text {
+  .p-group-text {
     margin: 0 auto 16px;
     font-size: 14px;
     line-height: 1.5;
     color: var(--color-text);
     text-align: center;
   }
-  .p-mypage-group-btn {
+  .p-group-btn {
     width: 100%;
   }
   @include mq(pc) {
     margin: 0 auto 36px;
 
-    .p-mypage-text {
+    .p-group-text {
       font-size: 16px;
     }
   }
 }
 
-.p-mypage-group {
+.p-group-list {
 
-  .p-mypage-group-item {
+  .p-group-item {
     border-top: 1px solid var(--neutral-gray-100);
     border-bottom: 1px solid var(--neutral-gray-100);
     background-color: #fff;
     position: relative;
   }
 
-  .p-mypage-group-head {
+  .p-group-head {
     display: grid;
     grid-auto-flow: column;
     grid-auto-columns: minmax(0, 1fr) auto;
@@ -54,7 +54,7 @@
     position: relative;
   }
 
-  .p-mypage-group-link {
+  .p-group-link {
     display: grid;
     grid-auto-flow: column;
     grid-auto-columns: auto minmax(0, 1fr);
@@ -62,14 +62,14 @@
     gap: 12px;
   }
 
-  .p-mypage-group-image {
+  .p-group-image {
     display: block;
     width: 40px;
     height: 40px;
     position: relative;
   }
 
-  .p-mypage-group-thumb {
+  .p-group-thumb {
     display: block;
     width: 100%;
     height: 100%;
@@ -78,44 +78,46 @@
     object-position: 50% 0;
   }
 
-  .p-mypage-group-name {
+  .p-group-name {
     display: block;
     font-size: 14px;
     font-weight: 500;
     color: var(--color-text);
   }
 
-  .p-mypage-event-btn {
+  .p-group-event-btn {
     width: 100%;
     padding: 12px 16px;
   }
 
   @include mq(pc) {
 
-    .p-mypage-group-item {
+    .p-group-item {
       width: 100%;
       max-width: 720px;
       margin: 0 auto 40px;
       border: 1px solid var(--neutral-gray-100);
+      border-radius: 8px;
+      overflow: hidden;
     }
 
-    .p-mypage-group-head {
+    .p-group-head {
       gap: 0 16px;
       padding: 24px;
     }
 
-    .p-mypage-group-name {
+    .p-group-name {
       font-size: 16px;
     }
 
-    .p-mypage-event-btn {
+    .p-group-event-btn {
       padding: 12px 24px;
       font-size: 14px;
     }
   }
 
 }
-.p-mypage-event-item {
+.p-group-event-item {
   display: grid;
   grid-auto-flow: column;
   grid-auto-columns: minmax(0, 1fr) auto;
@@ -133,11 +135,11 @@
     left: 0;
   }
   
-  + .p-mypage-event-item {
+  + .p-group-event-item {
     margin-top: 1px;
   }
 
-  .p-mypage-event-link {
+  .p-group-event-link {
     display: grid;
     grid-auto-flow: column;
     grid-auto-columns: auto minmax(0, 1fr);
@@ -146,7 +148,7 @@
     padding: 16px;
   }
 
-  .p-mypage-event-image {
+  .p-group-event-image {
     display: block;
     width: 72px;
     height: 72px;
@@ -154,7 +156,7 @@
     position: relative;
   }
 
-  .p-mypage-event-thumb {
+  .p-group-event-thumb {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -163,13 +165,13 @@
     background-color: #f8f8f8;
   }
 
-  .p-mypage-event-name {
+  .p-group-event-name {
     font-size: 14px;
     font-weight: 600;
     line-height: 1.5;
   }
 
-  .p-mypage-event-update {
+  .p-group-event-edit {
     display: block;
     padding: 12px 16px;
     margin-right: 16px;
@@ -189,26 +191,26 @@
       left: 24px;
     }
 
-    .p-mypage-event-link {
+    .p-group-event-link {
       gap: 16px;
       padding: 16px 24px;
     }
 
     &:last-of-type {
-      .p-mypage-event-link {
+      .p-group-event-link {
         padding: 16px 24px 24px;
       }
     }
 
-    .p-mypage-event-image {
+    .p-group-event-image {
       width: 80px;
       height: 80px;
     }
 
-    .p-mypage-event-name {
+    .p-group-event-name {
       font-size: 16px;
     }
-    .p-mypage-event-update {
+    .p-group-event-edit {
       margin-right: 24px;
     }
   }

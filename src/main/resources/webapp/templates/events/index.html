@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
 <head>
+<link rel="stylesheet" href="/css/page/event.css" th:href="@{/css/page/event.css}">
 <title th:text="#{events.index.title}">つながるーム</title>
 </head>
 <body>
-<div class="p-event-box" layout:fragment="contents">
+<div class="p-event-container" layout:fragment="contents">
 
-  <section class="p-sec-login">
+  <section class="p-event-sec-login">
     <h2 class="p-event-hdg2" th:utext="#{events.index.lead}">イベントをシェアして仲間を作ろう</h2>
 
     <div class="c-btn-login">
@@ -15,7 +16,7 @@
     </div>
   </section>
   
-  <section class="p-sec-event">
+  <section class="p-event-sec-event">
     <h2 class="c-hdg2" th:text="#{events.index.h1}">ピックアップイベント</h2>
     
     <div class="c-event">

@@ -4,14 +4,14 @@
 <title th:text="#{events.edit.title}">つながるーム</title>
 </head>
 <body>
-<div class="p-new-box" layout:fragment="contents">
+<div class="c-form-container" layout:fragment="contents">
 
   <h1 class="c-hdg1" th:text="#{events.edit.h1}">イベント更新</h1>
   
   <form method="post" th:action="@{/events/update}" th:object="${form}">
     <div layout:replace="~{layouts/common::messages}"></div>
     <input type="hidden" th:field="*{id}" />
-    <div class="c-form p-new-form">
+    <div class="c-form">
       <div class="c-form-item">
         <div class="c-form-label-box">
           <label for="event-title" class="c-form-label" th:text="#{events.edit.title}">イベント名</label>

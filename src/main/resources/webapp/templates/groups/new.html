@@ -4,14 +4,14 @@
 <title th:text="#{groups.new.title}">つながるーム</title>
 </head>
 <body>
-<div class="p-login-box" layout:fragment="contents">
+<div class="c-form-container" layout:fragment="contents">
 
   <h1 class="c-hdg1" th:text="#{groups.new.h1}">グループ作成</h1>
   
   <form method="post" th:action="@{/group}" th:object="${form}">
     <div layout:replace="~{layouts/common::messages}"></div>
     <input type="hidden" th:field="*{id}" />
-    <div class="c-form p-new-form">
+    <div class="c-form">
       <div class="c-form-item">
         <div class="c-form-label-box">
           <label for="group-name" class="c-form-label" th:text="#{groups.new.name}">グループ名</label>

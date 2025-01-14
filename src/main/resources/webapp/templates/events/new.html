@@ -13,13 +13,13 @@
 </style>
 </head>
 <body>
-<div class="p-new-box" layout:fragment="contents">
+<div class="c-form-container" layout:fragment="contents">
 
   <h1 class="c-hdg1" th:text="#{events.new.h1}">イベント作成</h1>
   
   <form method="post" th:action="@{/groups/{groupId}/events(groupId=${groupId})}" th:object="${form}" enctype="multipart/form-data">
     <div layout:replace="~{layouts/common::messages}"></div>
-    <div class="c-form p-new-form">
+    <div class="c-form">
       <div class="c-form-item">
         <div class="c-form-label-box">
           <label for="event-title" class="c-form-label" th:text="#{events.new.title}">イベント名</label>

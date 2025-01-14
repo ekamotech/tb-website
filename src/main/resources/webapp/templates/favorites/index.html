@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
 <head>
+<link rel="stylesheet" href="/css/page/favorite.css" th:href="@{/css/page/favorite.css}">
 <title th:text="#{favorites.index.title}">つながるーム</title>
 </head>
 <body>
-<div class="p-event-box" layout:fragment="contents">
+<div class="p-favorite-container" layout:fragment="contents">
   
-  <section class="p-sec-event">
+  <section class="p-favorite-sec-event">
     <h2 class="c-hdg2" th:text="#{favorites.index.h1}">お気に入りイベント</h2>
     
     <div class="c-event">

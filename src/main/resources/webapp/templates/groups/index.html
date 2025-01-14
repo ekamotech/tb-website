@@ -1,52 +1,52 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
 <head>
-<link rel="stylesheet" href="/css/page/mypage.css" th:href="@{/css/page/mypage.css}">
+<link rel="stylesheet" href="/css/page/group.css" th:href="@{/css/page/group.css}">
 <title th:text="#{groups.index.title}">つながるーム</title>
 </head>
 <body>
 
-<div class="p-mypage-container" layout:fragment="contents">
+<div class="p-group-container" layout:fragment="contents">
   
-  <h1 class="p-mypage-hdg1 c-hdg1" th:text="#{groups.index.h1}">マイグループ</h1>
+  <h1 class="c-hdg1" th:text="#{groups.index.h1}">マイグループ</h1>
   
-  <div class="p-mypage-btn-box">
-    <p class="p-mypage-text" th:text="#{groups.index.lead}">イベントグループを作成してイベントを開催しよう！</p>
-    <a class="p-mypage-group-btn c-btn-submit u-mb-0" th:href="@{/groups/new}" th:text="#{groups.index.group.create}">グループを作成</a>
+  <div class="p-group-btn-box">
+    <p class="p-group-text" th:text="#{groups.index.lead}">イベントグループを作成してイベントを開催しよう！</p>
+    <a class="p-group-btn c-btn-submit u-mb-0" th:href="@{/groups/new}" th:text="#{groups.index.group.create}">グループを作成</a>
   </div>
 
-  <div class="p-mypage-main">
+
     
-    <div class="p-mypage-group">
-      <div class="p-mypage-group-item" th:each="group : ${list}">
-        <div class="p-mypage-group-head">
-          <a th:href="@{/groups/{id}(id=${group.id})}" class="p-mypage-group-link">
-            <div class="p-mypage-group-image">
-              <img src="/images/shared/img-defalt-user.png" th:src="@{/images/shared/img-defalt-user.png}" class="p-mypage-group-thumb" alt="">
-            </div>
-            <div class="p-mypage-group-name" th:text="${group.name}"></div>
-          </a>
-          <a th:href="@{/groups/{id}/events/new(id=${group.id})}" class="p-mypage-event-btn c-btn-submit u-mb-0" th:text="#{groups.index.event.create}">イベントを作成</a>
-        </div>
-        
-        <div class="p-mypage-group-event">
-          <div class="p-mypage-event">
-            <div class="p-mypage-event-item" th:each="event : ${group.events}">
-              <a th:href="@{/events/{id}(id=${event.id})}" class="p-mypage-event-link">
-                <div class="p-mypage-event-image">
-                  <img src="" th:if="${@environment.getProperty('image.local')}" th:src="${event.imageData}" class="p-mypage-event-thumb" />
-                  <img src="" th:unless="${@environment.getProperty('image.local')}" th:src="${event.path}" class="p-mypage-event-thumb" />
-                </div>
-                <div class="p-mypage-event-name" th:text="${event.title}"></div>
-              </a>
-              <a th:href="@{/events/{id}/edit(id=${event.id})}" class="p-mypage-event-update u-mb-0" th:text="#{groups.index.event.update}">更新</a>
-            </div>
+  <div class="p-group-list">
+    <div class="p-group-item" th:each="group : ${list}">
+      <div class="p-group-head">
+        <a th:href="@{/groups/{id}(id=${group.id})}" class="p-group-link">
+          <div class="p-group-image">
+            <img src="/images/shared/img-defalt-user.png" th:src="@{/images/shared/img-defalt-user.png}" class="p-group-thumb" alt="">
           </div>
+          <div class="p-group-name" th:text="${group.name}"></div>
+        </a>
+        <a th:href="@{/groups/{id}/events/new(id=${group.id})}" class="p-group-event-btn c-btn-submit u-mb-0" th:text="#{groups.index.event.create}">イベントを作成</a>
+      </div>
+      
+
+      <div class="p-group-event-list">
+        <div class="p-group-event-item" th:each="event : ${group.events}">
+          <a th:href="@{/events/{id}(id=${event.id})}" class="p-group-event-link">
+            <div class="p-group-event-image">
+              <img src="" th:if="${@environment.getProperty('image.local')}" th:src="${event.imageData}" class="p-group-event-thumb" />
+              <img src="" th:unless="${@environment.getProperty('image.local')}" th:src="${event.path}" class="p-group-event-thumb" />
+            </div>
+            <div class="p-group-event-name" th:text="${event.title}"></div>
+          </a>
+          <a th:href="@{/events/{id}/edit(id=${event.id})}" class="p-group-event-edit u-mb-0" th:text="#{groups.index.event.update}">更新</a>
         </div>
       </div>
+
     </div>
-    
   </div>
+    
+
 
 </div>
 </body>

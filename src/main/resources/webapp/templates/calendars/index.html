@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
 <head>
+<link rel="stylesheet" href="/css/page/calendar.css" th:href="@{/css/page/calendar.css}">
 <title th:text="#{calendars.index.title}">つながるーム</title>
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.9/index.global.min.js'></script>
 <script>
@@ -14,15 +15,6 @@
         calendar.render();
     });
 </script>
-<style>
-  .fc-direction-ltr {
-    padding-top: 70px;
-  }
-  #calendar a {
-    color: #337ab7;
-    text-decoration: none;
-  }
-</style>
 </head>
 <body>
 <div layout:fragment="contents">

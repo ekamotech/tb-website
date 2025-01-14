@@ -4,7 +4,7 @@
 <title th:text="#{pages.index.title}">つながるーム</title>
 </head>
 <body>
-<div class="p-new-box" layout:fragment="contents">
+<div class="c-form-container" layout:fragment="contents">
   <form method="get" th:action="@{/events}">
     <button type="submit" class="c-btn-submit" th:text="#{layouts.complete.login}">ログインする</button>
   </form>
