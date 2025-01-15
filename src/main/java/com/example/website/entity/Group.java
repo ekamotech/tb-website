@@ -19,6 +19,9 @@ import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+/**
+ * グループを管理するクラス。
+ */
 @Entity
 @Table(name = "groups")
 @Data

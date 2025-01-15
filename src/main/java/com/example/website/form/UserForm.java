@@ -8,6 +8,10 @@ import com.example.website.validation.constraints.PasswordEquals;
 
 import lombok.Data;
 
+/**
+ * ユーザー登録フォームのデータを保持するクラス。
+ * パスワードとパスワード確認フィールドが一致することを検証します。
+ */
 @Data
 @PasswordEquals
 public class UserForm {

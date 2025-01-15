@@ -4,6 +4,9 @@ import com.example.website.entity.EventAttendee.ParticipationStatus;
 
 import lombok.Data;
 
+/**
+ * イベント参加者のデータを保持するクラス。
+ */
 @Data
 public class EventAttendeeForm {
     

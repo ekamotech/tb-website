@@ -17,6 +17,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+/**
+ * コメントを管理するクラス。
+ */
 @Entity
 @Table(name = "comments")
 @Data

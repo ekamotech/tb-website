@@ -9,6 +9,11 @@ import jakarta.persistence.PreUpdate;
 
 import lombok.Data;
 
+/**
+ * エンティティの共通のプロパティとメソッドを提供する抽象クラス。
+ * 作成日時と更新日時のフィールドを持ち、
+ * エンティティの永続化および更新の前にこれらのフィールドを自動的に設定します。
+ */
 @MappedSuperclass
 @Data
 public class AbstractEntity {

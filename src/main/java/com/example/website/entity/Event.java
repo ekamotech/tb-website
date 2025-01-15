@@ -22,6 +22,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+/**
+ * イベントを管理するクラス。
+ */
 @Entity
 @Table(name = "events")
 @Data

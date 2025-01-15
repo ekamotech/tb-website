@@ -21,6 +21,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+/**
+ * ユーザー情報を管理するクラスです。
+ */
 @Entity
 @Table(name = "users")
 @Data

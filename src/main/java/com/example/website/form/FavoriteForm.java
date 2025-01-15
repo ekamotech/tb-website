@@ -4,6 +4,9 @@ import jakarta.validation.constraints.NotNull;
 
 import lombok.Data;
 
+/**
+ * お気に入りのデータを保持するクラス。
+ */
 @Data
 public class FavoriteForm {
 

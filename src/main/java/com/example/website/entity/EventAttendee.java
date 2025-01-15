@@ -19,6 +19,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+/**
+ * イベント参加者を管理するクラス。
+ */
 @Entity
 @Table(name = "event_attendees", uniqueConstraints = @UniqueConstraint(columnNames = {"event_id", "user_id"}))
 @Data

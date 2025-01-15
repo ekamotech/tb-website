@@ -5,6 +5,9 @@ import jakarta.validation.constraints.Size;
 
 import lombok.Data;
 
+/**
+ * イベント更新フォームのデータを保持するクラス。
+ */
 @Data
 public class EventUpdateForm {
     

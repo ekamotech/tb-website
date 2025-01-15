@@ -19,6 +19,10 @@ import com.example.website.validation.constraints.ValidTimeRange;
 
 import lombok.Data;
 
+/**
+ * イベントのデータを保持するクラス。
+ * 開始日時と終了日時の範囲が正しいことを検証します。
+ */
 @Data
 @ValidTimeRange
 public class EventForm {

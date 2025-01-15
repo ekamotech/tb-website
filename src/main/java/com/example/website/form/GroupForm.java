@@ -7,6 +7,9 @@ import jakarta.validation.constraints.Size;
 
 import lombok.Data;
 
+/**
+ * グループのデータを保持するクラス。
+ */
 @Data
 public class GroupForm {
     

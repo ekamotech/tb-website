@@ -17,6 +17,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+/**
+ * お気に入りを管理するクラス。
+ */
 @Entity
 @Table(name = "favorites", uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "event_id"}))
 @Data

@@ -5,6 +5,9 @@ import jakarta.validation.constraints.Size;
 
 import lombok.Data;
 
+/**
+ * コメントのデータを保持するクラス。
+ */
 @Data
 public class CommentForm {
     
