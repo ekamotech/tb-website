@@ -8,6 +8,10 @@ import com.example.website.repository.GroupMemberRepository;
 import com.example.website.repository.GroupRepository;
 import com.example.website.repository.UserRepository;
 
+/**
+ * グループメンバーに関連するサービスクラス。
+ * グループメンバーの管理や操作を提供します。
+ */
 @Service
 public class GroupMemberService {
     
@@ -21,6 +25,13 @@ public class GroupMemberService {
         this.groupMemberRepository = groupMemberRepository;
     }
     
+    /**
+     * 指定されたユーザーが特定のグループの管理者であるかを判定します。
+     *
+     * @param userId ユーザーのID
+     * @param groupId グループのID
+     * @return ユーザーがグループの管理者である場合は true、それ以外の場合は false
+     */
     public boolean isUserGroupAdmin(Long userId, Long groupId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
         Group group = groupRepository.findById(groupId).orElseThrow(() -> new IllegalArgumentException("指定されたグループは見つかりませんでした"));

@@ -29,6 +29,9 @@ import com.example.website.service.EventAttendeeService;
 import com.example.website.service.EventService;
 import com.example.website.service.GroupMemberService;
 
+/**
+ * イベントに関連するリクエストを処理するコントローラークラス。
+ */
 @Controller
 public class EventsController {
     
@@ -45,6 +48,14 @@ public class EventsController {
         this.eventAttendeeService = eventAttendeeService;
     }
     
+    /**
+     * イベントの一覧ページを表示します。
+     *
+     * @param principal 認証されたユーザー情報
+     * @param model モデルオブジェクト
+     * @return イベント一覧ページのテンプレート名
+     * @throws IOException 入出力例外が発生した場合
+     */
     @GetMapping("/events")
     public String index(Principal principal, Model model) throws IOException {
         
@@ -54,6 +65,15 @@ public class EventsController {
         return "events/index";
     }
     
+    /**
+     * 新規イベント作成フォームを表示します。
+     *
+     * @param userInf 認証されたユーザー情報
+     * @param groupId グループのID
+     * @param model モデルオブジェクト
+     * @return イベント作成フォームのテンプレート名
+     * @throws IOException 入出力例外が発生した場合
+     */
     @GetMapping("/groups/{groupId}/events/new")
     public String newEvent(@AuthenticationPrincipal UserInf userInf, @PathVariable Long groupId, Model model) throws IOException {
         
@@ -65,6 +85,20 @@ public class EventsController {
         
     }
     
+    /**
+     * 新規イベントを作成します。
+     *
+     * @param userInf 認証されたユーザー情報
+     * @param groupId グループのID
+     * @param form イベントフォームオブジェクト
+     * @param result バリデーション結果
+     * @param model モデルオブジェクト
+     * @param image イベント画像
+     * @param redirAttrs リダイレクト属性
+     * @param locale ロケール情報
+     * @return リダイレクト先のURL
+     * @throws IOException 入出力例外が発生した場合
+     */
     @PostMapping("/groups/{groupId}/events")
     public String createEvent(@AuthenticationPrincipal UserInf userInf, @PathVariable Long groupId, @Validated @ModelAttribute("form") EventForm form, BindingResult result,
             Model model, @RequestParam MultipartFile image, RedirectAttributes redirAttrs, Locale locale)
@@ -87,6 +121,15 @@ public class EventsController {
         
     }
     
+    /**
+     * イベントの詳細ページを表示します。
+     *
+     * @param userInf 認証されたユーザー情報
+     * @param id イベントのID
+     * @param model モデルオブジェクト
+     * @return イベント詳細ページのテンプレート名
+     * @throws IOException 入出力例外が発生した場合
+     */
     @GetMapping("/events/{id}")
     public String detail(@AuthenticationPrincipal UserInf userInf, @PathVariable Long id, Model model) throws IOException {
         
@@ -110,6 +153,15 @@ public class EventsController {
         return "events/detail";
     }
     
+    /**
+     * イベント編集フォームを表示します。
+     *
+     * @param userInf 認証されたユーザー情報
+     * @param eventId イベントのID
+     * @param model モデルオブジェクト
+     * @return イベント編集フォームのテンプレート名
+     * @throws IOException 入出力例外が発生した場合
+     */
     @GetMapping("/events/{eventId}/edit")
     public String editEvent(@AuthenticationPrincipal UserInf userInf, @PathVariable Long eventId, Model model) throws IOException {
         EventUpdateForm form = eventService.editEvent(userInf.getUserId(), eventId);
@@ -117,6 +169,18 @@ public class EventsController {
         return "events/edit";
     }
     
+    /**
+     * イベントを更新します。
+     *
+     * @param userInf 認証されたユーザー情報
+     * @param form イベント更新フォームオブジェクト
+     * @param result バリデーション結果
+     * @param model モデルオブジェクト
+     * @param redirAttrs リダイレクト属性
+     * @param locale ロケール情報
+     * @return リダイレクト先のURL
+     * @throws IOException 入出力例外が発生した場合
+     */
     @PostMapping("/events/update")
     public String updateEvent(@AuthenticationPrincipal UserInf userInf, @Validated @ModelAttribute("form") EventUpdateForm form, BindingResult result,
             Model model, RedirectAttributes redirAttrs, Locale locale)
@@ -138,6 +202,15 @@ public class EventsController {
         return "redirect:/groups";
     }
     
+    /**
+     * イベントに参加します。
+     *
+     * @param userInf 認証されたユーザー情報
+     * @param eventId イベントのID
+     * @param redirAttrs リダイレクト属性
+     * @param locale ロケール情報
+     * @return リダイレクト先のURL
+     */
     @PostMapping("/events/{eventId}/join")
     public String joinEvent(@AuthenticationPrincipal UserInf userInf, @PathVariable Long eventId, RedirectAttributes redirAttrs, Locale locale) {
         try {

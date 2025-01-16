@@ -11,6 +11,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+/**
+ * グローバルな例外処理を提供するクラス。
+ * 全てのコントローラーで発生する例外を処理します。
+ */
 @ControllerAdvice
 @Component
 public class GlobalControllerAdvice {
@@ -20,6 +24,14 @@ public class GlobalControllerAdvice {
     
     protected static Logger log = LoggerFactory.getLogger(GlobalControllerAdvice.class);
     
+    /**
+     * 全ての例外を処理し、エラーメッセージをモデルに追加します。
+     *
+     * @param e 発生した例外
+     * @param model モデルオブジェクト
+     * @param locale ロケール情報
+     * @return エラーページのテンプレート名
+     */
     @ExceptionHandler(Exception.class)
     public String exceptionHandler(Exception e, Model model, Locale locale) {
         

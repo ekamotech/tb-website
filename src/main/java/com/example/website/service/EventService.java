@@ -42,6 +42,10 @@ import com.example.website.repository.EventRepository;
 import com.example.website.repository.GroupRepository;
 import com.example.website.repository.UserRepository;
 
+/**
+ * イベントに関連するサービスクラス。
+ * イベントの作成、更新、取得などの操作を提供します。
+ */
 @Service
 public class EventService {
     
@@ -71,11 +75,24 @@ public class EventService {
     @Value("${image.local:false}")
     private String imageLocal;
     
+    /**
+     * 指定されたIDのイベントを取得します。
+     *
+     * @param id イベントID
+     * @return イベントエンティティ
+     */
     public Event findById(Long id) {
         Event event = eventRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Event not found"));
         return event;
     }
     
+    /**
+     * 全てのイベント一覧を取得します。
+     *
+     * @param principal 認証されたユーザー情報
+     * @return イベントフォームのリスト
+     * @throws IOException 入出力例外が発生した場合
+     */
     public List<EventForm> index(Principal principal) throws IOException {
         Authentication authentication = (Authentication) principal;
         UserInf userInf = (UserInf) authentication.getPrincipal();
@@ -89,6 +106,14 @@ public class EventService {
         return list;
     }
     
+    /**
+     * 指定されたイベントの情報を取得します。
+     *
+     * @param user 認証されたユーザー情報
+     * @param entity イベントエンティティ
+     * @return イベントフォームオブジェクト
+     * @throws IOException 入出力例外が発生した場合
+     */
     public EventForm getEvent(UserInf user, Event entity) throws FileNotFoundException, IOException {
         modelMapper.getConfiguration().setAmbiguityIgnored(true);
         modelMapper.typeMap(Event.class, EventForm.class).addMappings(mapper -> mapper.skip(EventForm::setUser));
@@ -149,6 +174,12 @@ public class EventService {
         return form;
     }
     
+    /**
+     * ファイルパスからMIMEタイプを取得します。
+     *
+     * @param path ファイルパス
+     * @return MIMEタイプ
+     */
     private String getMimeType(String path) {
         String extension = FilenameUtils.getExtension(path);
         String mimeType = "image/";
@@ -167,6 +198,13 @@ public class EventService {
         return mimeType;
     }
     
+    /**
+     * 新規イベント作成フォームを作成します。
+     *
+     * @param userId ユーザーID
+     * @param groupId グループID
+     * @return イベントフォームオブジェクト
+     */
     public EventForm createEventForm(Long userId, Long groupId) {
         Group group = groupRepository.findById(groupId).orElseThrow(() -> new IllegalArgumentException("指定されたグループは見つかりませんでした"));
 
@@ -176,6 +214,15 @@ public class EventService {
         return form;
     }
     
+    /**
+     * 新規イベントを作成します。
+     *
+     * @param userId ユーザーID
+     * @param groupId グループID
+     * @param form イベントフォームオブジェクト
+     * @param image イベント画像
+     * @throws IOException 入出力例外が発生した場合
+     */
     @Transactional
     public void createEvent(Long userId, Long groupId, EventForm form, MultipartFile image) throws IOException {
         User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
@@ -217,6 +264,14 @@ public class EventService {
         
     }
     
+    /**
+     * イベント画像をローカルに保存します。
+     *
+     * @param image イベント画像
+     * @param event イベントエンティティ
+     * @return 保存されたファイル
+     * @throws IOException 入出力例外が発生した場合
+     */
     private File saveImageLocal(MultipartFile image, Event event) throws IOException {
         File uploadDir = new File("/uploads");
         uploadDir.mkdir();
@@ -241,6 +296,14 @@ public class EventService {
         return destFile;
     }
     
+    /**
+     * イベント編集フォームを作成します。
+     *
+     * @param userId ユーザーID
+     * @param eventId イベントID
+     * @return イベント更新フォームオブジェクト
+     * @throws IOException 入出力例外が発生した場合
+     */
     public EventUpdateForm editEvent(Long userId, Long eventId) throws IOException {
         Event event = eventRepository.findById(eventId).orElseThrow(() -> new IllegalArgumentException("イベントが見つかりません"));
         
@@ -258,6 +321,13 @@ public class EventService {
         }
     }
     
+    /**
+     * イベントを更新します。
+     *
+     * @param userId ユーザーID
+     * @param form イベント更新フォームオブジェクト
+     * @throws IOException 入出力例外が発生した場合
+     */
     @Transactional
     public void updateEvent(Long userId, EventUpdateForm form) throws IOException {
         Event entity = eventRepository.findById(form.getId()).orElseThrow(() -> new IllegalArgumentException("イベントが見つかりません"));
@@ -266,6 +336,12 @@ public class EventService {
         eventRepository.saveAndFlush(entity);
     }
     
+    /**
+     * イベントに参加します。
+     *
+     * @param userId ユーザーID
+     * @param eventId イベントID
+     */
     @Transactional
     public void joinEvent(Long userId, Long eventId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("ユーザーが見つかりません"));

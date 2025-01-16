@@ -26,6 +26,10 @@ import com.example.website.repository.GroupMemberRepository;
 import com.example.website.repository.GroupRepository;
 import com.example.website.repository.UserRepository;
 
+/**
+ * グループに関連するサービスクラス。
+ * グループの作成、更新、取得などの操作を提供します。
+ */
 @Service
 public class GroupService {
     
@@ -42,6 +46,13 @@ public class GroupService {
     @Autowired
     private EventService eventService;
     
+    /**
+     * 指定されたユーザーが管理者であるグループ一覧を取得します。
+     *
+     * @param principal 認証されたユーザー情報
+     * @return グループフォームのリスト
+     * @throws IOException 入出力例外が発生した場合
+     */
     public List<GroupForm> getGroupsForAdmin(Principal principal) throws IOException {
         Authentication authentication = (Authentication) principal;
         UserInf userInf = (UserInf) authentication.getPrincipal();
@@ -62,6 +73,14 @@ public class GroupService {
         return list;
     }
     
+    /**
+     * 指定されたグループの情報を取得します。
+     *
+     * @param user 認証されたユーザー情報
+     * @param entity グループエンティティ
+     * @return グループフォームオブジェクト
+     * @throws IOException 入出力例外が発生した場合
+     */
     public GroupForm getGroup(UserInf user, Group entity) throws IOException {
         modelMapper.getConfiguration().setAmbiguityIgnored(true);
         modelMapper.typeMap(Group.class, GroupForm.class).addMappings(mapper -> mapper.skip(GroupForm::setCreatedBy));
@@ -86,6 +105,13 @@ public class GroupService {
         return form;
     }
     
+    /**
+     * 新規グループを作成します。
+     *
+     * @param principal 認証されたユーザー情報
+     * @param form グループフォームオブジェクト
+     * @throws IOException 入出力例外が発生した場合
+     */
     @Transactional
     public void createGroup(Principal principal, GroupForm form) throws IOException {
         Group entity = new Group();
@@ -107,6 +133,13 @@ public class GroupService {
         groupMemberRepository.saveAndFlush(groupMember);
     }
     
+    /**
+     * グループを更新します。
+     *
+     * @param principal 認証されたユーザー情報
+     * @param form グループフォームオブジェクト
+     * @throws IOException 入出力例外が発生した場合
+     */
     @Transactional
     public void updateGroup(Principal principal, GroupForm form) throws IOException {
         Group entity = groupRepository.findById(form.getId()).orElseThrow(() -> new IllegalArgumentException("Group not found"));

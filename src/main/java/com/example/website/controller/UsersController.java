@@ -20,6 +20,9 @@ import com.example.website.entity.User.Authority;
 import com.example.website.form.UserForm;
 import com.example.website.repository.UserRepository;
 
+/**
+ * ユーザーに関連するリクエストを処理するコントローラークラス。
+ */
 @Controller
 public class UsersController {
     
@@ -30,12 +33,28 @@ public class UsersController {
     @Autowired
     private MessageSource messageSource;
     
+    /**
+     * 新規ユーザー登録フォームを表示します。
+     *
+     * @param model モデルオブジェクト
+     * @return 新規ユーザー登録フォームのテンプレート名
+     */
     @GetMapping("/users/new")
     public String newUser(Model model) {
         model.addAttribute("form", new UserForm());
         return "users/new";
     }
     
+    /**
+     * 新しいユーザーを作成します。
+     *
+     * @param form ユーザー登録フォームオブジェクト
+     * @param result バリデーション結果
+     * @param model モデルオブジェクト
+     * @param redirAttrs リダイレクト属性
+     * @param locale ロケール情報
+     * @return ユーザー登録完了ページのテンプレート名
+     */
     @PostMapping("/user")
     public String create(@Validated @ModelAttribute("form") UserForm form, BindingResult result, Model model,
             RedirectAttributes redirAttrs, Locale locale) {

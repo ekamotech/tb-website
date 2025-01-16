@@ -19,6 +19,10 @@ import com.example.website.repository.EventRepository;
 import com.example.website.repository.FavoriteRepository;
 import com.example.website.repository.UserRepository;
 
+/**
+ * お気に入りに関連するサービスクラス。
+ * お気に入りの作成、削除、取得などの操作を提供します。
+ */
 @Service
 public class FavoriteService {
     
@@ -34,6 +38,13 @@ public class FavoriteService {
         this.favoriteRepository = favoriteRepository;
     }
     
+    /**
+     * 認証されたユーザーのお気に入りイベント一覧を取得します。
+     *
+     * @param principal 認証されたユーザー情報
+     * @return イベントフォームのリスト
+     * @throws IOException 入出力例外が発生した場合
+     */
     public List<EventForm> index(Principal principal) throws IOException {
         Authentication authentication = (Authentication) principal;
         UserInf userInf = (UserInf) authentication.getPrincipal();
@@ -48,6 +59,13 @@ public class FavoriteService {
         return list;
     }
     
+    /**
+     * イベントをお気に入りに登録します。
+     *
+     * @param userId ユーザーID
+     * @param eventId イベントID
+     * @throws IOException 入出力例外が発生した場合
+     */
     @Transactional
     public void createFavorite(Long userId, Long eventId) throws IOException {
         User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
@@ -63,6 +81,13 @@ public class FavoriteService {
 
     }
     
+    /**
+     * イベントのお気に入りを解除します。
+     *
+     * @param userId ユーザーID
+     * @param eventId イベントID
+     * @throws IOException 入出力例外が発生した場合
+     */
     @Transactional
     public void destroyFavorite(Long userId, Long eventId) throws IOException {
         User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));

@@ -15,6 +15,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.example.website.entity.User;
 import com.example.website.repository.UserRepository;
 
+/**
+ * フォーム認証のためのカスタム認証プロバイダー。
+ * ユーザー名とパスワードを使用して認証を行います。
+ */
 @Configuration
 public class FormAuthenticationProvider implements AuthenticationProvider {
     
@@ -25,6 +29,13 @@ public class FormAuthenticationProvider implements AuthenticationProvider {
     @Autowired
     private PasswordEncoder passwordEncoder;
     
+    /**
+     * ユーザー名とパスワードを使用して認証を行います。
+     *
+     * @param auth 認証リクエストオブジェクト
+     * @return 認証されたユーザーの認証トークン
+     * @throws AuthenticationException 認証に失敗した場合にスローされます
+     */
     @Override
     public Authentication authenticate(Authentication auth) throws AuthenticationException {
         String name = auth.getName();
@@ -49,6 +60,12 @@ public class FormAuthenticationProvider implements AuthenticationProvider {
         return new UsernamePasswordAuthenticationToken(entity, password, entity.getAuthorities());
     }
     
+    /**
+     * このプロバイダーが指定された認証トークンのクラスをサポートするかどうかを判定します。
+     *
+     * @param authentication 認証トークンのクラス
+     * @return サポートする場合は true、それ以外の場合は false
+     */
     @Override
     public boolean supports(Class<?> authentication) {
         return UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication);

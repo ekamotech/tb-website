@@ -9,6 +9,9 @@ import java.lang.annotation.Target;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
+/**
+ * イベントの開始時間と終了時間の範囲が有効であることを検証するためのアノテーション。
+ */
 @Documented
 @Constraint(validatedBy = ValidTimeRangeValidator.class)
 @Target({ ElementType.TYPE })

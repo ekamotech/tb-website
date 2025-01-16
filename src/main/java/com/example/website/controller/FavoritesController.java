@@ -22,6 +22,9 @@ import com.example.website.entity.UserInf;
 import com.example.website.form.EventForm;
 import com.example.website.service.FavoriteService;
 
+/**
+ * お気に入りに関連するリクエストを処理するコントローラークラス。
+ */
 @Controller
 public class FavoritesController {
     
@@ -34,6 +37,14 @@ public class FavoritesController {
         this.favoriteService = favoriteService;
     }
     
+    /**
+     * 認証されたユーザーのお気に入りイベント一覧を表示します。
+     *
+     * @param principal 認証されたユーザー情報
+     * @param model モデルオブジェクト
+     * @return お気に入り一覧ページのテンプレート名
+     * @throws IOException 入出力例外が発生した場合
+     */
     @GetMapping("/favorites")
     public String index(Principal principal, Model model) throws IOException {
         
@@ -43,6 +54,17 @@ public class FavoritesController {
         return "favorites/index";
     }
     
+    /**
+     * イベントをお気に入りに登録します。
+     *
+     * @param userInf 認証されたユーザー情報
+     * @param eventId イベントのID
+     * @param redirAttrs リダイレクト属性
+     * @param request HTTPリクエストオブジェクト
+     * @param locale ロケール情報
+     * @return リダイレクト先のURL
+     * @throws IOException 入出力例外が発生した場合
+     */
     @PostMapping("/favorite")
     public String createFavorite(@AuthenticationPrincipal UserInf userInf, @RequestParam("event_id") long eventId, RedirectAttributes redirAttrs, HttpServletRequest request, Locale locale) throws IOException {
         
@@ -57,6 +79,17 @@ public class FavoritesController {
         return "redirect:" + referer;
     }
     
+    /**
+     * イベントのお気に入りを解除します。
+     *
+     * @param userInf 認証されたユーザー情報
+     * @param eventId イベントのID
+     * @param redirAttrs リダイレクト属性
+     * @param request HTTPリクエストオブジェクト
+     * @param locale ロケール情報
+     * @return リダイレクト先のURL
+     * @throws IOException 入出力例外が発生した場合
+     */
     @DeleteMapping("/favorite")
     public String destroyFavorite(@AuthenticationPrincipal UserInf userInf, @RequestParam("event_id") long eventId, RedirectAttributes redirAttrs, HttpServletRequest request, Locale locale) throws IOException {
         

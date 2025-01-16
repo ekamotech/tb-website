@@ -10,6 +10,9 @@ import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 import jakarta.validation.ReportAsSingleViolation;
 
+/**
+ * パスワードフィールドと確認用パスワードフィールドが一致するかを検証するためのアノテーション。
+ */
 @Documented
 @Constraint(validatedBy = PasswordEqualsValidator.class)
 @Target({ ElementType.TYPE })

@@ -10,6 +10,9 @@ import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 import jakarta.validation.ReportAsSingleViolation;
 
+/**
+ * 画像のByteサイズを検証するためのアノテーション。
+ */
 @Documented
 @Constraint(validatedBy = ImageByteValidator.class)
 @Target({ ElementType.FIELD })
@@ -23,6 +26,11 @@ public @interface ImageByte {
 
     Class<? extends Payload>[] payload() default {};
 
+    /**
+     * 画像の最大Byteサイズ。
+     *
+     * @return 最大Byteサイズ
+     */
     int max();
 }
 

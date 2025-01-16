@@ -15,6 +15,10 @@ import com.example.website.repository.EventAttendeeRepository;
 import com.example.website.repository.EventRepository;
 import com.example.website.repository.UserRepository;
 
+/**
+ * イベント参加者に関連するサービスクラス。
+ * イベント参加者の管理や操作を提供します。
+ */
 @Service
 public class EventAttendeeService {
 
@@ -28,6 +32,13 @@ public class EventAttendeeService {
         this.eventAttendeeRepository = eventAttendeeRepository;
     }
 
+    /**
+     * 指定されたユーザーが特定のイベントに参加しているかを判定します。
+     *
+     * @param userId ユーザーID
+     * @param eventId イベントID
+     * @return ユーザーがイベントに参加している場合は true、それ以外の場合は false
+     */
     public boolean isUserParticipating(Long userId, Long eventId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
         Event event = eventRepository.findById(eventId).orElseThrow(() -> new IllegalArgumentException("指定されたイベントは見つかりませんでした"));
@@ -36,6 +47,12 @@ public class EventAttendeeService {
         return eventAttendeeRepository.existsByEventAndUserAndParticipationStatus(event, user, status);
     }
     
+    /**
+     * イベントに参加者を登録します。
+     *
+     * @param user ユーザーオブジェクト
+     * @param event イベントオブジェクト
+     */
     @Transactional
     public void saveAttendee(User user, Event event) {
         // 重複チェック
@@ -52,6 +69,12 @@ public class EventAttendeeService {
         eventAttendeeRepository.save(eventAttendee);
     }
     
+    /**
+     * 指定されたイベントの参加者一覧を取得します。
+     *
+     * @param event イベントオブジェクト
+     * @return 参加者ユーザーオブジェクトのリスト
+     */
     public List<User> getAttendeesByEvent(Event event) {
         List<EventAttendee> attendees = eventAttendeeRepository.findByEventAndParticipationStatus(
             event,

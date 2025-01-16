@@ -19,6 +19,10 @@ import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 import com.example.website.filter.FormAuthenticationProvider;
 import com.example.website.repository.UserRepository;
 
+/**
+ * アプリケーションのセキュリティ設定クラス。
+ * 各種セキュリティ設定を行います。
+ */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -28,6 +32,14 @@ public class SecurityConfig {
     @Autowired
     private FormAuthenticationProvider authenticationProvider;
     
+    /**
+     * セキュリティフィルターチェーンの設定を行います。
+     *
+     * @param http HttpSecurityオブジェクト
+     * @param introspector HandlerMappingIntrospectorオブジェクト
+     * @return SecurityFilterChainオブジェクト
+     * @throws Exception 設定中に例外が発生した場合
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, HandlerMappingIntrospector introspector)
             throws Exception {
@@ -75,10 +87,22 @@ public class SecurityConfig {
         return http.build();
     }
     
+    /**
+     * カスタム認証プロバイダーを返します。
+     *
+     * @return FormAuthenticationProviderオブジェクト
+     */
     public FormAuthenticationProvider userDetailsService() {
         return this.authenticationProvider;
     }
     
+    /**
+     * 認証マネージャーを構築します。
+     *
+     * @param http HttpSecurityオブジェクト
+     * @return AuthenticationManagerオブジェクト
+     * @throws Exception 設定中に例外が発生した場合
+     */
     public AuthenticationManager authManager(HttpSecurity http) throws Exception {
         AuthenticationManagerBuilder authenticationManagerBuilder = http
                 .getSharedObject(AuthenticationManagerBuilder.class);
@@ -86,6 +110,11 @@ public class SecurityConfig {
         return authenticationManagerBuilder.build();
     }
     
+    /**
+     * パスワードエンコーダーのBeanを定義します。
+     *
+     * @return PasswordEncoderオブジェクト
+     */
     @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

@@ -15,6 +15,10 @@ import com.example.website.form.EventScheduleForm;
 import com.example.website.repository.EventRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * イベントスケジュールに関連するリクエストを処理するコントローラークラス。
+ * カレンダーに表示するイベント情報を取得します。
+ */
 @RestController
 @RequestMapping("/schedules")
 public class EventSchedulesController {
@@ -26,7 +30,7 @@ public class EventSchedulesController {
     }
     
     /**
-    * カレンダーに表示するEvent情報を取得する。
+    * カレンダーに表示するEvent情報を取得します。
     *
     * @return Event情報をjsonエンコードした文字列
     */

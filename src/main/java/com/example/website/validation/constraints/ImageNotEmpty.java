@@ -10,6 +10,9 @@ import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 import jakarta.validation.ReportAsSingleViolation;
 
+/**
+ * 画像フィールドが空でないことを検証するためのアノテーション。
+ */
 @Documented
 @Constraint(validatedBy = ImageNotEmptyValidator.class)
 @Target({ ElementType.FIELD })

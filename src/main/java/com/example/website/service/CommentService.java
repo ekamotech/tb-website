@@ -16,6 +16,10 @@ import com.example.website.repository.CommentRepository;
 import com.example.website.repository.EventRepository;
 import com.example.website.repository.UserRepository;
 
+/**
+ * コメントに関連するサービスクラス。
+ * コメントの作成、取得などの操作を提供します。
+ */
 @Service
 public class CommentService {
     
@@ -32,6 +36,13 @@ public class CommentService {
         this.commentRepository = commentRepository;
     }
     
+    /**
+     * 新規コメントフォームを作成します。
+     *
+     * @param userId ユーザーID
+     * @param eventId イベントID
+     * @return コメントフォームオブジェクト
+     */
     public CommentForm createCommentForm(Long userId, Long eventId) {
         CommentForm form = new CommentForm();
         form.setUserId(userId);
@@ -39,6 +50,14 @@ public class CommentService {
         return form;
     }
     
+    /**
+     * 新規コメントを作成します。
+     *
+     * @param userId ユーザーID
+     * @param eventId イベントID
+     * @param form コメントフォームオブジェクト
+     * @throws IOException 入出力例外が発生した場合
+     */
     @Transactional
     public void createComment(Long userId, Long eventId, CommentForm form) throws IOException {
         User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));

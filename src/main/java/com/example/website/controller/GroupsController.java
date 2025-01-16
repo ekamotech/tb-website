@@ -24,6 +24,9 @@ import com.example.website.form.GroupForm;
 import com.example.website.repository.GroupRepository;
 import com.example.website.service.GroupService;
 
+/**
+ * グループに関連するリクエストを処理するコントローラークラス。
+ */
 @Controller
 public class GroupsController {
     
@@ -34,6 +37,14 @@ public class GroupsController {
     @Autowired
     private MessageSource messageSource;
     
+    /**
+     * 指定されたユーザーが管理者であるグループ一覧を取得します。
+     *
+     * @param principal 認証されたユーザー情報
+     * @param model モデルオブジェクト
+     * @return グループ一覧ページのテンプレート名
+     * @throws IOException 入出力例外が発生した場合
+     */
     @GetMapping("/groups")
     public String index(Principal principal, Model model) throws IOException {
 
@@ -43,12 +54,30 @@ public class GroupsController {
         return "groups/index";
     }
     
+    /**
+     * 新規グループ作成フォームを表示します。
+     *
+     * @param model モデルオブジェクト
+     * @return グループ作成フォームのテンプレート名
+     */
     @GetMapping("/groups/new")
     public String newGroup(Model model) {
         model.addAttribute("form", new GroupForm());
         return "groups/new";
     }
     
+    /**
+     * 新規グループを作成します。
+     *
+     * @param principal 認証されたユーザー情報
+     * @param form グループフォームオブジェクト
+     * @param result バリデーション結果
+     * @param model モデルオブジェクト
+     * @param redirAttrs リダイレクト属性
+     * @param locale ロケール情報
+     * @return リダイレクト先のURL
+     * @throws IOException 入出力例外が発生した場合
+     */
     @PostMapping("/group")
     @Transactional
     public String create(Principal principal, @Validated @ModelAttribute("form") GroupForm form, BindingResult result,
@@ -72,6 +101,14 @@ public class GroupsController {
         
     }
     
+    /**
+     * グループの詳細ページを表示します。
+     *
+     * @param id グループのID
+     * @param model モデルオブジェクト
+     * @return グループ詳細ページのテンプレート名
+     * @throws IOException 入出力例外が発生した場合
+     */
     @GetMapping("/groups/{id}")
     public String detail(@PathVariable Long id, Model model) throws IOException {
         Group entity = groupRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Group not found"));
@@ -80,6 +117,14 @@ public class GroupsController {
         return "groups/detail";
     }
     
+    /**
+     * グループ編集フォームを表示します。
+     *
+     * @param id グループのID
+     * @param model モデルオブジェクト
+     * @return グループ編集フォームのテンプレート名
+     * @throws IOException 入出力例外が発生した場合
+     */
     @GetMapping("/groups/{id}/edit")
     public String editGroup(@PathVariable Long id, Model model) throws IOException {
         Group entity = groupRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Group not found"));
@@ -88,6 +133,18 @@ public class GroupsController {
         return "groups/edit";
     }
     
+    /**
+     * グループを更新します。
+     *
+     * @param principal 認証されたユーザー情報
+     * @param form グループフォームオブジェクト
+     * @param result バリデーション結果
+     * @param model モデルオブジェクト
+     * @param redirAttrs リダイレクト属性
+     * @param locale ロケール情報
+     * @return リダイレクト先のURL
+     * @throws IOException 入出力例外が発生した場合
+     */
     @PostMapping("/groups/update")
     public String update(Principal principal, @Validated @ModelAttribute("form") GroupForm form, BindingResult result,
             Model model, RedirectAttributes redirAttrs, Locale locale)

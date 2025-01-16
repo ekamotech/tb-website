@@ -14,6 +14,10 @@ import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
+/**
+ * メール送信に関連するサービスクラス。
+ * メールの作成と送信を行います。
+ */
 @Service
 public class SendMailService {
     
@@ -23,6 +27,13 @@ public class SendMailService {
     @Value("${SPRING_MAIL_USERNAME}")
     private String springMailUsername;
 
+    /**
+     * メールを送信します。
+     *
+     * @param context メールのコンテキスト情報
+     * @param recipientEmail 受信者のメールアドレス
+     * @param templateName 使用するテンプレート名
+     */
     public void sendMail(Context context, String recipientEmail, String templateName) {
 
         javaMailSender.send(new MimeMessagePreparator() {
@@ -36,12 +47,24 @@ public class SendMailService {
                 helper.setText(getMailBody(templateName, context), true);
             }
 
+            /**
+             * メールの本文を取得します。
+             *
+             * @param templateName 使用するテンプレート名
+             * @param context メールのコンテキスト情報
+             * @return メールの本文
+             */
             private String getMailBody(String templateName, Context context) {
                 SpringTemplateEngine templateEngine = new SpringTemplateEngine();
                 templateEngine.setTemplateResolver(templateResolver());
                 return templateEngine.process(templateName, context);
             }
             
+            /**
+             * テンプレートリゾルバを設定します。
+             *
+             * @return テンプレートリゾルバ
+             */
             private ClassLoaderTemplateResolver templateResolver() {
                 ClassLoaderTemplateResolver resolver = new ClassLoaderTemplateResolver();
                 resolver.setPrefix("mailtemplates/");

@@ -20,6 +20,9 @@ import com.example.website.entity.UserInf;
 import com.example.website.form.CommentForm;
 import com.example.website.service.CommentService;
 
+/**
+ * コメントに関連するリクエストを処理するコントローラークラス。
+ */
 @Controller
 public class CommentsController {
     
@@ -32,6 +35,15 @@ public class CommentsController {
         this.commentService = commentService;
     }
     
+    /**
+     * 新しいコメント投稿フォームを表示します。
+     *
+     * @param userInf 認証されたユーザー情報
+     * @param eventId イベントのID
+     * @param model モデルオブジェクト
+     * @return コメント投稿フォームのテンプレート名
+     * @throws IOException 入出力例外が発生した場合
+     */
     @GetMapping("/events/{eventId}/comments/new")
     public String newComment(@AuthenticationPrincipal UserInf userInf, @PathVariable("eventId") long eventId, Model model) throws IOException {
         CommentForm form = commentService.createCommentForm(userInf.getUserId(), eventId);
@@ -40,6 +52,19 @@ public class CommentsController {
         return "comments/new";
     }
     
+    /**
+     * 新しいコメントを作成します。
+     *
+     * @param userInf 認証されたユーザー情報
+     * @param eventId イベントのID
+     * @param form コメントフォームオブジェクト
+     * @param result バリデーション結果
+     * @param model モデルオブジェクト
+     * @param redirAttrs リダイレクト属性
+     * @param locale ロケール情報
+     * @return リダイレクト先のURL
+     * @throws IOException 入出力例外が発生した場合
+     */
     @PostMapping("/events/{eventId}/comment")
     public String createComment(@AuthenticationPrincipal UserInf userInf, @PathVariable("eventId") long eventId, @Validated @ModelAttribute("form") CommentForm form,
             BindingResult result, Model model, RedirectAttributes redirAttrs, Locale locale) throws IOException {
