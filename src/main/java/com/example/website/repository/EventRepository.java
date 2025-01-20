@@ -3,9 +3,10 @@ package com.example.website.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.example.website.entity.Event;
-import com.example.website.entity.Group;
 
 /**
  * イベントエンティティのためのリポジトリインターフェース。
@@ -23,9 +24,12 @@ public interface EventRepository extends JpaRepository<Event, Long> {
     /**
      * 指定されたグループに属するイベントを、更新日時の降順で取得します。
      *
-     * @param group 検索対象のグループ
+     * @param groupId 検索対象のグループID
      * @return 指定されたグループに属するイベントのリスト
      */
-    List<Event> findByGroupOrderByUpdatedAtDesc(Group group);
-    
+    @Query("SELECT e " +
+            "FROM Event e " +
+            "WHERE e.group.id = :groupId " +
+            "ORDER BY e.updatedAt DESC")
+     List<Event> findByGroupIdOrderByUpdatedAtDesc(@Param("groupId") Long groupId);
 }

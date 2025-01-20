@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.example.website.entity.Event;
 import com.example.website.entity.EventAttendee;
-import com.example.website.entity.EventAttendee.ParticipationStatus;
 import com.example.website.entity.User;
 import com.example.website.repository.EventAttendeeRepository;
 import com.example.website.repository.EventRepository;
@@ -33,18 +32,17 @@ public class EventAttendeeService {
     }
 
     /**
-     * 指定されたユーザーが特定のイベントに参加しているかを判定します。
+     * 指定されたユーザーが特定のイベントに参加済みかを判定します。
      *
      * @param userId ユーザーID
      * @param eventId イベントID
-     * @return ユーザーがイベントに参加している場合は true、それ以外の場合は false
+     * @return ユーザーが特定のイベントに参加済みの場合は true、それ以外の場合は false
      */
     public boolean isUserParticipating(Long userId, Long eventId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("ユーザーが見つかりません"));
         Event event = eventRepository.findById(eventId).orElseThrow(() -> new IllegalArgumentException("指定されたイベントは見つかりませんでした"));
-        ParticipationStatus status = EventAttendee.ParticipationStatus.PARTICIPATING;
         
-        return eventAttendeeRepository.existsByEventAndUserAndParticipationStatus(event, user, status);
+        return eventAttendeeRepository.existsByUserIdAndEventIdAndParticipationStatus(userId, eventId);
     }
     
     /**
@@ -59,7 +57,7 @@ public class EventAttendeeService {
         Event event = eventRepository.findById(eventId).orElseThrow(() -> new IllegalArgumentException("イベントが見つかりません"));
         
         // 重複チェック
-        boolean isAlreadyJoined = eventAttendeeRepository.existsByEventAndUserAndParticipationStatus(event, user, EventAttendee.ParticipationStatus.PARTICIPATING);
+        boolean isAlreadyJoined = eventAttendeeRepository.existsByUserIdAndEventIdAndParticipationStatus(userId, eventId);
         if (isAlreadyJoined) {
             throw new IllegalArgumentException("すでに参加済みです");
         }
@@ -82,10 +80,7 @@ public class EventAttendeeService {
         
         Event event = eventRepository.findById(eventId).orElseThrow(() -> new IllegalArgumentException("指定されたイベントは見つかりませんでした"));
 
-        List<EventAttendee> attendees = eventAttendeeRepository.findByEventAndParticipationStatus(
-            event,
-            EventAttendee.ParticipationStatus.PARTICIPATING
-        );
+        List<EventAttendee> attendees = eventAttendeeRepository.findByEventIdAndParticipationStatus(eventId);
 
         List<User> users = attendees.stream()
                         .map(EventAttendee::getUser)

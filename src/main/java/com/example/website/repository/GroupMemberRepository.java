@@ -6,10 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.example.website.entity.Group;
 import com.example.website.entity.GroupMember;
-import com.example.website.entity.GroupMember.Authority;
-import com.example.website.entity.User;
 
 /**
  * グループメンバーエンティティのためのリポジトリインターフェース。
@@ -18,23 +15,26 @@ import com.example.website.entity.User;
 public interface GroupMemberRepository extends JpaRepository<GroupMember, Long> {
     
     /**
-     * 指定されたユーザーと権限に基づいてグループメンバーを取得し、更新日時の降順で並べ替えます。
+     * 指定されたユーザーが管理者であるグループメンバーを取得し、更新日時の降順で並べ替えます。
      *
-     * @param user 検索対象のユーザー
-     * @param authority 検索対象の権限
-     * @return 指定されたユーザーと権限に基づいて取得されたグループメンバーのリスト
+     * @param userId 検索対象のユーザーID
+     * @return 指定されたユーザーIDと権限に基づいて取得されたグループメンバーのリスト
      */
-    List<GroupMember> findByUserAndAuthorityOrderByUpdatedAtDesc(User user, Authority authority);
+    @Query("SELECT gm " +
+            "FROM GroupMember gm " +
+            "WHERE gm.user.userId = :userId AND gm.authority = 'ROLE_ADMIN'" +
+            "ORDER BY gm.updatedAt DESC")
+    List<GroupMember> findByUserIdAndAuthorityOrderByUpdatedAtDesc(@Param("userId") Long userId);
     
     /**
      * 指定されたユーザーが特定のグループの管理者であるかを判定します。
      *
-     * @param group 検索対象のグループ
-     * @param user 検索対象のユーザー
+     * @param userId 検索対象のユーザーID
+     * @param groupId 検索対象のグループID
      * @return ユーザーがグループの管理者である場合は true、それ以外の場合は false
      */
     @Query("SELECT COUNT(gm) > 0 " +
             "FROM GroupMember gm " +
-            "WHERE gm.group = :group AND gm.user = :user AND gm.authority = 'ROLE_ADMIN'")
-    boolean isUserGroupAdmin(@Param("group") Group group, @Param("user") User user);
+            "WHERE gm.user.userId = :userId AND gm.group.id = :groupId AND gm.authority = 'ROLE_ADMIN'")
+    boolean isUserGroupAdmin(@Param("userId") Long userId, @Param("groupId") Long groupId);
 }

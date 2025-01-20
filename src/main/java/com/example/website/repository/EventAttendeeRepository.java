@@ -3,11 +3,10 @@ package com.example.website.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
-import com.example.website.entity.Event;
 import com.example.website.entity.EventAttendee;
-import com.example.website.entity.EventAttendee.ParticipationStatus;
-import com.example.website.entity.User;
 
 /**
  * イベント参加者エンティティのためのリポジトリインターフェース。
@@ -18,20 +17,25 @@ public interface EventAttendeeRepository extends JpaRepository<EventAttendee, Lo
     /**
      * 指定されたユーザーが特定のイベントに参加済みかを判定します。
      *
-     * @param event 検索対象のイベント
-     * @param user 検索対象のユーザー
-     * @param status 参加ステータス
+     * @param userId 検索対象のユーザーID
+     * @param eventId 検索対象のイベントID
      * @return ユーザーが特定のイベントに参加済みの場合は true、それ以外の場合は false
      */
-    boolean existsByEventAndUserAndParticipationStatus(Event event, User user, ParticipationStatus status);
+    @Query("SELECT COUNT(ea) > 0 " +
+            "FROM EventAttendee ea " +
+            "WHERE ea.user.userId = :userId AND ea.event.id = :eventId AND ea.participationStatus = 'PARTICIPATING'")
+     boolean existsByUserIdAndEventIdAndParticipationStatus(@Param("userId") Long userId,
+                                                            @Param("eventId") Long eventId);
     
     /**
      * 特定のイベントに参加済みのメンバーを取得します。
      *
-     * @param event 検索対象のイベント
-     * @param status 参加ステータス
+     * @param eventId 検索対象のイベントID
      * @return 特定のイベントに参加済みのメンバーのリスト
      */
-    List<EventAttendee> findByEventAndParticipationStatus(Event event, ParticipationStatus status);
+    @Query("SELECT ea " +
+            "FROM EventAttendee ea " +
+            "WHERE ea.event.id = :eventId AND ea.participationStatus = 'PARTICIPATING'")
+     List<EventAttendee> findByEventIdAndParticipationStatus(@Param("eventId") Long eventId);
 
 }

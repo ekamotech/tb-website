@@ -58,7 +58,7 @@ public class GroupService {
 
         User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("ユーザーが見つかりません"));
         
-        List<GroupMember> groupMembers = groupMemberRepository.findByUserAndAuthorityOrderByUpdatedAtDesc(user, GroupMember.Authority.ROLE_ADMIN);
+        List<GroupMember> groupMembers = groupMemberRepository.findByUserIdAndAuthorityOrderByUpdatedAtDesc(userId);
         List<Group> groups = groupMembers.stream()
                                          .map(GroupMember::getGroup)
                                          .collect(Collectors.toList());
@@ -95,7 +95,7 @@ public class GroupService {
         List<EventForm> events = new ArrayList<EventForm>();
 
         // 更新日時が新しい順にイベントを取得
-        List<Event> eventEntities = eventRepository.findByGroupOrderByUpdatedAtDesc(entity);
+        List<Event> eventEntities = eventRepository.findByGroupIdOrderByUpdatedAtDesc(groupId);
 
         for (Event eventEntity : eventEntities) {
             EventForm event = eventService.getEvent(userId, eventEntity.getId());

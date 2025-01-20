@@ -36,7 +36,7 @@ public class GroupMemberService {
         User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("ユーザーが見つかりません"));
         Group group = groupRepository.findById(groupId).orElseThrow(() -> new IllegalArgumentException("指定されたグループは見つかりませんでした"));
 
-        return groupMemberRepository.isUserGroupAdmin(group, user);
+        return groupMemberRepository.isUserGroupAdmin(userId, groupId);
     }
     
 }
