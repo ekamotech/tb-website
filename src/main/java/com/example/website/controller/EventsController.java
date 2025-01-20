@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.example.website.entity.Event;
 import com.example.website.entity.User;
 import com.example.website.entity.UserInf;
 import com.example.website.form.EventForm;
@@ -132,17 +131,16 @@ public class EventsController {
     @GetMapping("/events/{eventId}")
     public String detail(@AuthenticationPrincipal UserInf userInf, @PathVariable Long eventId, Model model) throws IOException {
         
-        Event entity = eventService.findById(eventId);
         EventForm event = eventService.getEvent(userInf.getUserId(), eventId);
         
         // イベントグループの管理者かを判定
-        boolean isAdmin = groupMemberService.isUserGroupAdmin(userInf.getUserId(), entity.getGroup().getId());
+        boolean isAdmin = groupMemberService.isUserGroupAdmin(userInf.getUserId(), event.getGroup().getId());
         
         // イベントに参加済みかを判定
-        boolean isParticipating = eventAttendeeService.isUserParticipating(userInf.getUserId(), entity.getId());
+        boolean isParticipating = eventAttendeeService.isUserParticipating(userInf.getUserId(), eventId);
         
         // イベントの参加者を取得
-        List<User> attendees = eventAttendeeService.getAttendeesByEvent(entity);
+        List<User> attendees = eventAttendeeService.getAttendeesByEvent(eventId);
 
         model.addAttribute("event", event);
         model.addAttribute("isAdmin", isAdmin);

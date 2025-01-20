@@ -1,7 +1,6 @@
 package com.example.website.controller;
 
 import java.io.IOException;
-import java.security.Principal;
 import java.util.List;
 import java.util.Locale;
 
@@ -40,15 +39,15 @@ public class FavoritesController {
     /**
      * 認証されたユーザーのお気に入りイベント一覧を表示します。
      *
-     * @param principal 認証されたユーザー情報
+     * @param userInf 認証されたユーザー情報
      * @param model モデルオブジェクト
      * @return お気に入り一覧ページのテンプレート名
      * @throws IOException 入出力例外が発生した場合
      */
     @GetMapping("/favorites")
-    public String index(Principal principal, Model model) throws IOException {
+    public String index(@AuthenticationPrincipal UserInf userInf, Model model) throws IOException {
         
-        List<EventForm> list = favoriteService.index(principal);
+        List<EventForm> list = favoriteService.index(userInf.getUserId());
         model.addAttribute("list", list);
         
         return "favorites/index";

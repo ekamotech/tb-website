@@ -54,7 +54,10 @@ public class EventAttendeeService {
      * @param event イベントオブジェクト
      */
     @Transactional
-    public void saveAttendee(User user, Event event) {
+    public void saveAttendee(Long userId, Long eventId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("ユーザーが見つかりません"));
+        Event event = eventRepository.findById(eventId).orElseThrow(() -> new IllegalArgumentException("イベントが見つかりません"));
+        
         // 重複チェック
         boolean isAlreadyJoined = eventAttendeeRepository.existsByEventAndUserAndParticipationStatus(event, user, EventAttendee.ParticipationStatus.PARTICIPATING);
         if (isAlreadyJoined) {
@@ -75,7 +78,9 @@ public class EventAttendeeService {
      * @param event イベントオブジェクト
      * @return 参加者ユーザーオブジェクトのリスト
      */
-    public List<User> getAttendeesByEvent(Event event) {
+    public List<User> getAttendeesByEvent(Long eventId) {
+        
+        Event event = eventRepository.findById(eventId).orElseThrow(() -> new IllegalArgumentException("指定されたイベントは見つかりませんでした"));
 
         List<EventAttendee> attendees = eventAttendeeRepository.findByEventAndParticipationStatus(
             event,

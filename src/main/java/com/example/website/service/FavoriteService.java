@@ -1,19 +1,16 @@
 package com.example.website.service;
 
 import java.io.IOException;
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.transaction.Transactional;
 
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import com.example.website.entity.Event;
 import com.example.website.entity.Favorite;
 import com.example.website.entity.User;
-import com.example.website.entity.UserInf;
 import com.example.website.form.EventForm;
 import com.example.website.repository.EventRepository;
 import com.example.website.repository.FavoriteRepository;
@@ -45,14 +42,12 @@ public class FavoriteService {
      * @return イベントフォームのリスト
      * @throws IOException 入出力例外が発生した場合
      */
-    public List<EventForm> index(Principal principal) throws IOException {
-        Authentication authentication = (Authentication) principal;
-        UserInf userInf = (UserInf) authentication.getPrincipal();
+    public List<EventForm> index(Long userId) throws IOException {
         
-        List<Favorite> events = favoriteRepository.findByUserIdOrderByUpdatedAtDesc(userInf.getUserId());
+        List<Favorite> events = favoriteRepository.findByUserIdOrderByUpdatedAtDesc(userId);
         List<EventForm> list = new ArrayList<>();
         for (Favorite entity : events) {
-            EventForm form = eventService.getEvent(userInf.getUserId(), entity.getEvent().getId());
+            EventForm form = eventService.getEvent(userId, entity.getEvent().getId());
             list.add(form);
         }
         return list;

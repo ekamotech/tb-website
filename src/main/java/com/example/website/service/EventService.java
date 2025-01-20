@@ -73,17 +73,6 @@ public class EventService {
     private String imageLocal;
     
     /**
-     * 指定されたIDのイベントを取得します。
-     *
-     * @param eventId イベントID
-     * @return イベントエンティティ
-     */
-    public Event findById(Long eventId) {
-        Event event = eventRepository.findById(eventId).orElseThrow(() -> new IllegalArgumentException("イベントが見つかりません"));
-        return event;
-    }
-    
-    /**
      * 全てのイベント一覧を取得します。
      *
      * @param userId ユーザーID
@@ -345,7 +334,7 @@ public class EventService {
         Event event = eventRepository.findById(eventId).orElseThrow(() -> new IllegalArgumentException("イベントが見つかりません"));
 
         // 参加登録を委譲
-        eventAttendeeService.saveAttendee(user, event);
+        eventAttendeeService.saveAttendee(userId, eventId);
         
         // 参加登録メールを送信
         Context context = new Context();
