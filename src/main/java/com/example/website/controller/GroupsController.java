@@ -31,11 +31,15 @@ import com.example.website.service.GroupService;
 public class GroupsController {
     
     @Autowired
-    private GroupRepository groupRepository;
-    @Autowired
-    private GroupService groupService;
-    @Autowired
     private MessageSource messageSource;
+    
+    private final GroupRepository groupRepository;
+    private final GroupService groupService;
+    
+    public GroupsController(GroupRepository groupRepository, GroupService groupService) {
+        this.groupRepository = groupRepository;
+        this.groupService = groupService;
+    }
     
     /**
      * 指定されたユーザーが管理者であるグループ一覧を取得します。

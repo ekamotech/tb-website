@@ -35,16 +35,20 @@ public class GroupService {
     
     @Autowired
     private ModelMapper modelMapper;
-    @Autowired
-    private GroupRepository groupRepository;
-    @Autowired
-    private GroupMemberRepository groupMemberRepository;
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private EventRepository eventRepository;
-    @Autowired
-    private EventService eventService;
+    
+    private final UserRepository userRepository;
+    private final GroupRepository groupRepository;
+    private final GroupMemberRepository groupMemberRepository;
+    private final EventRepository eventRepository;
+    private final EventService eventService;
+    
+    public GroupService(UserRepository userRepository, GroupRepository groupRepository, GroupMemberRepository groupMemberRepository, EventRepository eventRepository, EventService eventService) {
+        this.userRepository = userRepository;
+        this.groupRepository = groupRepository;
+        this.groupMemberRepository = groupMemberRepository;
+        this.eventRepository = eventRepository;
+        this.eventService = eventService;
+    }
     
     /**
      * 指定されたユーザーが管理者であるグループ一覧を取得します。

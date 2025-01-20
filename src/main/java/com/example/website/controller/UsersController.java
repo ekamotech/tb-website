@@ -28,10 +28,15 @@ public class UsersController {
     
     @Autowired
     private PasswordEncoder passwordEncoder;
-    @Autowired
-    private UserRepository repository;
+
     @Autowired
     private MessageSource messageSource;
+    
+    private final UserRepository userRepository;
+    
+    public UsersController(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
     
     /**
      * 新規ユーザー登録フォームを表示します。
@@ -62,7 +67,7 @@ public class UsersController {
         String email = form.getEmail();
         String password = form.getPassword();
         
-        if (repository.findByUsername(email) != null) {
+        if (userRepository.findByUsername(email) != null) {
             FieldError fieldError = new FieldError(result.getObjectName(), "email", messageSource.getMessage("users.create.error.duplicate", new String[] {}, "その E メールはすでに使用されています。", locale));
             result.addError(fieldError);
         }
@@ -74,7 +79,7 @@ public class UsersController {
         }
         
         User entity = new User(email, name, passwordEncoder.encode(password), Authority.ROLE_USER);
-        repository.saveAndFlush(entity);
+        userRepository.saveAndFlush(entity);
         
         model.addAttribute("hasMessage", true);
         model.addAttribute("class", "alert-info");

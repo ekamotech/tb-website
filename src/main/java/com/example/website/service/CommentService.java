@@ -4,8 +4,6 @@ import java.io.IOException;
 
 import jakarta.transaction.Transactional;
 
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.website.entity.Comment;
@@ -22,9 +20,6 @@ import com.example.website.repository.UserRepository;
  */
 @Service
 public class CommentService {
-    
-    @Autowired
-    private ModelMapper modelMapper;
     
     private final UserRepository userRepository;
     private final EventRepository eventRepository;
