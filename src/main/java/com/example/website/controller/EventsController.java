@@ -1,7 +1,6 @@
 package com.example.website.controller;
 
 import java.io.IOException;
-import java.security.Principal;
 import java.util.List;
 import java.util.Locale;
 
@@ -51,15 +50,15 @@ public class EventsController {
     /**
      * イベントの一覧ページを表示します。
      *
-     * @param principal 認証されたユーザー情報
+     * @param userInf 認証されたユーザー情報
      * @param model モデルオブジェクト
      * @return イベント一覧ページのテンプレート名
      * @throws IOException 入出力例外が発生した場合
      */
     @GetMapping("/events")
-    public String index(Principal principal, Model model) throws IOException {
+    public String index(@AuthenticationPrincipal UserInf userInf, Model model) throws IOException {
         
-        List<EventForm> list = eventService.index(principal);
+        List<EventForm> list = eventService.index(userInf.getUserId());
         model.addAttribute("list", list);
         
         return "events/index";
@@ -125,16 +124,16 @@ public class EventsController {
      * イベントの詳細ページを表示します。
      *
      * @param userInf 認証されたユーザー情報
-     * @param id イベントのID
+     * @param eventId イベントのID
      * @param model モデルオブジェクト
      * @return イベント詳細ページのテンプレート名
      * @throws IOException 入出力例外が発生した場合
      */
-    @GetMapping("/events/{id}")
-    public String detail(@AuthenticationPrincipal UserInf userInf, @PathVariable Long id, Model model) throws IOException {
+    @GetMapping("/events/{eventId}")
+    public String detail(@AuthenticationPrincipal UserInf userInf, @PathVariable Long eventId, Model model) throws IOException {
         
-        Event entity = eventService.findById(id);
-        EventForm event = eventService.getEvent(userInf, entity);
+        Event entity = eventService.findById(eventId);
+        EventForm event = eventService.getEvent(userInf.getUserId(), eventId);
         
         // イベントグループの管理者かを判定
         boolean isAdmin = groupMemberService.isUserGroupAdmin(userInf.getUserId(), entity.getGroup().getId());

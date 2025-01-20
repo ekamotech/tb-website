@@ -6,7 +6,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -18,7 +17,6 @@ import org.apache.commons.io.FilenameUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Base64Utils;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,7 +28,6 @@ import com.example.website.entity.EventAttendee;
 import com.example.website.entity.Favorite;
 import com.example.website.entity.Group;
 import com.example.website.entity.User;
-import com.example.website.entity.UserInf;
 import com.example.website.form.CommentForm;
 import com.example.website.form.EventForm;
 import com.example.website.form.EventUpdateForm;
@@ -78,29 +75,26 @@ public class EventService {
     /**
      * 指定されたIDのイベントを取得します。
      *
-     * @param id イベントID
+     * @param eventId イベントID
      * @return イベントエンティティ
      */
-    public Event findById(Long id) {
-        Event event = eventRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Event not found"));
+    public Event findById(Long eventId) {
+        Event event = eventRepository.findById(eventId).orElseThrow(() -> new IllegalArgumentException("イベントが見つかりません"));
         return event;
     }
     
     /**
      * 全てのイベント一覧を取得します。
      *
-     * @param principal 認証されたユーザー情報
+     * @param userId ユーザーID
      * @return イベントフォームのリスト
      * @throws IOException 入出力例外が発生した場合
      */
-    public List<EventForm> index(Principal principal) throws IOException {
-        Authentication authentication = (Authentication) principal;
-        UserInf userInf = (UserInf) authentication.getPrincipal();
-        
+    public List<EventForm> index(Long userId) throws IOException {
         List<Event> events = eventRepository.findAllByOrderByUpdatedAtDesc();
         List<EventForm> list = new ArrayList<>();
         for (Event entity : events) {
-            EventForm form = getEvent(userInf, entity);
+            EventForm form = getEvent(userId, entity.getId());
             list.add(form);
         }
         return list;
@@ -109,12 +103,15 @@ public class EventService {
     /**
      * 指定されたイベントの情報を取得します。
      *
-     * @param user 認証されたユーザー情報
-     * @param entity イベントエンティティ
+     * @param userId ユーザーID
+     * @param eventId イベントID
      * @return イベントフォームオブジェクト
      * @throws IOException 入出力例外が発生した場合
      */
-    public EventForm getEvent(UserInf user, Event entity) throws FileNotFoundException, IOException {
+    public EventForm getEvent(Long userId, Long eventId) throws FileNotFoundException, IOException {
+        
+        Event entity = eventRepository.findById(eventId).orElseThrow(() -> new IllegalArgumentException("イベントが見つかりません"));
+        
         modelMapper.getConfiguration().setAmbiguityIgnored(true);
         modelMapper.typeMap(Event.class, EventForm.class).addMappings(mapper -> mapper.skip(EventForm::setUser));
         modelMapper.typeMap(Event.class, EventForm.class).addMappings(mapper -> mapper.skip(EventForm::setGroup));
@@ -158,7 +155,7 @@ public class EventService {
         for (Favorite favoriteEntity : entity.getFavorites()) {
             FavoriteForm favorite = modelMapper.map(favoriteEntity, FavoriteForm.class);
             favorites.add(favorite);
-            if (user.getUserId().equals(favoriteEntity.getUser().getUserId())) {
+            if (userId.equals(favoriteEntity.getUser().getUserId())) {
                 form.setFavorite(favorite);
             }
         }
@@ -225,7 +222,7 @@ public class EventService {
      */
     @Transactional
     public void createEvent(Long userId, Long groupId, EventForm form, MultipartFile image) throws IOException {
-        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("ユーザーが見つかりません"));
         Group group = groupRepository.findById(groupId).orElseThrow(() -> new IllegalArgumentException("指定されたグループは見つかりませんでした"));
         
         Event event = new Event();

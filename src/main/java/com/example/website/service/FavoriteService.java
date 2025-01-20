@@ -52,8 +52,7 @@ public class FavoriteService {
         List<Favorite> events = favoriteRepository.findByUserIdOrderByUpdatedAtDesc(userInf.getUserId());
         List<EventForm> list = new ArrayList<>();
         for (Favorite entity : events) {
-            Event eventEntity = entity.getEvent();
-            EventForm form = eventService.getEvent(userInf, eventEntity);
+            EventForm form = eventService.getEvent(userInf.getUserId(), entity.getEvent().getId());
             list.add(form);
         }
         return list;
@@ -68,7 +67,7 @@ public class FavoriteService {
      */
     @Transactional
     public void createFavorite(Long userId, Long eventId) throws IOException {
-        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("ユーザーが見つかりません"));
         Event event = eventRepository.findById(eventId).orElseThrow(() -> new IllegalArgumentException("指定されたイベントは見つかりませんでした"));
         
         List<Favorite> results = favoriteRepository.findByUserIdAndEventId(userId, eventId);
@@ -90,7 +89,7 @@ public class FavoriteService {
      */
     @Transactional
     public void destroyFavorite(Long userId, Long eventId) throws IOException {
-        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("ユーザーが見つかりません"));
         Event event = eventRepository.findById(eventId).orElseThrow(() -> new IllegalArgumentException("指定されたイベントは見つかりませんでした"));
         
         List<Favorite> results = favoriteRepository.findByUserIdAndEventId(userId, eventId);

@@ -1,7 +1,6 @@
 package com.example.website.controller;
 
 import java.io.IOException;
-import java.security.Principal;
 import java.util.List;
 import java.util.Locale;
 
@@ -9,6 +8,7 @@ import jakarta.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,9 +19,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.example.website.entity.Group;
+import com.example.website.entity.UserInf;
 import com.example.website.form.GroupForm;
-import com.example.website.repository.GroupRepository;
 import com.example.website.service.GroupService;
 
 /**
@@ -33,11 +32,9 @@ public class GroupsController {
     @Autowired
     private MessageSource messageSource;
     
-    private final GroupRepository groupRepository;
     private final GroupService groupService;
     
-    public GroupsController(GroupRepository groupRepository, GroupService groupService) {
-        this.groupRepository = groupRepository;
+    public GroupsController(GroupService groupService) {
         this.groupService = groupService;
     }
     
@@ -50,9 +47,9 @@ public class GroupsController {
      * @throws IOException 入出力例外が発生した場合
      */
     @GetMapping("/groups")
-    public String index(Principal principal, Model model) throws IOException {
+    public String index(@AuthenticationPrincipal UserInf userInf, Model model) throws IOException {
 
-        List<GroupForm> list = groupService.getGroupsForAdmin(principal);
+        List<GroupForm> list = groupService.getGroupsForAdmin(userInf.getUserId());
         model.addAttribute("list", list);
 
         return "groups/index";
@@ -84,7 +81,7 @@ public class GroupsController {
      */
     @PostMapping("/group")
     @Transactional
-    public String create(Principal principal, @Validated @ModelAttribute("form") GroupForm form, BindingResult result,
+    public String create(@AuthenticationPrincipal UserInf userInf, @Validated @ModelAttribute("form") GroupForm form, BindingResult result,
             Model model, RedirectAttributes redirAttrs, Locale locale)
             throws IOException {
         
@@ -95,7 +92,7 @@ public class GroupsController {
             return "groups/new";
         }
         
-        groupService.createGroup(principal, form);
+        groupService.createGroup(userInf.getUserId(), form);
         
         redirAttrs.addFlashAttribute("hasMessage", true);
         redirAttrs.addFlashAttribute("class", "alert-info");
@@ -108,15 +105,14 @@ public class GroupsController {
     /**
      * グループの詳細ページを表示します。
      *
-     * @param id グループのID
+     * @param groupId グループのID
      * @param model モデルオブジェクト
      * @return グループ詳細ページのテンプレート名
      * @throws IOException 入出力例外が発生した場合
      */
-    @GetMapping("/groups/{id}")
-    public String detail(@PathVariable Long id, Model model) throws IOException {
-        Group entity = groupRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Group not found"));
-        GroupForm form = groupService.getGroup(null, entity);
+    @GetMapping("/groups/{groupId}")
+    public String detail(@AuthenticationPrincipal UserInf userInf, @PathVariable Long groupId, Model model) throws IOException {
+        GroupForm form = groupService.getGroup(userInf.getUserId(), groupId);
         model.addAttribute("form", form);
         return "groups/detail";
     }
@@ -124,15 +120,14 @@ public class GroupsController {
     /**
      * グループ編集フォームを表示します。
      *
-     * @param id グループのID
+     * @param groupId グループのID
      * @param model モデルオブジェクト
      * @return グループ編集フォームのテンプレート名
      * @throws IOException 入出力例外が発生した場合
      */
-    @GetMapping("/groups/{id}/edit")
-    public String editGroup(@PathVariable Long id, Model model) throws IOException {
-        Group entity = groupRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Group not found"));
-        GroupForm form = groupService.getGroup(null, entity);
+    @GetMapping("/groups/{groupId}/edit")
+    public String editGroup(@AuthenticationPrincipal UserInf userInf, @PathVariable Long groupId, Model model) throws IOException {
+        GroupForm form = groupService.getGroup(userInf.getUserId(), groupId);
         model.addAttribute("form", form);
         return "groups/edit";
     }
@@ -140,7 +135,7 @@ public class GroupsController {
     /**
      * グループを更新します。
      *
-     * @param principal 認証されたユーザー情報
+     * @param userInf 認証されたユーザー情報
      * @param form グループフォームオブジェクト
      * @param result バリデーション結果
      * @param model モデルオブジェクト
@@ -150,7 +145,7 @@ public class GroupsController {
      * @throws IOException 入出力例外が発生した場合
      */
     @PostMapping("/groups/update")
-    public String update(Principal principal, @Validated @ModelAttribute("form") GroupForm form, BindingResult result,
+    public String update(@AuthenticationPrincipal UserInf userInf, @Validated @ModelAttribute("form") GroupForm form, BindingResult result,
             Model model, RedirectAttributes redirAttrs, Locale locale)
             throws IOException {
         
@@ -161,7 +156,7 @@ public class GroupsController {
             return "groups/edit";
         }
         
-        groupService.updateGroup(principal, form);
+        groupService.updateGroup(userInf.getUserId(), form);
         
         redirAttrs.addFlashAttribute("hasMessage", true);
         redirAttrs.addFlashAttribute("class", "alert-info");

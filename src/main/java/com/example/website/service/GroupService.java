@@ -1,7 +1,6 @@
 package com.example.website.service;
 
 import java.io.IOException;
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -10,14 +9,12 @@ import jakarta.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import com.example.website.entity.Event;
 import com.example.website.entity.Group;
 import com.example.website.entity.GroupMember;
 import com.example.website.entity.User;
-import com.example.website.entity.UserInf;
 import com.example.website.form.EventForm;
 import com.example.website.form.GroupForm;
 import com.example.website.form.UserForm;
@@ -53,17 +50,14 @@ public class GroupService {
     /**
      * 指定されたユーザーが管理者であるグループ一覧を取得します。
      *
-     * @param principal 認証されたユーザー情報
+     * @param userId ユーザーID
      * @return グループフォームのリスト
      * @throws IOException 入出力例外が発生した場合
      */
-    public List<GroupForm> getGroupsForAdmin(Principal principal) throws IOException {
-        Authentication authentication = (Authentication) principal;
-        UserInf userInf = (UserInf) authentication.getPrincipal();
-        
-        // UserInf から User オブジェクトを取得
-        User user = userRepository.findById(userInf.getUserId()).orElseThrow(() -> new IllegalArgumentException("User not found"));
+    public List<GroupForm> getGroupsForAdmin(Long userId) throws IOException {
 
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("ユーザーが見つかりません"));
+        
         List<GroupMember> groupMembers = groupMemberRepository.findByUserAndAuthorityOrderByUpdatedAtDesc(user, GroupMember.Authority.ROLE_ADMIN);
         List<Group> groups = groupMembers.stream()
                                          .map(GroupMember::getGroup)
@@ -71,7 +65,7 @@ public class GroupService {
 
         List<GroupForm> list = new ArrayList<>();
         for (Group entity : groups) {
-            GroupForm form = getGroup(userInf, entity);
+            GroupForm form = getGroup(userId, entity.getId());
             list.add(form);
         }
         return list;
@@ -80,12 +74,15 @@ public class GroupService {
     /**
      * 指定されたグループの情報を取得します。
      *
-     * @param user 認証されたユーザー情報
-     * @param entity グループエンティティ
+     * @param userId ユーザーID
+     * @param groupId グループID
      * @return グループフォームオブジェクト
      * @throws IOException 入出力例外が発生した場合
      */
-    public GroupForm getGroup(UserInf user, Group entity) throws IOException {
+    public GroupForm getGroup(Long userId, Long groupId) throws IOException {
+        
+        Group entity = groupRepository.findById(groupId).orElseThrow(() -> new IllegalArgumentException("グループが見つかりません"));
+        
         modelMapper.getConfiguration().setAmbiguityIgnored(true);
         modelMapper.typeMap(Group.class, GroupForm.class).addMappings(mapper -> mapper.skip(GroupForm::setCreatedBy));
         modelMapper.typeMap(Group.class, GroupForm.class).addMappings(mapper -> mapper.skip(GroupForm::setEvents));
@@ -101,7 +98,7 @@ public class GroupService {
         List<Event> eventEntities = eventRepository.findByGroupOrderByUpdatedAtDesc(entity);
 
         for (Event eventEntity : eventEntities) {
-            EventForm event = eventService.getEvent(user, eventEntity);
+            EventForm event = eventService.getEvent(userId, eventEntity.getId());
             events.add(event);
         }
         form.setEvents(events);
@@ -112,19 +109,15 @@ public class GroupService {
     /**
      * 新規グループを作成します。
      *
-     * @param principal 認証されたユーザー情報
+     * @param userId ユーザーID
      * @param form グループフォームオブジェクト
      * @throws IOException 入出力例外が発生した場合
      */
     @Transactional
-    public void createGroup(Principal principal, GroupForm form) throws IOException {
-        Group entity = new Group();
-        Authentication authentication = (Authentication) principal;
-        UserInf userInf = (UserInf) authentication.getPrincipal();
+    public void createGroup(Long userId, GroupForm form) throws IOException {
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("ユーザーが見つかりません"));
         
-        // UserInf から User オブジェクトを取得
-        User user = userRepository.findById(userInf.getUserId()).orElseThrow(() -> new IllegalArgumentException("User not found"));
-
+        Group entity = new Group();
         entity.setName(form.getName());
         entity.setDescription(form.getDescription());
         entity.setCreatedBy(user);
@@ -140,13 +133,13 @@ public class GroupService {
     /**
      * グループを更新します。
      *
-     * @param principal 認証されたユーザー情報
+     * @param userId ユーザーID
      * @param form グループフォームオブジェクト
      * @throws IOException 入出力例外が発生した場合
      */
     @Transactional
-    public void updateGroup(Principal principal, GroupForm form) throws IOException {
-        Group entity = groupRepository.findById(form.getId()).orElseThrow(() -> new IllegalArgumentException("Group not found"));
+    public void updateGroup(Long userId, GroupForm form) throws IOException {
+        Group entity = groupRepository.findById(form.getId()).orElseThrow(() -> new IllegalArgumentException("グループが見つかりません"));
         entity.setName(form.getName());
         entity.setDescription(form.getDescription());
         groupRepository.saveAndFlush(entity);

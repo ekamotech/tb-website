@@ -55,7 +55,7 @@ public class CommentService {
      */
     @Transactional
     public void createComment(Long userId, Long eventId, CommentForm form) throws IOException {
-        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("ユーザーが見つかりません"));
         Event event = eventRepository.findById(eventId).orElseThrow(() -> new IllegalArgumentException("指定されたイベントは見つかりませんでした"));
         
         Comment comment = new Comment();

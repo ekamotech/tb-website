@@ -40,7 +40,7 @@ public class EventAttendeeService {
      * @return ユーザーがイベントに参加している場合は true、それ以外の場合は false
      */
     public boolean isUserParticipating(Long userId, Long eventId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("ユーザーが見つかりません"));
         Event event = eventRepository.findById(eventId).orElseThrow(() -> new IllegalArgumentException("指定されたイベントは見つかりませんでした"));
         ParticipationStatus status = EventAttendee.ParticipationStatus.PARTICIPATING;
         
@@ -76,6 +76,7 @@ public class EventAttendeeService {
      * @return 参加者ユーザーオブジェクトのリスト
      */
     public List<User> getAttendeesByEvent(Event event) {
+
         List<EventAttendee> attendees = eventAttendeeRepository.findByEventAndParticipationStatus(
             event,
             EventAttendee.ParticipationStatus.PARTICIPATING

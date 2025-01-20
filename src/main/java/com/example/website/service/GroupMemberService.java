@@ -33,7 +33,7 @@ public class GroupMemberService {
      * @return ユーザーがグループの管理者である場合は true、それ以外の場合は false
      */
     public boolean isUserGroupAdmin(Long userId, Long groupId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("ユーザーが見つかりません"));
         Group group = groupRepository.findById(groupId).orElseThrow(() -> new IllegalArgumentException("指定されたグループは見つかりませんでした"));
 
         return groupMemberRepository.isUserGroupAdmin(group, user);
