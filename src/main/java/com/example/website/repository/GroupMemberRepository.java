@@ -1,6 +1,7 @@
 package com.example.website.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -50,7 +51,15 @@ public interface GroupMemberRepository extends JpaRepository<GroupMember, Long> 
             "WHERE gm.user.userId = :userId AND gm.group.id = :groupId")
     boolean isUserGroupMember(@Param("userId") Long userId, @Param("groupId") Long groupId);
     
-    
+    /**
+     * 指定されたユーザーIDとグループIDに基づきグループメンバーを検索します。
+     *
+     * @param userId ユーザーID
+     * @param groupId グループID
+     * @return GroupMemberエンティティ
+     */
+    @Query("SELECT gm FROM GroupMember gm WHERE gm.user.userId = :userId AND gm.group.id = :groupId")
+    Optional<GroupMember> findByUserIdAndGroupId(@Param("userId") Long userId, @Param("groupId") Long groupId);
     
     
 }

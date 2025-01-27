@@ -30,8 +30,8 @@
     <!-- グループ管理者以外の場合 -->
     <div th:if="${!isAdmin}">
       <div th:if="${isMember}">
-        <!-- グループに参加済みの場合は参加済みと表示 -->
-        <button type="button" class="c-btn-submit p-group-detail-submit u-mb-0" disabled>参加済み</button>
+        <!-- グループに参加済みの場合は脱退するボタンを表示 -->
+        <button type="button" class="c-btn-submit p-group-detail-submit u-mb-0 convert" data-method="delete" href="/groups/1/leave" th:href="@{'/groups/{id}/leave'(id=${form.id})}" th:data-_csrf="${_csrf.token}">脱退する</button>
       </div>
       <div th:if="${!isMember}">
         <!-- グループに参加していない場合は参加するボタンを表示 -->

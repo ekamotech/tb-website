@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -208,6 +209,29 @@ public class GroupsController {
         return "redirect:/groups/" + groupId;
     }
     
+    /**
+     * グループからユーザーを脱退させます。
+     *
+     * @param userInf 認証されたユーザー情報
+     * @param groupId グループID
+     * @param redirAttrs リダイレクト属性
+     * @param locale ロケール情報
+     * @return リダイレクト先のURL
+     */
+    @DeleteMapping("/groups/{groupId}/leave")
+    public String leaveGroup(@AuthenticationPrincipal UserInf userInf, @PathVariable Long groupId, RedirectAttributes redirAttrs, Locale locale) {
+        try {
+            groupMemberService.leaveGroup(userInf.getUserId(), groupId);
+            redirAttrs.addFlashAttribute("hasMessage", true);
+            redirAttrs.addFlashAttribute("class", "alert-info");
+            redirAttrs.addFlashAttribute("message", "グループ脱退に成功しました。");
+        } catch (IllegalArgumentException e) {
+            redirAttrs.addAttribute("hasMessage", true);
+            redirAttrs.addAttribute("class", "alert-danger");
+            redirAttrs.addAttribute("message", "グループ脱退に失敗しました。" + e.getMessage());
+        }
+        return "redirect:/groups/" + groupId;
+    }
     
     
     

@@ -82,7 +82,28 @@ public class GroupMemberService {
         
     }
     
-    
-    
-    
+    /**
+     * ユーザーをグループから脱退させます。
+     *
+     * @param userId ユーザーID
+     * @param groupId グループID
+     */
+    @Transactional
+    public void leaveGroup(Long userId, Long groupId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("ユーザーが見つかりません"));
+        Group group = groupRepository.findById(groupId).orElseThrow(() -> new IllegalArgumentException("指定されたグループは見つかりませんでした"));
+        
+        // GroupMemberエンティティを検索
+        GroupMember groupMember = groupMemberRepository.findByUserIdAndGroupId(userId, groupId)
+                .orElseThrow(() -> new IllegalArgumentException("グループ参加情報が見つかりません"));
+
+        // ユーザーがグループ管理者である場合、例外をスロー
+        if (groupMember.getAuthority() == GroupMember.Authority.ROLE_ADMIN) {
+            throw new IllegalArgumentException("グループ管理者はグループを脱退できません");
+        }
+        
+        // エンティティを削除
+        groupMemberRepository.delete(groupMember);
+    }
+
 }
