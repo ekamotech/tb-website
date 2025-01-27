@@ -35,7 +35,7 @@
       </div>
       <div th:if="${!isMember}">
         <!-- グループに参加していない場合は参加するボタンを表示 -->
-        <button type="button" class="c-btn-submit p-group-detail-submit u-mb-0">参加する</button>
+        <button type="button" class="c-btn-submit p-group-detail-submit u-mb-0 convert" data-method="post" href="/groups/1/join" th:href="@{'/groups/{id}/join'(id=${form.id})}" th:data-_csrf="${_csrf.token}">参加する</button>
       </div>
     </div>
   </div>

@@ -1,8 +1,11 @@
 package com.example.website.service;
 
+import jakarta.transaction.Transactional;
+
 import org.springframework.stereotype.Service;
 
 import com.example.website.entity.Group;
+import com.example.website.entity.GroupMember;
 import com.example.website.entity.User;
 import com.example.website.repository.GroupMemberRepository;
 import com.example.website.repository.GroupRepository;
@@ -52,5 +55,34 @@ public class GroupMemberService {
 
         return groupMemberRepository.isUserGroupMember(userId, groupId);
     }
+    
+    /**
+     * グループに参加者を登録します。
+     *
+     * @param userId ユーザーID
+     * @param groupId グループID
+     */
+    @Transactional
+    public void joinGroup(Long userId, Long groupId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("ユーザーが見つかりません"));
+        Group group = groupRepository.findById(groupId).orElseThrow(() -> new IllegalArgumentException("指定されたグループは見つかりませんでした"));
+        
+        // 既に参加済みかを確認
+        boolean isMember = isUserGroupMember(userId, groupId);
+        if (isMember) {
+            throw new IllegalStateException("既にこのグループに参加しています");
+        }
+        
+        // グループ参加者として登録
+        GroupMember groupMember = new GroupMember();
+        groupMember.setGroup(group);
+        groupMember.setUser(user);
+        groupMember.setAuthority(GroupMember.Authority.ROLE_USER);
+        groupMemberRepository.save(groupMember);
+        
+    }
+    
+    
+    
     
 }

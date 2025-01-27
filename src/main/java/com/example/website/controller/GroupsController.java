@@ -180,6 +180,36 @@ public class GroupsController {
         
     }
     
+    /**
+     * グループに参加者を登録します。
+     *
+     * @param userInf 認証されたユーザー情報
+     * @param groupId グループID
+     * @param redirAttrs リダイレクト属性
+     * @param locale ロケール情報
+     * @return リダイレクト先のURL
+     */
+    @PostMapping("/groups/{groupId}/join")
+    public String joinGroup(@AuthenticationPrincipal UserInf userInf, @PathVariable Long groupId, RedirectAttributes redirAttrs, Locale locale) {
+        try {
+            groupMemberService.joinGroup(userInf.getUserId(), groupId);
+            redirAttrs.addFlashAttribute("hasMessage", true);
+            redirAttrs.addFlashAttribute("class", "alert-info");
+            redirAttrs.addFlashAttribute("message", "グループ参加に成功しました。");
+        } catch (IllegalStateException e) {
+            redirAttrs.addAttribute("hasMessage", true);
+            redirAttrs.addAttribute("class", "alert-danger");
+            redirAttrs.addAttribute("message", "グループ参加に失敗しました。" + e.getMessage());
+        } catch (IllegalArgumentException e) {
+            redirAttrs.addAttribute("hasMessage", true);
+            redirAttrs.addAttribute("class", "alert-danger");
+            redirAttrs.addAttribute("message", "グループ参加に失敗しました。" + e.getMessage());
+        }
+        return "redirect:/groups/" + groupId;
+    }
+    
+    
+    
     
 
 }
