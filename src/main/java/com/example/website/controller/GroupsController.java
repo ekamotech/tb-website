@@ -21,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.website.entity.UserInf;
 import com.example.website.form.GroupForm;
+import com.example.website.service.GroupMemberService;
 import com.example.website.service.GroupService;
 
 /**
@@ -33,9 +34,11 @@ public class GroupsController {
     private MessageSource messageSource;
     
     private final GroupService groupService;
+    private final GroupMemberService groupMemberService;
     
-    public GroupsController(GroupService groupService) {
+    public GroupsController(GroupService groupService, GroupMemberService groupMemberService) {
         this.groupService = groupService;
+        this.groupMemberService = groupMemberService;
     }
     
     /**
@@ -112,8 +115,19 @@ public class GroupsController {
      */
     @GetMapping("/groups/{groupId}")
     public String detail(@AuthenticationPrincipal UserInf userInf, @PathVariable Long groupId, Model model) throws IOException {
+        
         GroupForm form = groupService.getGroup(userInf.getUserId(), groupId);
+        
+        // グループの管理者かを判定
+        boolean isAdmin = groupMemberService.isUserGroupAdmin(userInf.getUserId(), form.getId());
+        
+        // グループに参加済みかを判定
+        boolean isMember = groupMemberService.isUserGroupMember(userInf.getUserId(), form.getId());
+        
         model.addAttribute("form", form);
+        model.addAttribute("isAdmin", isAdmin);
+        model.addAttribute("isMember", isMember);
+        
         return "groups/detail";
     }
     

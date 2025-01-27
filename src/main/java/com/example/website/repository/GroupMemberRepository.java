@@ -37,4 +37,20 @@ public interface GroupMemberRepository extends JpaRepository<GroupMember, Long> 
             "FROM GroupMember gm " +
             "WHERE gm.user.userId = :userId AND gm.group.id = :groupId AND gm.authority = 'ROLE_ADMIN'")
     boolean isUserGroupAdmin(@Param("userId") Long userId, @Param("groupId") Long groupId);
+    
+    /**
+     * 指定されたユーザーが特定のグループに参加しているかを判定します。
+     *
+     * @param userId ユーザーID
+     * @param groupId グループID
+     * @return ユーザーがグループに参加している場合は true、それ以外の場合は false
+     */
+    @Query("SELECT COUNT(gm) > 0 " +
+            "FROM GroupMember gm " +
+            "WHERE gm.user.userId = :userId AND gm.group.id = :groupId")
+    boolean isUserGroupMember(@Param("userId") Long userId, @Param("groupId") Long groupId);
+    
+    
+    
+    
 }

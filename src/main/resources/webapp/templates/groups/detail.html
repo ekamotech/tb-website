@@ -21,6 +21,24 @@
       <a th:href="@{/groups/{id}/edit(id=${form.id})}" class="p-group-detail-profile-btn c-btn-submit u-mb-0" th:text="#{groups.detail.edit}">グループ編集</a>
     </div>
   </div>
+  
+  <div class="p-group-detail-entry">
+    <div th:if="${isAdmin}">
+      <!-- グループ管理者の場合はグループに参加済み -->
+      <button type="button" class="c-btn-submit p-group-detail-submit u-mb-0" disabled>参加済み</button>
+    </div>
+    <!-- グループ管理者以外の場合 -->
+    <div th:if="${!isAdmin}">
+      <div th:if="${isMember}">
+        <!-- グループに参加済みの場合は参加済みと表示 -->
+        <button type="button" class="c-btn-submit p-group-detail-submit u-mb-0" disabled>参加済み</button>
+      </div>
+      <div th:if="${!isMember}">
+        <!-- グループに参加していない場合は参加するボタンを表示 -->
+        <button type="button" class="c-btn-submit p-group-detail-submit u-mb-0">参加する</button>
+      </div>
+    </div>
+  </div>
 
 </div>
 </body>
