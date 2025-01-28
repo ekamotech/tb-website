@@ -22,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.website.entity.User;
 import com.example.website.entity.UserInf;
+import com.example.website.form.EventForm;
 import com.example.website.form.GroupForm;
 import com.example.website.service.GroupMemberService;
 import com.example.website.service.GroupService;
@@ -126,12 +127,16 @@ public class GroupsController {
         // グループに参加済みかを判定
         boolean isMember = groupMemberService.isUserGroupMember(userInf.getUserId(), form.getId());
         
+        // グループのイベントを取得
+        List<EventForm> events = form.getEvents();
+
         // グループの参加者を取得
         List<User> members = groupMemberService.getMembersByGroup(groupId);
         
         model.addAttribute("form", form);
         model.addAttribute("isAdmin", isAdmin);
         model.addAttribute("isMember", isMember);
+        model.addAttribute("events", events);
         model.addAttribute("members", members);
         
         return "groups/detail";
