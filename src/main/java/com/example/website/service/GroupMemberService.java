@@ -1,5 +1,8 @@
 package com.example.website.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import jakarta.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
@@ -104,6 +107,26 @@ public class GroupMemberService {
         
         // エンティティを削除
         groupMemberRepository.delete(groupMember);
+    }
+    
+    /**
+     * 指定されたグループの参加者一覧を取得します。
+     *
+     * @param groupId グループID
+     * @return グループ参加者ユーザーオブジェクトのリスト
+     */
+    public List<User> getMembersByGroup(Long groupId) {
+        
+        Group group = groupRepository.findById(groupId).orElseThrow(() -> new IllegalArgumentException("指定されたグループは見つかりませんでした"));
+        
+        List<GroupMember> members = groupMemberRepository.findByGroupId(groupId);
+        
+        // GroupMemberオブジェクトからUserオブジェクトを取得
+        List<User> users = members.stream()
+                        .map(GroupMember::getUser)
+                        .collect(Collectors.toList());
+        
+        return users;
     }
 
 }

@@ -22,6 +22,21 @@
     </div>
   </div>
   
+  <section class="p-group-detail-sec-member">
+    <h2 class="c-hdg2">グループメンバー</h2>
+    
+    <ul class="p-group-detail-member-list">
+      <li class="p-group-detail-member-item" th:each="member : ${members}">
+        <div class="p-group-detail-member-head">
+          <div class="p-group-detail-member-usericon">
+            <img src="/images/shared/img-defalt-user.png" th:src="@{/images/shared/img-defalt-user.png}" class="p-event-attendee-image" alt="">
+          </div>
+          <p class="p-group-detail-member-name" th:text="${member.name}"></p>
+        </div>
+      </li>
+    </ul>
+  </section>
+  
   <div class="p-group-detail-entry">
     <div th:if="${isAdmin}">
       <!-- グループ管理者の場合はグループに参加済み -->
