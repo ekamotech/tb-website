@@ -47,15 +47,14 @@ public class GroupsController {
     /**
      * 指定されたユーザーが管理者であるグループ一覧を取得します。
      *
-     * @param principal 認証されたユーザー情報
      * @param model モデルオブジェクト
      * @return グループ一覧ページのテンプレート名
      * @throws IOException 入出力例外が発生した場合
      */
     @GetMapping("/groups")
-    public String index(@AuthenticationPrincipal UserInf userInf, Model model) throws IOException {
+    public String index(Model model) throws IOException {
 
-        List<GroupForm> list = groupService.getGroupsForAdmin(userInf.getUserId());
+        List<GroupForm> list = groupService.getGroupsForAdmin();
         model.addAttribute("list", list);
 
         return "groups/index";
@@ -76,7 +75,7 @@ public class GroupsController {
     /**
      * 新規グループを作成します。
      *
-     * @param principal 認証されたユーザー情報
+     * @param userInf 認証されたユーザー情報
      * @param form グループフォームオブジェクト
      * @param result バリデーション結果
      * @param model モデルオブジェクト
@@ -119,7 +118,7 @@ public class GroupsController {
     @GetMapping("/groups/{groupId}")
     public String detail(@AuthenticationPrincipal UserInf userInf, @PathVariable Long groupId, Model model) throws IOException {
         
-        GroupForm form = groupService.getGroup(userInf.getUserId(), groupId);
+        GroupForm form = groupService.getGroup(groupId);
         
         // グループの管理者かを判定
         boolean isAdmin = groupMemberService.isUserGroupAdmin(userInf.getUserId(), form.getId());
@@ -151,8 +150,8 @@ public class GroupsController {
      * @throws IOException 入出力例外が発生した場合
      */
     @GetMapping("/groups/{groupId}/edit")
-    public String editGroup(@AuthenticationPrincipal UserInf userInf, @PathVariable Long groupId, Model model) throws IOException {
-        GroupForm form = groupService.getGroup(userInf.getUserId(), groupId);
+    public String editGroup(@PathVariable Long groupId, Model model) throws IOException {
+        GroupForm form = groupService.getGroup(groupId);
         model.addAttribute("form", form);
         return "groups/edit";
     }

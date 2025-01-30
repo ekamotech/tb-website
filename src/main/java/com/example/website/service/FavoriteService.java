@@ -47,7 +47,7 @@ public class FavoriteService {
         List<Favorite> events = favoriteRepository.findByUserIdOrderByUpdatedAtDesc(userId);
         List<EventForm> list = new ArrayList<>();
         for (Favorite entity : events) {
-            EventForm form = eventService.getEvent(userId, entity.getEvent().getId());
+            EventForm form = eventService.getEvent(entity.getEvent().getId());
             list.add(form);
         }
         return list;

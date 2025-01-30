@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -52,6 +53,7 @@ public class EventService {
     private HttpServletRequest request;
     
     private final UserRepository userRepository;
+    private final UserService userService;
     private final GroupRepository groupRepository;
     private final GroupMemberService groupMemberService;
     private final EventRepository eventRepository;
@@ -59,8 +61,9 @@ public class EventService {
     private final EventAttendeeService eventAttendeeService;
     private final SendMailService sendMailService;
 
-    public EventService(UserRepository userRepository, GroupRepository groupRepository, GroupMemberService groupMemberService, EventRepository eventRepository, EventAttendeeRepository eventAttendeeRepository, EventAttendeeService eventAttendeeService, SendMailService sendMailService) {
+    public EventService(UserRepository userRepository, UserService userService, GroupRepository groupRepository, GroupMemberService groupMemberService, EventRepository eventRepository, EventAttendeeRepository eventAttendeeRepository, EventAttendeeService eventAttendeeService, SendMailService sendMailService) {
         this.userRepository = userRepository;
+        this.userService = userService;
         this.groupRepository = groupRepository;
         this.groupMemberService = groupMemberService;
         this.eventRepository = eventRepository;
@@ -75,15 +78,14 @@ public class EventService {
     /**
      * 全てのイベント一覧を取得します。
      *
-     * @param userId ユーザーID
      * @return イベントフォームのリスト
      * @throws IOException 入出力例外が発生した場合
      */
-    public List<EventForm> index(Long userId) throws IOException {
+    public List<EventForm> index() throws IOException {
         List<Event> events = eventRepository.findAllByOrderByUpdatedAtDesc();
         List<EventForm> list = new ArrayList<>();
         for (Event entity : events) {
-            EventForm form = getEvent(userId, entity.getId());
+            EventForm form = getEvent(entity.getId());
             list.add(form);
         }
         return list;
@@ -92,13 +94,13 @@ public class EventService {
     /**
      * 指定されたイベントの情報を取得します。
      *
-     * @param userId ユーザーID
      * @param eventId イベントID
      * @return イベントフォームオブジェクト
      * @throws IOException 入出力例外が発生した場合
      */
-    public EventForm getEvent(Long userId, Long eventId) throws FileNotFoundException, IOException {
+    public EventForm getEvent(Long eventId) throws FileNotFoundException, IOException {
         
+        Optional<Long> optionalUserId = userService.getUserId();
         Event entity = eventRepository.findById(eventId).orElseThrow(() -> new IllegalArgumentException("イベントが見つかりません"));
         
         modelMapper.getConfiguration().setAmbiguityIgnored(true);
@@ -144,9 +146,11 @@ public class EventService {
         for (Favorite favoriteEntity : entity.getFavorites()) {
             FavoriteForm favorite = modelMapper.map(favoriteEntity, FavoriteForm.class);
             favorites.add(favorite);
-            if (userId.equals(favoriteEntity.getUser().getUserId())) {
-                form.setFavorite(favorite);
-            }
+            optionalUserId.ifPresent(userId -> {
+                if (userId.equals(favoriteEntity.getUser().getUserId())) {
+                    form.setFavorite(favorite);
+                }
+            });
         }
         form.setFavorites(favorites);
         

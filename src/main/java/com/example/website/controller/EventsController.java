@@ -3,6 +3,7 @@ package com.example.website.controller;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -26,6 +27,7 @@ import com.example.website.form.EventUpdateForm;
 import com.example.website.service.EventAttendeeService;
 import com.example.website.service.EventService;
 import com.example.website.service.GroupMemberService;
+import com.example.website.service.UserService;
 
 /**
  * イベントに関連するリクエストを処理するコントローラークラス。
@@ -36,11 +38,13 @@ public class EventsController {
     @Autowired
     private MessageSource messageSource;
     
+    private final UserService userService;
     private final EventService eventService;
     private final GroupMemberService groupMemberService;
     private final EventAttendeeService eventAttendeeService;
     
-    public EventsController(EventService eventService, GroupMemberService groupMemberService, EventAttendeeService eventAttendeeService) {
+    public EventsController(UserService userService, EventService eventService, GroupMemberService groupMemberService, EventAttendeeService eventAttendeeService) {
+        this.userService = userService;
         this.eventService = eventService;
         this.groupMemberService = groupMemberService;
         this.eventAttendeeService = eventAttendeeService;
@@ -49,16 +53,20 @@ public class EventsController {
     /**
      * イベントの一覧ページを表示します。
      *
-     * @param userInf 認証されたユーザー情報
      * @param model モデルオブジェクト
      * @return イベント一覧ページのテンプレート名
      * @throws IOException 入出力例外が発生した場合
      */
     @GetMapping("/events")
-    public String index(@AuthenticationPrincipal UserInf userInf, Model model) throws IOException {
+    public String index(Model model) throws IOException {
+
+        Optional<Long> optionalUserId = userService.getUserId();
+        boolean isAuthenticated = (optionalUserId.isPresent()) ? true : false;
         
-        List<EventForm> list = eventService.index(userInf.getUserId());
+        List<EventForm> list = eventService.index();
+        
         model.addAttribute("list", list);
+        model.addAttribute("isAuthenticated", isAuthenticated);
         
         return "events/index";
     }
@@ -131,7 +139,7 @@ public class EventsController {
     @GetMapping("/events/{eventId}")
     public String detail(@AuthenticationPrincipal UserInf userInf, @PathVariable Long eventId, Model model) throws IOException {
         
-        EventForm event = eventService.getEvent(userInf.getUserId(), eventId);
+        EventForm event = eventService.getEvent(eventId);
         
         // イベントグループの管理者かを判定
         boolean isAdmin = groupMemberService.isUserGroupAdmin(userInf.getUserId(), event.getGroup().getId());

@@ -3,6 +3,7 @@ package com.example.website.service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import jakarta.transaction.Transactional;
@@ -34,13 +35,15 @@ public class GroupService {
     private ModelMapper modelMapper;
     
     private final UserRepository userRepository;
+    private final UserService userService;
     private final GroupRepository groupRepository;
     private final GroupMemberRepository groupMemberRepository;
     private final EventRepository eventRepository;
     private final EventService eventService;
     
-    public GroupService(UserRepository userRepository, GroupRepository groupRepository, GroupMemberRepository groupMemberRepository, EventRepository eventRepository, EventService eventService) {
+    public GroupService(UserRepository userRepository, UserService userService, GroupRepository groupRepository, GroupMemberRepository groupMemberRepository, EventRepository eventRepository, EventService eventService) {
         this.userRepository = userRepository;
+        this.userService = userService;
         this.groupRepository = groupRepository;
         this.groupMemberRepository = groupMemberRepository;
         this.eventRepository = eventRepository;
@@ -50,36 +53,43 @@ public class GroupService {
     /**
      * 指定されたユーザーが管理者であるグループ一覧を取得します。
      *
-     * @param userId ユーザーID
      * @return グループフォームのリスト
      * @throws IOException 入出力例外が発生した場合
      */
-    public List<GroupForm> getGroupsForAdmin(Long userId) throws IOException {
-
-        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("ユーザーが見つかりません"));
-        
-        List<GroupMember> groupMembers = groupMemberRepository.findByUserIdAndAuthorityOrderByUpdatedAtDesc(userId);
-        List<Group> groups = groupMembers.stream()
-                                         .map(GroupMember::getGroup)
-                                         .collect(Collectors.toList());
-
+    public List<GroupForm> getGroupsForAdmin() throws IOException {
         List<GroupForm> list = new ArrayList<>();
-        for (Group entity : groups) {
-            GroupForm form = getGroup(userId, entity.getId());
-            list.add(form);
-        }
+        
+        Optional<Long> optionalUserId = userService.getUserId();
+        optionalUserId.orElseThrow(() -> new IllegalArgumentException("ユーザーが見つかりません"));
+        
+        optionalUserId.ifPresent(userId -> {
+            List<GroupMember> groupMembers = groupMemberRepository.findByUserIdAndAuthorityOrderByUpdatedAtDesc(userId);
+            List<Group> groups = groupMembers.stream()
+                                             .map(GroupMember::getGroup)
+                                             .collect(Collectors.toList());
+            
+            for (Group entity : groups) {
+                try {
+                    GroupForm form = getGroup(entity.getId());
+                    list.add(form);
+                } catch (IOException e) {
+                    // 例外を適切に処理する
+                    e.printStackTrace();
+                }
+            }
+        });
+
         return list;
     }
     
     /**
      * 指定されたグループの情報を取得します。
      *
-     * @param userId ユーザーID
      * @param groupId グループID
      * @return グループフォームオブジェクト
      * @throws IOException 入出力例外が発生した場合
      */
-    public GroupForm getGroup(Long userId, Long groupId) throws IOException {
+    public GroupForm getGroup(Long groupId) throws IOException {
         
         Group entity = groupRepository.findById(groupId).orElseThrow(() -> new IllegalArgumentException("グループが見つかりません"));
         
@@ -98,7 +108,7 @@ public class GroupService {
         List<Event> eventEntities = eventRepository.findByGroupIdOrderByUpdatedAtDesc(groupId);
 
         for (Event eventEntity : eventEntities) {
-            EventForm event = eventService.getEvent(userId, eventEntity.getId());
+            EventForm event = eventService.getEvent(eventEntity.getId());
             events.add(event);
         }
         form.setEvents(events);
