@@ -60,6 +60,7 @@ public class EventsController {
     @GetMapping("/events")
     public String index(Model model) throws IOException {
 
+        // ログイン状態を取得
         Optional<Long> optionalUserId = userService.getUserId();
         boolean isAuthenticated = (optionalUserId.isPresent()) ? true : false;
         
@@ -130,30 +131,43 @@ public class EventsController {
     /**
      * イベントの詳細ページを表示します。
      *
-     * @param userInf 認証されたユーザー情報
      * @param eventId イベントのID
      * @param model モデルオブジェクト
      * @return イベント詳細ページのテンプレート名
      * @throws IOException 入出力例外が発生した場合
      */
     @GetMapping("/events/{eventId}")
-    public String detail(@AuthenticationPrincipal UserInf userInf, @PathVariable Long eventId, Model model) throws IOException {
+    public String detail(@PathVariable Long eventId, Model model) throws IOException {
         
+        // ログイン状態を取得
+        Optional<Long> optionalUserId = userService.getUserId();
+        boolean isAuthenticated = (optionalUserId.isPresent()) ? true : false;
+        
+        // イベントを取得
         EventForm event = eventService.getEvent(eventId);
-        
-        // イベントグループの管理者かを判定
-        boolean isAdmin = groupMemberService.isUserGroupAdmin(userInf.getUserId(), event.getGroup().getId());
-        
-        // イベントに参加済みかを判定
-        boolean isParticipating = eventAttendeeService.isUserParticipating(userInf.getUserId(), eventId);
-        
+
         // イベントの参加者を取得
         List<User> attendees = eventAttendeeService.getAttendeesByEvent(eventId);
 
+        boolean isAdmin = false;
+        boolean isParticipating = false;
+        
+        // ログイン済みだったら実行
+        if (isAuthenticated) {
+            Long userId = optionalUserId.get();
+            
+            // イベントグループの管理者かを判定
+            isAdmin = groupMemberService.isUserGroupAdmin(userId, event.getGroup().getId());
+            
+            // イベントに参加済みかを判定
+            isParticipating = eventAttendeeService.isUserParticipating(userId, eventId);
+        }
+
         model.addAttribute("event", event);
+        model.addAttribute("attendees", attendees);
+        model.addAttribute("isAuthenticated", isAuthenticated);
         model.addAttribute("isAdmin", isAdmin);
         model.addAttribute("isParticipating", isParticipating);
-        model.addAttribute("attendees", attendees);
         
         return "events/detail";
     }

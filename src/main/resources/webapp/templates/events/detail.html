@@ -26,12 +26,19 @@
       </div>
 
       <div class="p-event-action">
-        <a th:if="${event.favorite != null}" rel="nofollow" class="p-btn-favorite on convert" data-method="delete" href="/favorite?event_id=1" th:href="@{'/favorite'}" th:data-event_id="${event.id}" th:data-_csrf="${_csrf.token}" th:text="#{events.detail.favorited}">
-          お気に入り済み
-        </a>
-        <a th:if="${event.favorite == null}" rel="nofollow" class="p-btn-favorite convert" data-method="post" href="/favorite?event_id=1" th:href="@{'/favorite'}" th:data-event_id="${event.id}" th:data-_csrf="${_csrf.token}" th:text="#{events.detail.favorite}">
-          お気に入り
-        </a>
+        <div th:if="${isAuthenticated}">
+          <a th:if="${event.favorite != null}" rel="nofollow" class="p-btn-favorite on convert" data-method="delete" href="/favorite?event_id=1" th:href="@{'/favorite'}" th:data-event_id="${event.id}" th:data-_csrf="${_csrf.token}" th:text="#{events.detail.favorited}">
+            お気に入り済み
+          </a>
+          <a th:if="${event.favorite == null}" rel="nofollow" class="p-btn-favorite convert" data-method="post" href="/favorite?event_id=1" th:href="@{'/favorite'}" th:data-event_id="${event.id}" th:data-_csrf="${_csrf.token}" th:text="#{events.detail.favorite}">
+            お気に入り
+          </a>
+        </div>
+        <div th:if="${!isAuthenticated}">
+          <div class="p-btn-favorite" th:text="#{events.index.favorite}">
+            お気に入り
+          </div>
+        </div>
         <button type="button" class="p-btn-share" th:text="#{events.detail.share}">Xでシェア</button>
       </div>
     </div>
@@ -77,8 +84,10 @@
       <div class="p-event-comment">
         <h2 class="p-event-detail-hdg2 c-hdg2" th:text="#{events.detail.comments}">コメント</h2>
         
-        <div class="p-event-comment-post">
-          <a href="/events/1/comments/new" th:href="@{'/events/{id}/comments/new'(id=${event.id})}" class="c-btn-submit p-event-submit u-mb-0" th:data-_csrf="${_csrf.token}" th:text="#{events.detail.comment.submit}">コメントを投稿</a>
+        <div th:if="${isAuthenticated}">
+          <div class="p-event-comment-post">
+            <a href="/events/1/comments/new" th:href="@{'/events/{id}/comments/new'(id=${event.id})}" class="c-btn-submit p-event-submit u-mb-0" th:data-_csrf="${_csrf.token}" th:text="#{events.detail.comment.submit}">コメントを投稿</a>
+          </div>
         </div>
         
         <ul class="p-event-comment-list">
@@ -95,20 +104,23 @@
       </div>
     </div>
   </div>
-  <div class="p-event-entry">
-    <div th:if="${isAdmin}">
-      <!-- グループ管理者の場合はイベントに参加済み -->
-      <button type="button" class="c-btn-submit p-event-submit u-mb-0" disabled th:text="#{events.detail.participating}">参加済み</button>
-    </div>
-    <!-- グループ管理者以外の場合 -->
-    <div th:if="${!isAdmin}">
-      <div th:if="${isParticipating}">
-        <!-- イベントに参加済みの場合は参加済みと表示 -->
+  
+  <div th:if="${isAuthenticated}">
+    <div class="p-event-entry">
+      <div th:if="${isAdmin}">
+        <!-- グループ管理者の場合はイベントに参加済み -->
         <button type="button" class="c-btn-submit p-event-submit u-mb-0" disabled th:text="#{events.detail.participating}">参加済み</button>
       </div>
-      <div th:if="${!isParticipating}">
-        <!-- イベントに参加していない場合は参加するボタンを表示 -->
-        <button type="button" class="c-btn-submit p-event-submit u-mb-0 convert" data-method="post" href="/events/1/join" th:href="@{'/events/{eventId}/join'(eventId=${event.id})}" th:data-_csrf="${_csrf.token}" th:text="#{events.detail.participate}">参加する</button>
+      <!-- グループ管理者以外の場合 -->
+      <div th:if="${!isAdmin}">
+        <div th:if="${isParticipating}">
+          <!-- イベントに参加済みの場合は参加済みと表示 -->
+          <button type="button" class="c-btn-submit p-event-submit u-mb-0" disabled th:text="#{events.detail.participating}">参加済み</button>
+        </div>
+        <div th:if="${!isParticipating}">
+          <!-- イベントに参加していない場合は参加するボタンを表示 -->
+          <button type="button" class="c-btn-submit p-event-submit u-mb-0 convert" data-method="post" href="/events/1/join" th:href="@{'/events/{eventId}/join'(eventId=${event.id})}" th:data-_csrf="${_csrf.token}" th:text="#{events.detail.participate}">参加する</button>
+        </div>
       </div>
     </div>
   </div>

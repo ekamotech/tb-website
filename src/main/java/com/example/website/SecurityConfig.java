@@ -49,6 +49,7 @@ public class SecurityConfig {
         RequestMatcher publicMatchers = new OrRequestMatcher(
                 new AntPathRequestMatcher("/"),
                 new AntPathRequestMatcher("/events"),
+                new AntPathRequestMatcher("/events/{eventId:[0-9]+}"),
                 new AntPathRequestMatcher("/favicon.ico"),
                 new AntPathRequestMatcher("/error"),
                 new AntPathRequestMatcher("/h2-console/**"),
@@ -64,8 +65,8 @@ public class SecurityConfig {
 
         // @formatter:off
         http.authorizeHttpRequests(authz -> authz
-                .requestMatchers(publicMatchers)
-                .permitAll()
+                .requestMatchers(publicMatchers).permitAll() // 認証不要のパス
+                .requestMatchers("/events/**").authenticated() // それ以外の "/events/**" は認証する
                 .anyRequest().authenticated()) // antMatchersで指定したパス以外認証する
                 .formLogin(login -> login
                         .loginProcessingUrl("/login") // ログイン情報の送信先
