@@ -76,6 +76,15 @@ public class EventService {
     private String imageLocal;
     
     /**
+     * すべてのイベントを取得します。
+     *
+     * @return イベントのリスト
+     */
+    public List<Event> getAllEvents() {
+        return eventRepository.findAll();
+    }
+    
+    /**
      * 全てのイベント一覧を取得します。
      *
      * @return イベントフォームのリスト
