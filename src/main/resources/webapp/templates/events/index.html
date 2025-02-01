@@ -10,9 +10,11 @@
   <section class="p-event-sec-login">
     <h2 class="p-event-hdg2" th:utext="#{events.index.lead}">イベントをシェアして仲間を作ろう</h2>
 
-    <div class="c-btn-login">
-      <a href="/users/new" class="c-btn-submit u-mb-0" th:text="#{events.index.signup}">新規登録</a>
-      <a href="/login" class="c-btn-submit u-mb-0" th:text="#{events.index.login}">ログイン</a>
+    <div th:if="${!isAuthenticated}">
+      <div class="c-btn-login">
+        <a href="/users/new" class="c-btn-submit u-mb-0" th:text="#{events.index.signup}">新規登録</a>
+        <a href="/login" class="c-btn-submit u-mb-0" th:text="#{events.index.login}">ログイン</a>
+      </div>
     </div>
   </section>
   
