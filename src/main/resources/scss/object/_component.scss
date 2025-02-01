@@ -311,9 +311,10 @@
   gap: 16px;
   width: calc(100% - var(--gutter)* 2);
   max-width: 420px;
-  margin: 0 auto;
+  margin: 32px auto 0;
   @include mq(pc) {
     gap: 24px;
+    margin: 40px auto 0;
   }
 }
 
