@@ -18,6 +18,7 @@ import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 import com.example.website.filter.FormAuthenticationProvider;
 import com.example.website.repository.UserRepository;
+import com.example.website.security.CustomAuthenticationSuccessHandler;
 
 /**
  * アプリケーションのセキュリティ設定クラス。
@@ -31,6 +32,9 @@ public class SecurityConfig {
     private UserRepository repository;
     @Autowired
     private FormAuthenticationProvider authenticationProvider;
+    
+    @Autowired
+    private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
     
     /**
      * セキュリティフィルターチェーンの設定を行います。
@@ -65,13 +69,15 @@ public class SecurityConfig {
 
         // @formatter:off
         http.authorizeHttpRequests(authz -> authz
-                .requestMatchers(publicMatchers).permitAll() // 認証不要のパス
+                .requestMatchers(publicMatchers).permitAll() // publicMatchersに含まれるURLパターンへのアクセスを許可
                 .requestMatchers("/events/**").authenticated() // それ以外の "/events/**" は認証する
-                .anyRequest().authenticated()) // antMatchersで指定したパス以外認証する
+                .requestMatchers("/admin/**").hasRole("ADMIN") // "/admin/**" は管理者権限を要求
+                .anyRequest().authenticated()) // その他のリクエストは認証を要求
                 .formLogin(login -> login
-                        .loginProcessingUrl("/login") // ログイン情報の送信先
-                        .loginPage("/login") // ログイン画面
-                        .defaultSuccessUrl("/events") // ログイン成功時の遷移先
+                        .loginProcessingUrl("/login") // 指定したURLがリクエストされるとログイン認証を行う
+                        .loginPage("/login") // ログインURLの指定
+                     // .defaultSuccessUrl("/events") // ログイン成功時の遷移先
+                        .successHandler(customAuthenticationSuccessHandler) // ログイン成功時にカスタム認証成功ハンドラを使用
                         .failureUrl("/login-failure") // ログイン失敗時の遷移先
                         .permitAll()) // 未ログインでもアクセス可能
                 .logout(logout -> logout

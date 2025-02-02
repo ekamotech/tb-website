@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+<head>
+<title th:text="#{admin.index.title}">つながるーム</title>
+</head>
+<body>
+<div class="c-form-container" layout:fragment="contents">
+
+  <h1 class="c-hdg1" th:text="#{admin.index.h1}">管理者ページ</h1>
+
+  <a class="c-btn-submit" rel="nofollow" th:href="@{/events/event.csv}" th:text="#{admin.index.download}">CSVダウンロード</a>
+
+</div>
+</body>
+</html>
