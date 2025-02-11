@@ -61,6 +61,22 @@ public class GroupsController {
     }
     
     /**
+     * 指定されたユーザーが一般ユーザーであるグループ一覧を取得します。
+     *
+     * @param model モデルオブジェクト
+     * @return グループ一覧ページのテンプレート名
+     * @throws IOException 入出力例外が発生した場合
+     */
+    @GetMapping("/groups/member")
+    public String showJoinedGroups(Model model) throws IOException {
+        
+        List<GroupForm> list = groupService.getGroupsForUser();
+        model.addAttribute("list", list);
+        
+        return "groups/member";
+    }
+    
+    /**
      * 新規グループ作成フォームを表示します。
      *
      * @param model モデルオブジェクト

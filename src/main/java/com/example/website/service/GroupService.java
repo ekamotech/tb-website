@@ -83,6 +83,38 @@ public class GroupService {
     }
     
     /**
+     * 指定されたユーザーが一般ユーザーであるグループ一覧を取得します。
+     *
+     * @return グループフォームのリスト
+     * @throws IOException 入出力例外が発生した場合
+     */
+    public List<GroupForm> getGroupsForUser() throws IOException {
+        List<GroupForm> list = new ArrayList<>();
+        
+        Optional<Long> optionalUserId = userService.getUserId();
+        optionalUserId.orElseThrow(() -> new IllegalArgumentException("ユーザーが見つかりません"));
+        
+        optionalUserId.ifPresent(userId -> {
+            List<GroupMember> groupMembers = groupMemberRepository.findByUserIdAndAuthorityUserOrderByUpdatedAtDesc(userId);
+            List<Group> groups = groupMembers.stream()
+                                             .map(GroupMember::getGroup)
+                                             .collect(Collectors.toList());
+            
+            for (Group entity : groups) {
+                try {
+                    GroupForm form = getGroup(entity.getId());
+                    list.add(form);
+                } catch (IOException e) {
+                    // 例外を適切に処理する
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        return list;
+    }
+    
+    /**
      * 指定されたグループの情報を取得します。
      *
      * @param groupId グループID

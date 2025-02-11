@@ -28,6 +28,18 @@ public interface GroupMemberRepository extends JpaRepository<GroupMember, Long> 
     List<GroupMember> findByUserIdAndAuthorityOrderByUpdatedAtDesc(@Param("userId") Long userId);
     
     /**
+     * 指定されたユーザーが一般ユーザーであるグループメンバーを取得し、更新日時の降順で並べ替えます。
+     *
+     * @param userId 検索対象のユーザーID
+     * @return 指定されたユーザーIDと権限に基づいて取得されたグループメンバーのリスト
+     */
+    @Query("SELECT gm " +
+            "FROM GroupMember gm " +
+            "WHERE gm.user.userId = :userId AND gm.authority = 'ROLE_USER'" +
+            "ORDER BY gm.updatedAt DESC")
+    List<GroupMember> findByUserIdAndAuthorityUserOrderByUpdatedAtDesc(@Param("userId") Long userId);
+    
+    /**
      * 指定されたユーザーが特定のグループの管理者であるかを判定します。
      *
      * @param userId 検索対象のユーザーID
