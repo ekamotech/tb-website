@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
@@ -97,6 +98,38 @@ public class EventService {
             EventForm form = getEvent(entity.getId());
             list.add(form);
         }
+        return list;
+    }
+    
+    /**
+     * 認証されたユーザーが参加中のイベント一覧を取得します。
+     *
+     * @return イベントフォームのリスト
+     * @throws IOException 入出力例外が発生した場合
+     */
+    public List<EventForm> getEventsForUser() throws IOException {
+        List<EventForm> list = new ArrayList<>();
+        
+        Optional<Long> optionalUserId = userService.getUserId();
+        optionalUserId.orElseThrow(() -> new IllegalArgumentException("ユーザーが見つかりません"));
+        
+        optionalUserId.ifPresent(userId -> {
+            List<EventAttendee> eventAttendees = eventAttendeeRepository.findByUserIdAndParticipationStatus(userId);
+            List<Event> events = eventAttendees.stream()
+                                               .map(EventAttendee::getEvent)
+                                               .collect(Collectors.toList());
+            
+            for (Event entity : events) {
+                try {
+                    EventForm form = getEvent(entity.getId());
+                    list.add(form);
+                } catch (IOException e) {
+                    // 例外を適切に処理する
+                    e.printStackTrace();
+                }
+            }
+        });
+        
         return list;
     }
     

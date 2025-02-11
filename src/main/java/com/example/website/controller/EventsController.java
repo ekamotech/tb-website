@@ -73,6 +73,22 @@ public class EventsController {
     }
     
     /**
+     * 認証されたユーザーが参加中のイベントの一覧ページを表示します。
+     *
+     * @param model モデルオブジェクト
+     * @return イベント一覧ページのテンプレート名
+     * @throws IOException 入出力例外が発生した場合
+     */
+    @GetMapping("/events/attendee")
+    public String showJoinedEvents(Model model) throws IOException {
+        
+        List<EventForm> list = eventService.getEventsForUser();
+        model.addAttribute("list", list);
+        
+        return "events/attendee";
+    }
+    
+    /**
      * 新規イベント作成フォームを表示します。
      *
      * @param userInf 認証されたユーザー情報

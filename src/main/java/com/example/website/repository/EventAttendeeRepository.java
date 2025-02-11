@@ -37,5 +37,18 @@ public interface EventAttendeeRepository extends JpaRepository<EventAttendee, Lo
             "FROM EventAttendee ea " +
             "WHERE ea.event.id = :eventId AND ea.participationStatus = 'PARTICIPATING'")
      List<EventAttendee> findByEventIdAndParticipationStatus(@Param("eventId") Long eventId);
+    
+    /**
+     * 指定されたユーザーIDと参加ステータスに基づきイベント参加者を検索します。
+     *
+     * @param userId 検索対象のユーザーID
+     * @return ユーザーと参加ステータスに基づいて取得されたイベント参加者のリスト
+     */
+    @Query("SELECT ea " +
+            "FROM EventAttendee ea " +
+            "WHERE ea.user.id = :userId AND ea.participationStatus = 'PARTICIPATING'")
+    List<EventAttendee> findByUserIdAndParticipationStatus(@Param("userId") Long userId);
+    
+    
 
 }

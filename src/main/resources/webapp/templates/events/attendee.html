@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+<head>
+<link rel="stylesheet" href="/css/page/event-attendee.css" th:href="@{/css/page/event-attendee.css}">
+<title>つながるーム</title>
+</head>
+<body>
+
+<div class="p-event-attendee-container" layout:fragment="contents">
+  
+  <h1 class="c-hdg1">イベント</h1>
+  
+  <h2 class="c-hdg2 p-event-attendee-hdg2">参加中のイベント</h2>
+  
+  <div class="p-event-attendee-list">
+    <div class="p-event-attendee-item" th:each="event : ${list}">
+      <a th:href="@{/events/{id}(id=${event.id})}" class="p-event-attendee-link">
+        <div class="p-event-attendee-image">
+          <img src="" th:if="${@environment.getProperty('image.local')}" th:src="${event.imageData}" class="p-event-attendee-thumb" />
+          <img src="" th:unless="${@environment.getProperty('image.local')}" th:src="${event.path}" class="p-event-attendee-thumb" />
+        </div>
+        <div class="p-event-attendee-name" th:text="${event.title}"></div>
+      </a>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
+
+
+
