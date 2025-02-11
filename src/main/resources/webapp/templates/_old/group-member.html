@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="stylesheet" href="/css/module.css">
+<link rel="stylesheet" href="/css/page/group-member.css">
 <title>タイトル</title>
 </head>
 <body>
@@ -24,44 +25,41 @@
     </nav>
   </div>
 </header>
-<!-- <div class="alert c-alert alert-danger" role='alert'>
-<span>メッセージ</span>
-</div> -->
+
 <div class="l-contents">
 <main class="l-main">
-  <div class="c-form-container">
-    <h1 class="c-hdg1">ログイン</h1>
-    <div class="c-form">
-      <div class="c-form-item">
-        <div class="c-form-label-box">
-          <label for="email" class="c-form-label">メールアドレス</label>
-        </div>
-        <div class="c-form-input-wrap" data-resize-wrap>
-          <div class="c-form-input-box" data-resize-box>
-            <input id="email" maxlength="100" type="text" class="c-form-input" placeholder="" data-resize="true" value="">
+  <div class="p-group-member-container">
+
+    <h1 class="c-hdg1">マイグループ</h1>
+
+    <nav class="c-group-nav">
+      <a class="c-group-nav-menu">管理者</a>
+      <a href="" class="c-group-nav-menu on">グループ参加中</a>
+    </nav>
+
+    <div class="p-group-member-list">
+      <div class="p-group-member-item">
+        <a class="p-group-member-link">
+          <div class="p-group-member-image">
+            <img src="/images/shared/img-defalt-user.png" class="p-group-member-thumb" alt="">
           </div>
-        </div>
+          <div class="p-group-member-name">日本インドダンス協会</div>
+        </a>
       </div>
-      <div class="c-form-item">
-        <div class="c-form-label-box">
-          <label for="password" class="c-form-label">パスワード</label>
-        </div>
-        <div class="c-form-input-wrap" data-resize-wrap>
-          <div class="c-form-input-box" data-resize-box>
-            <input id="password" maxlength="100" type="text" class="c-form-input" placeholder="" data-resize="true" value="">
+
+      <div class="p-group-member-item">
+        <a class="p-group-member-link">
+          <div class="p-group-member-image">
+            <img src="/images/shared/img-defalt-user.png" class="p-group-member-thumb" alt="">
           </div>
-        </div>
+          <div class="p-group-member-name">日本インドダンス協会</div>
+        </a>
       </div>
     </div>
-    <button type="submit" class="c-btn-submit">ログイン</button>
 
-    <button type="submit" class="c-btn-google">Google でログイン</button>
-  
   </div>
 </main>
 </div>
 </div>
-
-  
 </body>
 </html>

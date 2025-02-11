@@ -58,6 +58,11 @@
       mask-image: url(~@images/shared/icon-group.svg);
     }
   }
+  .l-header-menu-event {
+    &::before {
+      mask-image: url(~@images/shared/icon-event.svg);
+    }
+  }
   .l-header-menu-calendar {
     &::before {
       mask-image: url(~@images/shared/icon-calendar.svg);

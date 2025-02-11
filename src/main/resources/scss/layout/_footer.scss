@@ -85,6 +85,11 @@
       mask-image: url(~@images/shared/icon-group.svg);
     }
   }
+  .l-footer-bottom-menu-event {
+    &::before {
+      mask-image: url(~@images/shared/icon-event.svg);
+    }
+  }
   .l-footer-bottom-menu-calendar {
     &::before {
       mask-image: url(~@images/shared/icon-calendar.svg);

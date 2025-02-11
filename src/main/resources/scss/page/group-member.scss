@@ -1,0 +1,75 @@
+@charset "UTF-8";
+@use "sass:math";
+@use "../foundation/mixin" as *;
+
+.p-group-member-container {
+  width: 100%;
+  padding: 0 0 200px;
+  margin: 64px auto 0;
+}
+
+.p-group-member-list {
+
+  .p-group-member-item {
+    border-top: 1px solid var(--neutral-gray-100);
+    background-color: #fff;
+    position: relative;
+
+    &:last-of-type {
+      border-bottom: 1px solid var(--neutral-gray-100);
+    }
+  }
+
+  .p-group-member-link {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: auto minmax(0, 1fr);
+    align-items: center;
+    gap: 12px;
+    padding: 16px var(--gutter);
+  }
+
+  .p-group-member-image {
+    display: block;
+    width: 40px;
+    height: 40px;
+    position: relative;
+  }
+
+  .p-group-member-thumb {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: 50% 0;
+  }
+
+  .p-group-member-name {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-text);
+  }
+
+  @include mq(pc) {
+
+    .p-group-member-item {
+      width: 100%;
+      max-width: 720px;
+      margin: 0 auto 16px;
+      border: 1px solid var(--neutral-gray-100);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .p-group-member-head {
+      gap: 0 16px;
+      padding: 24px;
+    }
+
+    .p-group-member-name {
+      font-size: 16px;
+    }
+  }
+}
