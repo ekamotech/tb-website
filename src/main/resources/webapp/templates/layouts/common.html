@@ -10,6 +10,7 @@
     <nav class="l-header-nav">
       <th:block sec:authorize="isAuthenticated()">
         <a th:href="@{/groups}" class="l-header-menu-group" th:text="#{layouts.common.group}">グループ</a>
+        <a th:href="@{/events/attendee}" class="l-header-menu-event" th:text="#{layouts.common.event}">イベント</a>
         <a th:href="@{/calendars}" class="l-header-menu-calendar" th:text="#{layouts.common.calendar}">カレンダー</a>
         <a th:href="@{/favorites}" class="l-header-menu-favorite" th:text="#{layouts.common.favorite}">お気に入り</a>
         <a th:href="@{/logout}" class="l-header-menu-logout convert" data-method="post" th:data-_csrf="${_csrf.token}" th:text="#{layouts.common.logout}">ログアウト</a>
@@ -26,6 +27,7 @@
   <nav class="l-footer-nav">
     <th:block sec:authorize="isAuthenticated()">
       <a th:href="@{/groups}" class="l-footer-menu" th:text="#{layouts.common.group}">グループ</a>
+      <a th:href="@{/events/attendee}" class="l-footer-menu" th:text="#{layouts.common.event}">イベント</a>
       <a th:href="@{/calendars}" class="l-footer-menu" th:text="#{layouts.common.calendar}">カレンダー</a>
       <a th:href="@{/favorites}" class="l-footer-menu" th:text="#{layouts.common.favorite}">お気に入り</a>
       <a th:href="@{/logout}" class="l-footer-menu convert" data-method="post" th:data-_csrf="${_csrf.token}" th:text="#{layouts.common.logout}">ログアウト</a>
@@ -41,6 +43,7 @@
 <nav class="l-footer-bottom-nav" layout:fragment="navbar">
   <th:block sec:authorize="isAuthenticated()">
     <a th:href="@{/groups}" class="l-footer-bottom-menu-group" th:text="#{layouts.common.group}">グループ</a>
+    <a th:href="@{/events/attendee}" class="l-footer-bottom-menu-group" th:text="#{layouts.common.event}">イベント</a>
     <a th:href="@{/calendars}" class="l-footer-bottom-menu-calendar" th:text="#{layouts.common.calendar}">カレンダー</a>
     <a th:href="@{/favorites}" class="l-footer-bottom-menu-favorite" th:text="#{layouts.common.favorite}">お気に入り</a>
     <a th:href="@{/logout}" class="l-footer-bottom-menu-logout convert" data-method="post" th:data-_csrf="${_csrf.token}" th:text="#{layouts.common.logout}">ログアウト</a>
