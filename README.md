@@ -16,7 +16,7 @@
 - CSVダウンロード（管理者ユーザーのみ）
 
 ## 使い方
-資料を作成中です。
+- [使い方マニュアル](https://docs.google.com/document/d/1Q-P0M7PXQ_a0RIPjaG6eNgSqkAgomeiR1bLBfQq67Nk/edit?tab=t.0#heading=h.27fsvibox0o5)
 
 ## 各設計書
 - [要件定義書](https://docs.google.com/spreadsheets/d/1Fr1BOrqxxct8Vs4r93QxH74VNiFLLNNSp-KMc94muOk/edit?gid=931362599#gid=931362599)
