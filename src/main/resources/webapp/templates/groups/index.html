@@ -11,8 +11,8 @@
   <h1 class="c-hdg1" th:text="#{groups.index.h1}">マイグループ</h1>
   
   <nav class="c-group-nav">
-    <a class="c-group-nav-menu on">管理者</a>
-    <a th:href="@{/groups/member}" class="c-group-nav-menu">グループ参加中</a>
+    <a class="c-group-nav-menu on" th:text="#{common.groups.admin}">グループ管理者</a>
+    <a th:href="@{/groups/member}" class="c-group-nav-menu" th:text="#{common.groups.user}">グループ参加中</a>
   </nav>
   
   <div class="p-group-btn-box">

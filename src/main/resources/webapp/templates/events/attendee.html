@@ -2,15 +2,15 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
 <head>
 <link rel="stylesheet" href="/css/page/event-attendee.css" th:href="@{/css/page/event-attendee.css}">
-<title>つながるーム</title>
+<title th:text="#{events.attendee.title}">つながるーム</title>
 </head>
 <body>
 
 <div class="p-event-attendee-container" layout:fragment="contents">
   
-  <h1 class="c-hdg1">イベント</h1>
+  <h1 class="c-hdg1" th:text="#{events.attendee.h1}">イベント</h1>
   
-  <h2 class="c-hdg2 p-event-attendee-hdg2">参加中のイベント</h2>
+  <h2 class="c-hdg2 p-event-attendee-hdg2" th:text="#{events.attendee.h2}">参加中のイベント</h2>
   
   <div class="p-event-attendee-list">
     <div class="p-event-attendee-item" th:each="event : ${list}">

@@ -2,17 +2,17 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
 <head>
 <link rel="stylesheet" href="/css/page/group-member.css" th:href="@{/css/page/group-member.css}">
-<title th:text="#{groups.index.title}">つながるーム</title>
+<title th:text="#{groups.member.title}">つながるーム</title>
 </head>
 <body>
 
 <div class="p-group-member-container" layout:fragment="contents">
   
-  <h1 class="c-hdg1" th:text="#{groups.index.h1}">マイグループ</h1>
+  <h1 class="c-hdg1" th:text="#{groups.member.h1}">マイグループ</h1>
   
   <nav class="c-group-nav">
-    <a th:href="@{/groups}" class="c-group-nav-menu">管理者</a>
-    <a class="c-group-nav-menu on">グループ参加中</a>
+    <a th:href="@{/groups}" class="c-group-nav-menu" th:text="#{common.groups.admin}">グループ管理者</a>
+    <a class="c-group-nav-menu on" th:text="#{common.groups.user}">グループ参加中</a>
   </nav>
   
   <div class="p-group-member-list">
